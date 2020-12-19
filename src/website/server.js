@@ -4,7 +4,18 @@ const path = require("path");
 
 const app = express();
 
-app.engine("handlebars", hbs.create({extname: "handlebars", defaultLayout: "main", layoutsDir: path.join(__dirname + "/views/layouts")}).engine);
+const hbsConfig = hbs.create({
+    extname: "handlebars",
+    defaultLayout: "main",
+    layoutsDir: path.join(__dirname + "/views/layouts"),
+    helpers: {
+        json: (ctx) => {
+            return JSON.stringify(ctx);
+        }
+    }
+});
+
+app.engine("handlebars", hbsConfig.engine);
 app.set("views", path.join(__dirname + "/views"))
 app.set("view engine", "handlebars");
 
