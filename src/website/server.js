@@ -29,4 +29,16 @@ app.get("/", (req, res) => {
     res.render("home");
 });
 
+app.get("/commands", (req, res) => {
+    const rawCommands = global.discordClient.commands.filter(cmd => cmd.permissionLevel !== 10);
+
+    let newCommands = rawCommands.map(cmd => ({
+        name: cmd.name,
+        category: cmd.category,
+        usage: cmd.usage && cmd.usage.length > 0 ? cmd.usage : "None"
+    }));
+
+    res.render("commands", {commands: newCommands});
+});
+
 app.listen(5010);

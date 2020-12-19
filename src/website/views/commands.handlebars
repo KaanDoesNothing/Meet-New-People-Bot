@@ -1,0 +1,23 @@
+<div class="text-center" id="commands">
+    {{#each commands}}
+    <div class="card text-center">
+        <div class="card-header">
+            {{name}}
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">Command: {{name}}</h5>
+            <p class="card-text">Usage: {{usage}}</p>
+        </div>
+    </div>
+    {{/each}}
+</div>
+
+<style>
+    #commands {
+        margin: 5% 5%;
+    }
+
+    #commands .card {
+        margin: 1%;
+    }
+</style>
