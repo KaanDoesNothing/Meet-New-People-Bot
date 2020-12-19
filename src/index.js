@@ -6,4 +6,6 @@ const client = new Client({
     prefix: ".."
 }).login(config.token);
 
-module.exports = client;
+// module.exports = client.then(res => res.);
+
+require("./website/server");
