@@ -1,3 +1,16 @@
-<div class="text-center">
-    <h1>{{ client.user.username }} (Open Source Version) Still in development</h1>
+<div class="text-center text-white" id="main">
+    {{!-- <h1>{{ client.user.username }} (Open Source Version) Still in development</h1> --}}
+
+    <img class="rounded-circle" src="https://cdn.discordapp.com/avatars/{{client.user.id}}/{{client.user.avatar}}" width="240" height="240">
+    <br>
+    <br>
+    <label class="h1">{{ client.user.username }}</label>
+    <br>
+    <label class="h2">A public version of the {{ client.user.username }} Bot.</label>
 </div>
+
+<style>
+    #main {
+        margin: 2%;
+    }
+</style>
