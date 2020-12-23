@@ -1,4 +1,6 @@
 const { Language, util } = require('klasa');
+const { MessageEmbed } = require("discord.js");
+const capitalize = require('../lib/utils/capitalize');
 
 module.exports = class extends Language {
 
@@ -176,7 +178,8 @@ module.exports = class extends Language {
 			],
 			COMMAND_STATS_DESCRIPTION: 'Provides some details about the bot and stats.',
 			MESSAGE_PROMPT_TIMEOUT: 'The prompt has timed out.',
-			TEXT_PROMPT_ABORT_OPTIONS: ['abort', 'stop', 'cancel']
+			TEXT_PROMPT_ABORT_OPTIONS: ['abort', 'stop', 'cancel'],
+			EMBED_ROLEPLAY: (name, name1, type, link) => new MessageEmbed().setTitle(`${capitalize(name1)} has been ${type} by ${capitalize(name)}`).setImage(link),
 		};
 	}
 
