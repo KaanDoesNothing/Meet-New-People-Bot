@@ -2,7 +2,6 @@ const { Command } = require("klasa");
 const nekoClient = require("../../lib/nekoClient");
 
 module.exports = class extends Command {
-
     constructor(...args) {
         super(...args, {
             usage: "<user:user>"
