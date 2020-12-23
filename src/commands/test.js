@@ -1,7 +1,7 @@
-const { KlasaCommand } = require("klasa");
+const { Command } = require("klasa");
 
-module.exports = class extends KlasaCommand {
-    run() {
+module.exports = class extends Command {
+    run(msg) {
         return msg.reply("Working!");
     }
 }
