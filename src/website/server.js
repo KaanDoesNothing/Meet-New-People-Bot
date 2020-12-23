@@ -62,4 +62,4 @@ app.get("/commands", (req, res) => {
     res.render("commands", {commands: newCommands});
 });
 
-app.listen(3000);
+app.listen(config.server.port);
