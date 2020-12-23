@@ -1,6 +1,9 @@
 const express = require("express");
+const session = require("express-session");
 const hbs = require("express-handlebars");
 const path = require("path");
+const config = require("../config");
+const { authCodeLink } = require("./modules/authClient");
 
 const app = express();
 
@@ -27,11 +30,21 @@ app.set("view engine", "handlebars");
 
 app.use("/static", express.static(path.join(__dirname + "/public")));
 
+app.use(session({
+    secret: config.secret,
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: true }
+}))
+
 app.get("*", (req, res, next) => {
     res.locals.client = global.discordClient;
-
+    
     next();
 });
+
+
+app.use("/auth", require("./routes/auth"));
 
 app.get("/", (req, res) => {
     res.render("home");
@@ -49,4 +62,4 @@ app.get("/commands", (req, res) => {
     res.render("commands", {commands: newCommands});
 });
 
-app.listen(5010);
+app.listen(3000);

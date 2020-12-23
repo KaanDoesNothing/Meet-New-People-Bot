@@ -1,8 +1,6 @@
-<script>
-    let commands = {{{json commands}}};
-</script>
+{{{script "https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.0/dist/alpine.min.js"}}}
 
-<div class="text-center" id="commands">
+<div class="text-center" id="commands" x-data="commandsState()">
     {{> commands/search }}
 
     {{#each commands}}
@@ -10,5 +8,17 @@
     {{/each}}
 </div>
 
-{{{script "static/js/commands.js"}}}
+<script>
+    function commandsState() {
+        return {
+            commands: {{{json commands}}},
+            filter: "",
+            isTrue(name) {
+                return name.startsWith(this.filter.toLowerCase());
+            }
+        }
+    }
+</script>
+
+{{!-- {{{script "static/js/commands.js"}}} --}}
 {{{style "static/css/commands.css"}}}
