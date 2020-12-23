@@ -6,9 +6,10 @@ module.exports = class extends Command {
     constructor(...args) {
         super(...args, {
             enabled: true,
-            usage: "<flip:string> <amount:number>",
+            usage: "<flip:string> <amount:integer>",
             description: "<heads/tails> <bet> - flips a coin with your specified bet.",
-            aliases: ["cf"]
+            aliases: ["cf"],
+            usageDelim: " "
         });
     }
 
