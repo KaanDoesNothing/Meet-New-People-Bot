@@ -12,9 +12,10 @@
     function commandsState() {
         return {
             commands: {{{json commands}}},
+            categories: {{{json categories}}},
             filter: "",
-            isTrue(name) {
-                return name.startsWith(this.filter.toLowerCase());
+            isTrue(name, category) {
+                return name.startsWith(this.filter.toLowerCase()) || category === this.filter;
             }
         }
     }

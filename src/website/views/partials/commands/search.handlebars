@@ -1,4 +1,17 @@
 <div class="input-group search">
     <input type="text" class="form-control" id="searchInput" placeholder="Input" x-model="filter">
+
+    <div class="dropdown">
+        <a class="btn btn-secondary dropdown-toggle" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+            Categories
+        </a>
+
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            <li><a class="dropdown-item" @click="filter = ''">Reset</a></li>
+            {{#each categories}}
+                <li><a class="dropdown-item" @click="filter = '{{this}}'">{{this}}</a></li>
+            {{/each}}
+        </ul>
+    </div>
     {{!-- <button class="btn btn-light" id="searchButton">Search <i class="fas fa-search"></i></button> --}}
 </div>

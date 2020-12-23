@@ -59,7 +59,13 @@ app.get("/commands", (req, res) => {
         usage: cmd.usage && cmd.usage.length > 0 ? cmd.usage : "None"
     }));
 
-    res.render("commands", {commands: newCommands});
+    let categories = [];
+
+    rawCommands.forEach(cmd => {
+        categories.includes(cmd.category) ? "" : categories.push(cmd.category); 
+    });
+
+    res.render("commands", {commands: newCommands, categories: categories});
 });
 
 app.listen(config.server.port);

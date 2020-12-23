@@ -1,11 +1,13 @@
-<div class="command" id="command-{{ name }}" x-show="isTrue('{{name}}')">
+<div class="command" id="command-{{ name }}" x-show="isTrue('{{name}}', '{{category}}')">
     <div class="card text-center command">
         <div class="card-header">
             {{name}}
         </div>
         <div class="card-body">
             <h5 class="card-title">Command: {{name}}</h5>
-            <p class="card-text">Usage: {{usage}}</p>
+            <label class="card-text">Category: {{category}}</label>
+            <br>
+            <label class="card-text">Usage: {{usage}}</label>
         </div>
     </div>
 </div>
