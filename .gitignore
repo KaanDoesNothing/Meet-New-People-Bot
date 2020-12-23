@@ -2,3 +2,4 @@ node_modules/
 package-lock.json
 src/config.js
 src/bwd/
+src/lib/member*

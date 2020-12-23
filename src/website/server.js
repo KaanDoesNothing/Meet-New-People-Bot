@@ -11,6 +11,12 @@ const hbsConfig = hbs.create({
     helpers: {
         json: (ctx) => {
             return JSON.stringify(ctx);
+        },
+        script: (ctx) => {
+            return `<script src="${ctx}"></script>`;
+        },
+        style: (ctx) => {
+            return `<link rel="stylesheet" type="text/css" href="${ctx}" defer>`;
         }
     }
 });
@@ -18,6 +24,8 @@ const hbsConfig = hbs.create({
 app.engine("handlebars", hbsConfig.engine);
 app.set("views", path.join(__dirname + "/views"))
 app.set("view engine", "handlebars");
+
+app.use("/static", express.static(path.join(__dirname + "/public")));
 
 app.get("*", (req, res, next) => {
     res.locals.client = global.discordClient;

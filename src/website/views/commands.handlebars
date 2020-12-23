@@ -3,56 +3,12 @@
 </script>
 
 <div class="text-center" id="commands">
-    <div class="input-group search">
-        <input type="text" class="form-control" id="searchInput" placeholder="Input">
-        <button class="btn btn-light" id="searchButton">Search <i class="fas fa-search"></i></button>
-    </div>
+    {{> commands/search }}
 
     {{#each commands}}
-    <div class="command" id="command-{{ name }}">
-        <div class="card text-center command">
-            <div class="card-header">
-                {{name}}
-            </div>
-            <div class="card-body">
-                <h5 class="card-title">Command: {{name}}</h5>
-                <p class="card-text">Usage: {{usage}}</p>
-            </div>
-        </div>
-    </div>
+        {{> commands/command }}
     {{/each}}
 </div>
 
-<style>
-    .search {
-        padding: 0% 30% 1%;
-    }
-
-    #commands {
-        margin: 5% 5%;
-    }
-
-    .command .card {
-        margin: 1%;
-    }
-</style>
-
-<script>
-    function search(input) {
-        input = input.toLowerCase();
-        
-        $(".command").each(function() {
-            $(this).hide();
-        });
-
-        commands.filter(cmd => cmd.name.startsWith(input) || cmd.name.includes(input)).map(cmd => $(`#command-${cmd.name}`).show());
-    }
-
-    $("#searchButton").on("click", function() {
-        search($("#searchInput").val());
-    });
-
-    $("#search").on("change", (e) => {
-        console.log(e);
-    });
-</script>
+{{{script "static/js/commands.js"}}}
+{{{style "static/css/commands.css"}}}
