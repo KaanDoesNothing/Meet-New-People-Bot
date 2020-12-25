@@ -1,0 +1,14 @@
+<div class="text-center text-white" id="main">
+    <img class="rounded-circle" src="https://cdn.discordapp.com/avatars/{{session.id}}/{{session.avatar}}" width="240" height="240">
+    <br>
+    <br>
+    <label class="h1">{{ session.username }}</label>
+    <br>
+    <label class="h2">Balance: {{session.settings.economy.balance}}</label>
+</div>
+
+<style>
+    #main {
+        margin: 2%;
+    }
+</style>

@@ -1,5 +1,4 @@
 const express = require("express");
-const hat = require("hat");
 const authClient = require("../modules/authClient");
 
 const app = express.Router();

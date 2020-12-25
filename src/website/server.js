@@ -50,8 +50,8 @@ app.get("*", (req, res, next) => {
     next();
 });
 
-
 app.use("/auth", require("./routes/auth"));
+app.use("/profile", require("./routes/profile"));
 
 app.get("/", (req, res) => {
     res.render("home");
