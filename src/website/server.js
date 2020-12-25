@@ -32,13 +32,20 @@ app.use("/static", express.static(path.join(__dirname + "/public")));
 
 app.use(session({
     secret: config.secret,
-    resave: false,
+    resave: true,
     saveUninitialized: true,
-    cookie: { secure: true }
+    cookie: { secure: false }
 }))
 
 app.get("*", (req, res, next) => {
     res.locals.client = global.discordClient;
+    
+    let session = req.session.user;
+
+    if(session) res.locals.session = {
+        ...session,
+        ...global.discordClient.users.cache.get(session._id)
+    }
     
     next();
 });

@@ -1,4 +1,5 @@
 const express = require("express");
+const hat = require("hat");
 const authClient = require("../modules/authClient");
 
 const app = express.Router();
@@ -11,8 +12,12 @@ app.get("/callback", async (req, res) => {
         const user = await authClient.getUser(key);
 
         req.session.user = user;
+        req.session.save();
+
+        res.redirect("/");
     }catch(err) {
-        res.render("error");
+        console.log(err);
+        res.render("error", {error: err});
     }
 });
 

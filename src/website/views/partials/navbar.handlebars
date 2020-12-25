@@ -11,7 +11,7 @@
             <div class="d-flex">
                 <a class="btn text-white" href="/commands">Commands</a>
                 {{#if session}}
-                    <a href="/dashboard" class="btn text-white">{{ session.user.tag }}</a>
+                    <a href="/dashboard" class="btn text-white">{{ session.username }}</a>
                 {{else}}
                     <a class="btn text-white" id="loginButton">Login</a>
                 {{/if}}
@@ -21,7 +21,9 @@
 </nav>
 
 <script>
-    let url = `https://discordapp.com/oauth2/authorize?response_type=code&client_id={{ client.user.id }}&scope=identify&redirect_uri=${window.location.origin}/auth/callback`;
+    $(document).on("turbolinks:load", () => {
+        let url = `https://discordapp.com/oauth2/authorize?response_type=code&client_id={{ client.user.id }}&scope=identify&redirect_uri=${window.location.origin}/auth/callback`;
 
-    $("#loginButton").attr("href", url);
+        $("#loginButton").attr("href", url);
+    });
 </script>
