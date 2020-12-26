@@ -1,0 +1,42 @@
+{{> dashboard/sidebar }}
+
+<script>
+    window._guild = {{{json guild}}}
+</script>
+
+<div class="card bg-light" id="guild-card">
+    <div class="card-header text-center">{{guild.name}} <img src="" id="guild-icon" width="32px"></div>
+    <div class="card-body">
+        <ul class="nav flex-column" id="guild-card-sidebar">
+            <li class="nav-item">
+                <a class="nav-link active">Active</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Link</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Link</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link disabled" href="#">Disabled</a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<script>
+    $("#guild-icon").attr("src", window._guild.iconURL);
+</script>
+
+<style>
+    #guild-card {
+        margin: 5vh 5vh 5vh 20vh;
+        height: 80vh;
+    }
+
+    #guild-icon {
+        border-radius: 50%;
+    }
+
+    #guild-card-sidebar {}
+</style>

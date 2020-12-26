@@ -1,0 +1,29 @@
+<div id="sidebar" class="float-left bg-light">
+     <a href="/dashboard" class="icon round shadow">
+        <img class="round shadow" src="https://cdn.discordapp.com/avatars/{{session.id}}/{{session.avatar}}">
+    </a>
+    <hr>
+    {{#each guilds}}
+        <a href="/dashboard/{{id}}" class="icon round shadow my-2">
+            <img class="round shadow" src="https://cdn.discordapp.com/icons/{{id}}/{{icon}}">
+        </a>
+    {{/each}}
+</div>
+
+<style>
+    #sidebar {
+        margin: 5vh 0% 1% 1%;
+        padding: 10px;
+        height: 80vh;
+        width: min-content;
+        float: left;
+        border-radius: 5px;
+    }
+    
+    .icon, .icon img {
+        height: 54px;
+        width: 54px;
+        border-radius: 50%;
+        margin: 2%;
+    }
+</style>

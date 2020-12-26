@@ -52,6 +52,7 @@ app.get("*", (req, res, next) => {
 
 app.use("/auth", require("./routes/auth"));
 app.use("/profile", require("./routes/profile"));
+app.use("/dashboard", require("./routes/dashboard"));
 
 app.get("/", (req, res) => {
     res.render("home");

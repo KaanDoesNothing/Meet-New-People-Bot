@@ -11,6 +11,7 @@ app.get("/callback", async (req, res) => {
         const user = await authClient.getUser(key);
 
         req.session.user = user;
+        req.session.key = key;
         req.session.save();
 
         res.redirect("/");
