@@ -12,7 +12,7 @@
                 <a class="btn text-white" href="/commands">Commands</a>
                 {{#if session}}
                     <a href="/dashboard" class="btn text-white">Dashboard</a>
-                    <a href="/profile" class="btn text-white">{{ session.username }}</a>
+                    <a href="/profile/{{session.id}}" class="btn text-white">{{ session.username }}</a>
                 {{else}}
                     <a class="btn text-white" id="loginButton">Login</a>
                 {{/if}}

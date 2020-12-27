@@ -1,14 +1,53 @@
-<div class="text-center text-white" id="main">
-    <img class="rounded-circle" src="https://cdn.discordapp.com/avatars/{{session.id}}/{{session.avatar}}" width="240" height="240">
-    <br>
-    <br>
-    <label class="h1">{{ session.username }}</label>
-    <br>
-    <label class="h2">Balance: {{session.settings.economy.balance}}</label>
+<div class="text-center" id="main">
+    <div class="text-white">
+        <img class="rounded-circle" src="https://cdn.discordapp.com/avatars/{{user.id}}/{{user.avatar}}" width="240" height="240">
+        <br>
+        <br>
+        <label class="h1">
+            {{ user.username }}
+
+            <label class="h5" id="extraTags"></label>
+        </label>
+        <br>
+        <label class="h5">Balance: {{user.settings.economy.balance}}</label>
+    </div>
+
+    <div class="card navbar-dark" id="profileCard">
+        <div class="card-header">Description</div>
+        <div class="card-body">
+            <div class="card-text" id="description"></div>
+
+            <a href="/profile/{{user.id}}/edit" class="btn btn-primary" id="editButton">Edit</a>
+        </div>
+    </div>
 </div>
 
 <style>
     #main {
         margin: 2%;
     }
+
+    #profileCard {
+        margin-top: 5%;
+        margin-left: 35%;
+        width: 30%;
+    }
 </style>
+
+<script>
+    $(document).on("turbolinks:load", () => {
+        const user = {{{json user}}}
+
+        if(window._client.owner === user.id) {
+            $("#extraTags").html("(Owner)");
+        }
+
+        $("#description").html(user.settings.profile.description);
+        
+        if(window._session) {
+            if(user.id !== window._session.id) {
+                $("#editButton").hide();
+            }
+        }
+    });
+</script>

@@ -5,27 +5,49 @@
 </script>
 
 <div class="card bg-light" id="guild-card">
-    <div class="card-header text-center">{{guild.name}} <img src="" id="guild-icon" width="32px"></div>
+    <div class="card-header text-center">
+        <label>{{guild.name}}</label>
+        <label id="module-text"></label>
+        <img src="" id="guild-icon" width="32px">
+    </div>
     <div class="card-body">
-        <ul class="nav flex-column" id="guild-card-sidebar">
-            <li class="nav-item">
-                <a class="nav-link active">Active</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link disabled" href="#">Disabled</a>
-            </li>
-        </ul>
+        <div class="card bg-dark" id="guild-card-sidebar">
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link btn" onclick="setModule('General')">General</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link btn" onclick="setModule('Channels')">Channels</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link btn" onclick="setModule('Moderation')">Moderation</a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="card bg-dark text-white" id="guild-card-content">
+            <div class="module-tab" id="module-tab-General">
+                <label>prefix: {{guild.settings.prefix}}</label>
+            </div>
+            <div class="module-tab" id="module-tab-Moderation">
+                <label>test</label>
+            </div>
+        </div>
     </div>
 </div>
 
 <script>
+    $(".module-tab").hide();
     $("#guild-icon").attr("src", window._guild.iconURL);
+
+    function setModule(module) {
+        $(".module-tab").hide();
+        $("#module-text").text(`(${module})`);
+
+        $("#module-tab-" + module).show();
+    }
+
+    setModule("General");
 </script>
 
 <style>
@@ -38,5 +60,30 @@
         border-radius: 50%;
     }
 
-    #guild-card-sidebar {}
+    #guild-card-sidebar {
+        {{!-- outline: black 5px solid; --}}
+        height: 100%;
+        width: 10%;
+        width: min-content;
+        float: left;
+        border-radius: 5px;
+        margin: 0% 1%;
+    }
+
+    #guild-card-content {
+        height: 100%;
+    }
+
+    .nav-link {
+        color: white !important;
+        text-align: center;
+    }
+{{!-- 
+    .show {
+        display: inital;
+    }
+
+    .hidden {
+        display: none;
+    } --}}
 </style>
