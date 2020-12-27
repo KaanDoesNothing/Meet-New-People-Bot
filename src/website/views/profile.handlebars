@@ -17,7 +17,7 @@
         <div class="card-body">
             <div class="card-text" id="description"></div>
 
-            <a href="/profile/{{user.id}}/edit" class="btn btn-primary" id="editButton">Edit</a>
+            <a href="/profile/{{user.id}}/edit" class="btn btn-primary" id="editButton" style="display: none;">Edit</a>
         </div>
     </div>
 </div>
@@ -45,8 +45,8 @@
         $("#description").html(user.settings.profile.description);
         
         if(window._session) {
-            if(user.id !== window._session.id) {
-                $("#editButton").hide();
+            if(user.id === window._session.id) {
+                $("#editButton").show();
             }
         }
     });
