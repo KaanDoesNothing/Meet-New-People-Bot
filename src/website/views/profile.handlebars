@@ -1,4 +1,38 @@
-<div class="text-center" id="main">
+<script>
+    window._profile = {{{json user}}}
+    window._hasPermissions = parseInt("{{hasPermissions}}");
+{{!-- 
+    if(window._session) {
+        if(window._profile.id === window._session.id) {
+            window._hasPermissions = true;
+        }
+    } --}}
+
+    window._states = {
+        profileState() {
+            return {
+                hasPermissions: window._hasPermissions === 1,
+                settings: window._profile.settings,
+                editing: false,
+                update() {
+                    const data = this.settings.profile;
+
+                    fetch("/profile/update", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({id: window._profile.id, data})
+                    });
+                },
+                cancel() {
+                    this.editing = false;
+                    this.settings = window._profile.settings
+                }
+            }
+        }
+    }
+</script>
+
+<div class="text-center" id="main" x-data="window._states.profileState()">
     <div class="text-white">
         <img class="rounded-circle" src="https://cdn.discordapp.com/avatars/{{user.id}}/{{user.avatar}}" width="240" height="240">
         <br>
@@ -15,9 +49,21 @@
     <div class="card navbar-dark" id="profileCard">
         <div class="card-header">Description</div>
         <div class="card-body">
-            <div class="card-text" id="description"></div>
+            <div class="card-text" id="description" x-text="settings.profile.description" x-show="editing === false"></div>
 
-            <a href="/profile/{{user.id}}/edit" class="btn btn-primary" id="editButton" style="display: none;">Edit</a>
+            <div class="form" x-show="editing">
+                <label>Edit Description</label>
+                <textarea class="form-control text-center" rows="3" x-model="settings.profile.description"></textarea>
+            </div>
+            
+            <br>
+
+            <div id="button-group" x-show="hasPermissions">
+                <a class="btn btn-primary" id="editButton" x-show="hasPermissions && editing === false" @click="editing = true">Edit</a>
+                <a class="btn btn-primary" id="editButton" x-show="hasPermissions && editing === true" @click="cancel()">Cancel</a>
+                <a class="btn btn-primary" id="editButton" x-show="hasPermissions && editing === true" @click="update()">Save</a>
+            </div>
+            {{!-- <a href="/profile/{{user.id}}/edit" class="btn btn-primary" id="editButton" x-show="hasPermissions">Edit</a> --}}
         </div>
     </div>
 </div>
@@ -35,7 +81,7 @@
 </style>
 
 <script>
-    $(document).on("turbolinks:load", () => {
+    {{!-- $(document).on("turbolinks:load", () => {
         const user = {{{json user}}}
 
         if(window._client.owner === user.id) {
@@ -49,5 +95,5 @@
                 $("#editButton").show();
             }
         }
-    });
+    }); --}}
 </script>
