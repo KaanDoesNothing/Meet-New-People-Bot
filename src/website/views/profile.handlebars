@@ -1,41 +1,3 @@
-<script>
-    window._profile = {{{json user}}}
-    window._hasPermissions = parseInt("{{hasPermissions}}");
-{{!-- 
-    if(window._session) {
-        if(window._profile.id === window._session.id) {
-            window._hasPermissions = true;
-        }
-    } --}}
-
-    window._states = {
-        profileState() {
-            return {
-                hasPermissions: window._hasPermissions === 1,
-                settings: window._profile.settings,
-                editing: false,
-                update() {
-                    const data = this.settings.profile;
-
-                    fetch("/profile/update", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({id: window._profile.id, data})
-                    }).then(res => res.json().then(res => {
-                        if(res.settings) {
-                            Turbolinks.visit(window.location.href);
-                        }
-                    }))
-                },
-                cancel() {
-                    this.editing = false;
-                    this.settings = window._profile.settings
-                }
-            }
-        }
-    }
-</script>
-
 <div class="text-center" id="main" x-data="window._states.profileState()">
     <div class="text-white">
         <img class="rounded-circle" src="https://cdn.discordapp.com/avatars/{{user.id}}/{{user.avatar}}" width="240" height="240">
@@ -63,41 +25,13 @@
             <br>
 
             <div id="button-group" x-show="hasPermissions">
-                <a class="btn btn-primary" id="editButton" x-show="hasPermissions && editing === false" @click="editing = true">Edit</a>
-                <a class="btn btn-primary" id="editButton" x-show="hasPermissions && editing === true" @click="cancel()">Cancel</a>
-                <a class="btn btn-primary" id="editButton" x-show="hasPermissions && editing === true" @click="update()">Save</a>
+                <a class="btn btn-dark" id="editButton" x-show="hasPermissions && editing === false" @click="editing = true">Edit</a>
+                <a class="btn btn-dark" id="editButton" x-show="hasPermissions && editing === true" @click="cancel()">Cancel</a>
+                <a class="btn btn-dark" id="editButton" x-show="hasPermissions && editing === true" @click="update()">Save</a>
             </div>
-            {{!-- <a href="/profile/{{user.id}}/edit" class="btn btn-primary" id="editButton" x-show="hasPermissions">Edit</a> --}}
         </div>
     </div>
 </div>
 
-<style>
-    #main {
-        margin: 2%;
-    }
-
-    #profileCard {
-        margin-top: 5%;
-        margin-left: 35%;
-        width: 30%;
-    }
-</style>
-
-<script>
-    {{!-- $(document).on("turbolinks:load", () => {
-        const user = {{{json user}}}
-
-        if(window._client.owner === user.id) {
-            $("#extraTags").html("(Owner)");
-        }
-
-        $("#description").html(user.settings.profile.description);
-        
-        if(window._session) {
-            if(user.id === window._session.id) {
-                $("#editButton").show();
-            }
-        }
-    }); --}}
-</script>
+{{> profile/script}}
+{{> profile/style}}

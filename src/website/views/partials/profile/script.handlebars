@@ -1,0 +1,33 @@
+<script>
+    window._profile = {{{json user}}}
+    window._hasPermissions = parseInt("{{hasPermissions}}");
+</script>
+
+<script>
+    window._states = {
+        profileState() {
+            return {
+                hasPermissions: window._hasPermissions === 1,
+                settings: window._profile.settings,
+                editing: false,
+                update() {
+                    const data = this.settings.profile;
+
+                    fetch("/profile/update", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({id: window._profile.id, data})
+                    }).then(res => res.json().then(res => {
+                        if(res.settings) {
+                            Turbolinks.visit(window.location.href);
+                        }
+                    }))
+                },
+                cancel() {
+                    this.editing = false;
+                    this.settings = window._profile.settings
+                }
+            }
+        }
+    }
+</script>

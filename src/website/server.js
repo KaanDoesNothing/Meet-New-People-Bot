@@ -27,6 +27,8 @@ const hbsConfig = hbs.create({
 app.engine("handlebars", hbsConfig.engine);
 app.set("views", path.join(__dirname + "/views"))
 app.set("view engine", "handlebars");
+// app.set("views", path.join(__dirname + "/views_pug"));
+// app.set("view engine", "pug");
 
 app.use("/static", express.static(path.join(__dirname + "/public")));
 app.use(express.json({extended: true}));

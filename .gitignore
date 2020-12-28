@@ -3,3 +3,4 @@ package-lock.json
 src/config.js
 src/bwd/
 src/lib/member*
+src/website/views_pug/

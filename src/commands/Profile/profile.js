@@ -11,6 +11,5 @@ module.exports = class extends Command {
     }
 
     run(msg, [user = msg.author]) {
-
     }
 }
