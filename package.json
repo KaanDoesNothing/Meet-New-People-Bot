@@ -2,6 +2,8 @@
   "name": "mnp",
   "main": "index.js",
   "dependencies": {
+    "canvas": "^2.6.1",
+    "canvas-constructor": "^4.1.0",
     "cookies": "^0.8.0",
     "disco-oauth": "github:TheDrone7/disco-oauth",
     "discord.js": "^12.5.1",

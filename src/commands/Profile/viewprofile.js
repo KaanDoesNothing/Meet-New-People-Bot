@@ -1,6 +1,5 @@
 const { Command } = require("klasa");
 const config = require("../../config");
-const canvas = require("canvas-constructor");
 
 module.exports = class extends Command {
     constructor(...args) {
@@ -11,6 +10,6 @@ module.exports = class extends Command {
     }
 
     run(msg, [user = msg.author]) {
-
+        return msg.reply(`${config.dashboardURL}/profile/${user.id}`);
     }
 }
