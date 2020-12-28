@@ -21,7 +21,11 @@
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({id: window._profile.id, data})
-                    });
+                    }).then(res => res.json().then(res => {
+                        if(res.settings) {
+                            Turbolinks.visit(window.location.href);
+                        }
+                    }))
                 },
                 cancel() {
                     this.editing = false;

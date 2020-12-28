@@ -30,14 +30,13 @@ app.get("/:id/edit", checkIfLoggedIn, async (req, res) => {
 
 app.post("/update", checkIfLoggedIn, async (req, res) => {
     let user = global.discordClient.users.cache.get(req.body.id) || (await global.discordClient.users.fetch(req.body.id));
+    if(!user) return res.json({error: "User not found."});
 
-    if(!user) return res.render("error", {error: "User not found."});
-
-    if(user.id !== req.session._id) return res.render("error", {user: "No permissions."});
+    if(user.id !== req.session.user._id) return res.json({error: "Invalid permissions."});
 
     user.settings.update("profile.description", req.body.data.description);
 
-    res.render("profile-edit", {user});
+    return res.json({settings: user.settings});
 });
 
 module.exports = app;
