@@ -1,0 +1,8 @@
+mixin command(command)
+    div(class="card text-center command" x-show=`isTrue('${command.name}', '${command.category}')`)
+        div(class="card-header") #{command.name}
+        div(class="card-body")
+            h5(class="card-title") Command: #{command.name}
+            label(class="card-text") Category: #{command.category}
+            br
+            label(class="card-text") Usage: #{command.usage}

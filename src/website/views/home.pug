@@ -1,0 +1,14 @@
+extends layout.pug
+
+block content
+    div(class="text-center text-white" id="main")
+        img(class="rounded-circle" src=client.user.displayAvatarURL() width="240" height="240")
+        br
+        br
+        label(class="h1") #{client.user.username}
+        br
+        br
+        label(class="h5")
+            | Open source version of the #{client.user.username} bot
+            br
+            | Currently in #{client.guilds.cache.size} servers

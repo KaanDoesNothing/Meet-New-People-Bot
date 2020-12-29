@@ -1,0 +1,41 @@
+extends layout.pug
+
+include partials/commands/mixins
+
+block content
+    div(class="text-center" id="commands" x-data="window._commandsState()")
+        include partials/commands/search
+
+        each command in commands
+            +command(command)
+            
+block extraScripts
+    script.
+        window._commands = !{JSON.stringify()}
+        
+        window._commandsState = () => {
+            return {
+                commands: !{JSON.stringify(commands)},
+                categories: !{JSON.stringify(categories)},
+                filter: "",
+                isTrue(name, category) {
+                    return name.startsWith(this.filter.toLowerCase()) || category === this.filter;
+                }
+            }
+        }
+
+block extraStyles
+    style.
+        .search {
+            padding: 0% 30% 1%;
+        }
+
+        @media(min-width: 768px) {
+            #commands {
+                margin: 5% 20%;
+            }
+        }
+
+        .command {
+            margin: 1%;
+        }

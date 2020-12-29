@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        title=client.user.username
+
+        //- link(rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.0.2/tailwind.min.css")
+        link(rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css")
+
+        script(src="https://code.jquery.com/jquery-3.5.1.min.js")
+        script(src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js")
+        script(src="https://cdnjs.cloudflare.com/ajax/libs/turbolinks/5.2.0/turbolinks.js")
+        script(src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.0/dist/alpine.min.js")
+
+        if session
+            script.
+                window._session = #{JSON.stringify(session)};
+        else
+            script.
+                window._session = undefined;
+        
+    body(class="bg-dark")
+        include partials/navbar.pug
+
+        block content
+        
+        block extraScripts
+
+        block extraStyles
+
+        style.
+            .text-white {
+                color: #FFFFFF !important;
+            }
