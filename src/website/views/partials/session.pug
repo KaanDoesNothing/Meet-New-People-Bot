@@ -1,3 +1,5 @@
+- session.settings = {};
+
 if session
     script.
         window._session = !{JSON.stringify({...session, Date: Date.now()})};
