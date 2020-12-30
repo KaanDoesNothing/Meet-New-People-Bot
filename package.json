@@ -10,6 +10,7 @@
     "cookies": "^0.8.0",
     "disco-oauth": "github:TheDrone7/disco-oauth",
     "discord.js": "^12.5.1",
+    "dompurify": "^2.2.6",
     "express": "^4.17.1",
     "express-handlebars": "^5.2.0",
     "express-session": "^1.17.1",

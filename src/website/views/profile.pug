@@ -46,7 +46,8 @@ block extraScripts
                     window.location.reload();
                 },
                 mark() {
-                    return window.marked(this.settings.profile.description);
+                    return this.settings.profile.description;
+                    //- return window.domPurify(window.marked(this.settings.profile.description));
                 }
             }
         }
