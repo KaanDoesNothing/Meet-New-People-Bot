@@ -65,35 +65,6 @@ block extraScripts
                 }
             }
         });
-        //- window._profile = !{JSON.stringify(user)};
-
-        //- function profileState() {
-        //-     return {
-        //-         settings: window._profile.settings,
-        //-         hasPermissions: #{hasPermissions === 1 ? "true" : "false"},
-        //-         editing: false,
-        //-         update() {
-        //-             const data = this.settings.profile;
-
-        //-             fetch("/profile/update", {
-        //-                 method: "POST",
-        //-                 headers: { "Content-Type": "application/json" },
-        //-                 body: JSON.stringify({id: window._profile.id, data})
-        //-             }).then(res => res.json().then(res => {
-        //-                 if(res.settings) {
-        //-                     window.location.reload();
-        //-                 }
-        //-             }))
-        //-         },
-        //-         reload() {
-        //-             window.location.reload();
-        //-         },
-        //-         mark() {
-        //-             return this.settings.profile.description;
-        //-             //- return window.domPurify(window.marked(this.settings.profile.description));
-        //-         }
-        //-     }
-        //- }
 
 block extraStyles
     style.

@@ -1,6 +1,5 @@
 const express = require("express");
 const session = require("express-session");
-const hbs = require("express-handlebars");
 const path = require("path");
 const config = require("../config");
 const { authCodeLink } = require("./modules/authClient");
