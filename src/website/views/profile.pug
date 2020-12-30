@@ -22,7 +22,7 @@ block content
 
 block extraScripts
     script.
-        window.addEventListener("turbolinks:load", () => {
+        document.addEventListener("turbolinks:load", () => {
             new Vue({
                 el: "#profileApp",
                 data() {
