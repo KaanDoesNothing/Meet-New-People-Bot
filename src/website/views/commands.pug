@@ -11,18 +11,20 @@ block content
             
 block extraScripts
     script.
-        window._commands = !{JSON.stringify()}
+        $(window).on("turbo:load", () => {
+            window._commands = !{JSON.stringify()}
         
-        window._commandsState = () => {
-            return {
-                commands: !{JSON.stringify(commands)},
-                categories: !{JSON.stringify(categories)},
-                filter: "",
-                isTrue(name, category) {
-                    return name.startsWith(this.filter.toLowerCase()) || category === this.filter;
+            window._commandsState = () => {
+                return {
+                    commands: !{JSON.stringify(commands)},
+                    categories: !{JSON.stringify(categories)},
+                    filter: "",
+                    isTrue(name, category) {
+                        return name.startsWith(this.filter.toLowerCase()) || category === this.filter;
+                    }
                 }
             }
-        }
+        });
 
 block extraStyles
     style.
