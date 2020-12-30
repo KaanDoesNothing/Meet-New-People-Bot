@@ -8,14 +8,13 @@ block content
 
         each command in commands
             +command(command)
-
+            
+block extraScripts
     script.
         window._commands = !{JSON.stringify(commands)}
         window._categories = !{JSON.stringify(categories)}
 
-    script(src="/static/js/commands.js")            
-block extraScripts
-
+    script(src="/static/js/commands.js")
 
 block extraStyles
     style.
