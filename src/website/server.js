@@ -80,6 +80,10 @@ app.get("/commands", (req, res) => {
         categories.includes(cmd.category) ? "" : categories.push(cmd.category); 
     });
 
+    if(req.query.filter) {
+        newCommands = newCommands.filter(cmd => cmd.name.startsWith(req.query.filter));
+    }
+
     res.render("commands", {commands: newCommands, categories: categories});
 });
 
