@@ -16,8 +16,8 @@ nav(class="navbar navbar-expand-lg navbar-dark bg-dark")
                     a(class="btn text-white" href="/" id="loginButton") Login
 
 script.
-    $(document).on("turbolinks:load", () => {
+    (() => {
         let url = `https://discordapp.com/oauth2/authorize?response_type=code&client_id=#{client.user.id}&scope=identify&redirect_uri=${window.location.origin}/auth/callback`;
 
         $("#loginButton").attr("href", url);
-    });
+    })();
