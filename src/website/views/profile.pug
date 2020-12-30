@@ -22,46 +22,44 @@ block content
 
 block extraScripts
     script.
-        document.addEventListener("turbolinks:load", () => {
-            new Vue({
-                el: "#profileApp",
-                data() {
-                    return {
-                        user: {},
-                        editing: false,
-                        hasPermissions: #{hasPermissions === 1 ? "true" : "false"}
-                    }
+        new Vue({
+            el: "#profileApp",
+            data() {
+                return {
+                    user: {},
+                    editing: false,
+                    hasPermissions: #{hasPermissions === 1 ? "true" : "false"}
+                }
+            },
+            created() {
+                this.fetchUser();
+            },
+            methods: {
+                fetchUser() {
+                    Axios.get("/profile/#{user.id}/json").then(res => {
+                        this.user = res.data.user;
+                    });
                 },
-                created() {
+                edit() {
+                    this.editing = true;
+                },
+                cancel() {
+                    this.editing = false;
                     this.fetchUser();
                 },
-                methods: {
-                    fetchUser() {
-                        Axios.get("/profile/#{user.id}/json").then(res => {
-                            this.user = res.data.user;
-                        });
-                    },
-                    edit() {
-                        this.editing = true;
-                    },
-                    cancel() {
-                        this.editing = false;
-                        this.fetchUser();
-                    },
-                    save() {
-                        Axios.post("/profile/update", {
-                            id: this.user.id,
-                            data: this.user.settings.profile
-                        }).then(res => {
-                            if(res.data.settings) {
-                                this.fetchUser();
-                                this.editing = false;
-                            }
-                        });
-                    }
+                save() {
+                    Axios.post("/profile/update", {
+                        id: this.user.id,
+                        data: this.user.settings.profile
+                    }).then(res => {
+                        if(res.data.settings) {
+                            this.fetchUser();
+                            this.editing = false;
+                        }
+                    });
                 }
-            });
-        })
+            }
+        });
         //- window._profile = !{JSON.stringify(user)};
 
         //- function profileState() {
