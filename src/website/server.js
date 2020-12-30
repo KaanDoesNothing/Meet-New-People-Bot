@@ -7,30 +7,10 @@ const { authCodeLink } = require("./modules/authClient");
 
 const app = express();
 
-const hbsConfig = hbs.create({
-    extname: "handlebars",
-    defaultLayout: "main",
-    layoutsDir: path.join(__dirname + "/views/layouts"),
-    helpers: {
-        json: (ctx) => {
-            return JSON.stringify(ctx);
-        },
-        script: (ctx) => {
-            return `<script src="${ctx}"></script>`;
-        },
-        style: (ctx) => {
-            return `<link rel="stylesheet" type="text/css" href="${ctx}" defer>`;
-        }
-    }
-});
-
-// app.engine("handlebars", hbsConfig.engine);
-// app.set("views", path.join(__dirname + "/views"))
-// app.set("view engine", "handlebars");
-
 if(!config.debugging) {
     app.set("view cache", true);
 }
+
 app.set("views", path.join(__dirname + "/views"));
 app.set("view engine", "pug");
 

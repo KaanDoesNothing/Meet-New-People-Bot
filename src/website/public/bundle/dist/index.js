@@ -1,134 +1,11065 @@
-parcelRequire=function(e,r,t,n){var i,o="function"==typeof parcelRequire&&parcelRequire,u="function"==typeof require&&require;function f(t,n){if(!r[t]){if(!e[t]){var i="function"==typeof parcelRequire&&parcelRequire;if(!n&&i)return i(t,!0);if(o)return o(t,!0);if(u&&"string"==typeof t)return u(t);var c=new Error("Cannot find module '"+t+"'");throw c.code="MODULE_NOT_FOUND",c}p.resolve=function(r){return e[t][1][r]||r},p.cache={};var l=r[t]=new f.Module(t);e[t][0].call(l.exports,p,l,l.exports,this)}return r[t].exports;function p(e){return f(p.resolve(e))}}f.isParcelRequire=!0,f.Module=function(e){this.id=e,this.bundle=f,this.exports={}},f.modules=e,f.cache=r,f.parent=o,f.register=function(r,t){e[r]=[function(e,r){r.exports=t},{}]};for(var c=0;c<t.length;c++)try{f(t[c])}catch(e){i||(i=e)}if(t.length){var l=f(t[t.length-1]);"object"==typeof exports&&"undefined"!=typeof module?module.exports=l:"function"==typeof define&&define.amd?define(function(){return l}):n&&(this[n]=l)}if(parcelRequire=f,i)throw i;return f}({"BtlH":[function(require,module,exports) {
+// modules are defined as an array
+// [ module function, map of requires ]
+//
+// map of requires is short require name -> numeric require
+//
+// anything defined in a previous bundle is accessed via the
+// orig method which is the require for previous bundles
+parcelRequire = (function (modules, cache, entry, globalName) {
+  // Save the require from previous bundle to this closure if any
+  var previousRequire = typeof parcelRequire === 'function' && parcelRequire;
+  var nodeRequire = typeof require === 'function' && require;
 
-},{}],"II9K":[function(require,module,exports) {
+  function newRequire(name, jumped) {
+    if (!cache[name]) {
+      if (!modules[name]) {
+        // if we cannot find the module within our internal map or
+        // cache jump to the current global require ie. the last bundle
+        // that was added to the page.
+        var currentRequire = typeof parcelRequire === 'function' && parcelRequire;
+        if (!jumped && currentRequire) {
+          return currentRequire(name, true);
+        }
 
-var t,e,n=module.exports={};function r(){throw new Error("setTimeout has not been defined")}function o(){throw new Error("clearTimeout has not been defined")}function i(e){if(t===setTimeout)return setTimeout(e,0);if((t===r||!t)&&setTimeout)return t=setTimeout,setTimeout(e,0);try{return t(e,0)}catch(n){try{return t.call(null,e,0)}catch(n){return t.call(this,e,0)}}}function u(t){if(e===clearTimeout)return clearTimeout(t);if((e===o||!e)&&clearTimeout)return e=clearTimeout,clearTimeout(t);try{return e(t)}catch(n){try{return e.call(null,t)}catch(n){return e.call(this,t)}}}!function(){try{t="function"==typeof setTimeout?setTimeout:r}catch(n){t=r}try{e="function"==typeof clearTimeout?clearTimeout:o}catch(n){e=o}}();var c,s=[],l=!1,a=-1;function f(){l&&c&&(l=!1,c.length?s=c.concat(s):a=-1,s.length&&h())}function h(){if(!l){var t=i(f);l=!0;for(var e=s.length;e;){for(c=s,s=[];++a<e;)c&&c[a].run();a=-1,e=s.length}c=null,l=!1,u(t)}}function m(t,e){this.fun=t,this.array=e}function p(){}n.nextTick=function(t){var e=new Array(arguments.length-1);if(arguments.length>1)for(var n=1;n<arguments.length;n++)e[n-1]=arguments[n];s.push(new m(t,e)),1!==s.length||l||i(h)},m.prototype.run=function(){this.fun.apply(null,this.array)},n.title="browser",n.env={},n.argv=[],n.version="",n.versions={},n.on=p,n.addListener=p,n.once=p,n.off=p,n.removeListener=p,n.removeAllListeners=p,n.emit=p,n.prependListener=p,n.prependOnceListener=p,n.listeners=function(t){return[]},n.binding=function(t){throw new Error("process.binding is not supported")},n.cwd=function(){return"/"},n.chdir=function(t){throw new Error("process.chdir is not supported")},n.umask=function(){return 0};
-},{}],"Pj3y":[function(require,module,exports) {
-var global = arguments[3];
-var process = require("process");
+        // If there are other bundles on this page the require from the
+        // previous one is saved to 'previousRequire'. Repeat this as
+        // many times as there are bundles until the module is found or
+        // we exhaust the require chain.
+        if (previousRequire) {
+          return previousRequire(name, true);
+        }
+
+        // Try the node require function if it exists.
+        if (nodeRequire && typeof name === 'string') {
+          return nodeRequire(name);
+        }
+
+        var err = new Error('Cannot find module \'' + name + '\'');
+        err.code = 'MODULE_NOT_FOUND';
+        throw err;
+      }
+
+      localRequire.resolve = resolve;
+      localRequire.cache = {};
+
+      var module = cache[name] = new newRequire.Module(name);
+
+      modules[name][0].call(module.exports, localRequire, module, module.exports, this);
+    }
+
+    return cache[name].exports;
+
+    function localRequire(x){
+      return newRequire(localRequire.resolve(x));
+    }
+
+    function resolve(x){
+      return modules[name][1][x] || x;
+    }
+  }
+
+  function Module(moduleName) {
+    this.id = moduleName;
+    this.bundle = newRequire;
+    this.exports = {};
+  }
+
+  newRequire.isParcelRequire = true;
+  newRequire.Module = Module;
+  newRequire.modules = modules;
+  newRequire.cache = cache;
+  newRequire.parent = previousRequire;
+  newRequire.register = function (id, exports) {
+    modules[id] = [function (require, module) {
+      module.exports = exports;
+    }, {}];
+  };
+
+  var error;
+  for (var i = 0; i < entry.length; i++) {
+    try {
+      newRequire(entry[i]);
+    } catch (e) {
+      // Save first error but execute all entries
+      if (!error) {
+        error = e;
+      }
+    }
+  }
+
+  if (entry.length) {
+    // Expose entry point to Node, AMD or browser globals
+    // Based on https://github.com/ForbesLindesay/umd/blob/master/template.js
+    var mainExports = newRequire(entry[entry.length - 1]);
+
+    // CommonJS
+    if (typeof exports === "object" && typeof module !== "undefined") {
+      module.exports = mainExports;
+
+    // RequireJS
+    } else if (typeof define === "function" && define.amd) {
+     define(function () {
+       return mainExports;
+     });
+
+    // <script>
+    } else if (globalName) {
+      this[globalName] = mainExports;
+    }
+  }
+
+  // Override the current require with this new one
+  parcelRequire = newRequire;
+
+  if (error) {
+    // throw error from earlier, _after updating parcelRequire_
+    throw error;
+  }
+
+  return newRequire;
+})({"../../../../../../../../AppData/Roaming/npm/node_modules/parcel/src/builtins/bundle-url.js":[function(require,module,exports) {
+var bundleURL = null;
+
+function getBundleURLCached() {
+  if (!bundleURL) {
+    bundleURL = getBundleURL();
+  }
+
+  return bundleURL;
+}
+
+function getBundleURL() {
+  // Attempt to find the URL of the current script and use that as the base URL
+  try {
+    throw new Error();
+  } catch (err) {
+    var matches = ('' + err.stack).match(/(https?|file|ftp|chrome-extension|moz-extension):\/\/[^)\n]+/g);
+
+    if (matches) {
+      return getBaseURL(matches[0]);
+    }
+  }
+
+  return '/';
+}
+
+function getBaseURL(url) {
+  return ('' + url).replace(/^((?:https?|file|ftp|chrome-extension|moz-extension):\/\/.+)\/[^/]+$/, '$1') + '/';
+}
+
+exports.getBundleURL = getBundleURLCached;
+exports.getBaseURL = getBaseURL;
+},{}],"../../../../../../../../AppData/Roaming/npm/node_modules/parcel/src/builtins/css-loader.js":[function(require,module,exports) {
+var bundle = require('./bundle-url');
+
+function updateLink(link) {
+  var newLink = link.cloneNode();
+
+  newLink.onload = function () {
+    link.remove();
+  };
+
+  newLink.href = link.href.split('?')[0] + '?' + Date.now();
+  link.parentNode.insertBefore(newLink, link.nextSibling);
+}
+
+var cssTimeout = null;
+
+function reloadCSS() {
+  if (cssTimeout) {
+    return;
+  }
+
+  cssTimeout = setTimeout(function () {
+    var links = document.querySelectorAll('link[rel="stylesheet"]');
+
+    for (var i = 0; i < links.length; i++) {
+      if (bundle.getBaseURL(links[i].href) === bundle.getBundleURL()) {
+        updateLink(links[i]);
+      }
+    }
+
+    cssTimeout = null;
+  }, 50);
+}
+
+module.exports = reloadCSS;
+},{"./bundle-url":"../../../../../../../../AppData/Roaming/npm/node_modules/parcel/src/builtins/bundle-url.js"}],"../../../../node_modules/bootstrap/dist/css/bootstrap.css":[function(require,module,exports) {
+
+        var reloadCSS = require('_css_loader');
+        module.hot.dispose(reloadCSS);
+        module.hot.accept(reloadCSS);
+      
+},{"_css_loader":"../../../../../../../../AppData/Roaming/npm/node_modules/parcel/src/builtins/css-loader.js"}],"../../../../node_modules/@popperjs/core/lib/enums.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.modifierPhases = exports.afterWrite = exports.write = exports.beforeWrite = exports.afterMain = exports.main = exports.beforeMain = exports.afterRead = exports.read = exports.beforeRead = exports.placements = exports.variationPlacements = exports.reference = exports.popper = exports.viewport = exports.clippingParents = exports.end = exports.start = exports.basePlacements = exports.auto = exports.left = exports.right = exports.bottom = exports.top = void 0;
+var top = 'top';
+exports.top = top;
+var bottom = 'bottom';
+exports.bottom = bottom;
+var right = 'right';
+exports.right = right;
+var left = 'left';
+exports.left = left;
+var auto = 'auto';
+exports.auto = auto;
+var basePlacements = [top, bottom, right, left];
+exports.basePlacements = basePlacements;
+var start = 'start';
+exports.start = start;
+var end = 'end';
+exports.end = end;
+var clippingParents = 'clippingParents';
+exports.clippingParents = clippingParents;
+var viewport = 'viewport';
+exports.viewport = viewport;
+var popper = 'popper';
+exports.popper = popper;
+var reference = 'reference';
+exports.reference = reference;
+var variationPlacements = /*#__PURE__*/basePlacements.reduce(function (acc, placement) {
+  return acc.concat([placement + "-" + start, placement + "-" + end]);
+}, []);
+exports.variationPlacements = variationPlacements;
+var placements = /*#__PURE__*/[].concat(basePlacements, [auto]).reduce(function (acc, placement) {
+  return acc.concat([placement, placement + "-" + start, placement + "-" + end]);
+}, []); // modifiers that need to read the DOM
+
+exports.placements = placements;
+var beforeRead = 'beforeRead';
+exports.beforeRead = beforeRead;
+var read = 'read';
+exports.read = read;
+var afterRead = 'afterRead'; // pure-logic modifiers
+
+exports.afterRead = afterRead;
+var beforeMain = 'beforeMain';
+exports.beforeMain = beforeMain;
+var main = 'main';
+exports.main = main;
+var afterMain = 'afterMain'; // modifier with the purpose to write to the DOM (or write into a framework state)
+
+exports.afterMain = afterMain;
+var beforeWrite = 'beforeWrite';
+exports.beforeWrite = beforeWrite;
+var write = 'write';
+exports.write = write;
+var afterWrite = 'afterWrite';
+exports.afterWrite = afterWrite;
+var modifierPhases = [beforeRead, read, afterRead, beforeMain, main, afterMain, beforeWrite, write, afterWrite];
+exports.modifierPhases = modifierPhases;
+},{}],"../../../../node_modules/@popperjs/core/lib/dom-utils/getNodeName.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = getNodeName;
+
+function getNodeName(element) {
+  return element ? (element.nodeName || '').toLowerCase() : null;
+}
+},{}],"../../../../node_modules/@popperjs/core/lib/dom-utils/getWindow.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = getWindow;
+
+/*:: import type { Window } from '../types'; */
+
+/*:: declare function getWindow(node: Node | Window): Window; */
+function getWindow(node) {
+  if (node.toString() !== '[object Window]') {
+    var ownerDocument = node.ownerDocument;
+    return ownerDocument ? ownerDocument.defaultView || window : window;
+  }
+
+  return node;
+}
+},{}],"../../../../node_modules/@popperjs/core/lib/dom-utils/instanceOf.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.isElement = isElement;
+exports.isHTMLElement = isHTMLElement;
+exports.isShadowRoot = isShadowRoot;
+
+var _getWindow = _interopRequireDefault(require("./getWindow.js"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/*:: declare function isElement(node: mixed): boolean %checks(node instanceof
+  Element); */
+function isElement(node) {
+  var OwnElement = (0, _getWindow.default)(node).Element;
+  return node instanceof OwnElement || node instanceof Element;
+}
+/*:: declare function isHTMLElement(node: mixed): boolean %checks(node instanceof
+  HTMLElement); */
+
+
+function isHTMLElement(node) {
+  var OwnElement = (0, _getWindow.default)(node).HTMLElement;
+  return node instanceof OwnElement || node instanceof HTMLElement;
+}
+/*:: declare function isShadowRoot(node: mixed): boolean %checks(node instanceof
+  ShadowRoot); */
+
+
+function isShadowRoot(node) {
+  var OwnElement = (0, _getWindow.default)(node).ShadowRoot;
+  return node instanceof OwnElement || node instanceof ShadowRoot;
+}
+},{"./getWindow.js":"../../../../node_modules/@popperjs/core/lib/dom-utils/getWindow.js"}],"../../../../node_modules/@popperjs/core/lib/modifiers/applyStyles.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _getNodeName = _interopRequireDefault(require("../dom-utils/getNodeName.js"));
+
+var _instanceOf = require("../dom-utils/instanceOf.js");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// This modifier takes the styles prepared by the `computeStyles` modifier
+// and applies them to the HTMLElements such as popper and arrow
+function applyStyles(_ref) {
+  var state = _ref.state;
+  Object.keys(state.elements).forEach(function (name) {
+    var style = state.styles[name] || {};
+    var attributes = state.attributes[name] || {};
+    var element = state.elements[name]; // arrow is optional + virtual elements
+
+    if (!(0, _instanceOf.isHTMLElement)(element) || !(0, _getNodeName.default)(element)) {
+      return;
+    } // Flow doesn't support to extend this property, but it's the most
+    // effective way to apply styles to an HTMLElement
+    // $FlowFixMe[cannot-write]
+
+
+    Object.assign(element.style, style);
+    Object.keys(attributes).forEach(function (name) {
+      var value = attributes[name];
+
+      if (value === false) {
+        element.removeAttribute(name);
+      } else {
+        element.setAttribute(name, value === true ? '' : value);
+      }
+    });
+  });
+}
+
+function effect(_ref2) {
+  var state = _ref2.state;
+  var initialStyles = {
+    popper: {
+      position: state.options.strategy,
+      left: '0',
+      top: '0',
+      margin: '0'
+    },
+    arrow: {
+      position: 'absolute'
+    },
+    reference: {}
+  };
+  Object.assign(state.elements.popper.style, initialStyles.popper);
+
+  if (state.elements.arrow) {
+    Object.assign(state.elements.arrow.style, initialStyles.arrow);
+  }
+
+  return function () {
+    Object.keys(state.elements).forEach(function (name) {
+      var element = state.elements[name];
+      var attributes = state.attributes[name] || {};
+      var styleProperties = Object.keys(state.styles.hasOwnProperty(name) ? state.styles[name] : initialStyles[name]); // Set all values to an empty string to unset them
+
+      var style = styleProperties.reduce(function (style, property) {
+        style[property] = '';
+        return style;
+      }, {}); // arrow is optional + virtual elements
+
+      if (!(0, _instanceOf.isHTMLElement)(element) || !(0, _getNodeName.default)(element)) {
+        return;
+      }
+
+      Object.assign(element.style, style);
+      Object.keys(attributes).forEach(function (attribute) {
+        element.removeAttribute(attribute);
+      });
+    });
+  };
+} // eslint-disable-next-line import/no-unused-modules
+
+
+var _default = {
+  name: 'applyStyles',
+  enabled: true,
+  phase: 'write',
+  fn: applyStyles,
+  effect: effect,
+  requires: ['computeStyles']
+};
+exports.default = _default;
+},{"../dom-utils/getNodeName.js":"../../../../node_modules/@popperjs/core/lib/dom-utils/getNodeName.js","../dom-utils/instanceOf.js":"../../../../node_modules/@popperjs/core/lib/dom-utils/instanceOf.js"}],"../../../../node_modules/@popperjs/core/lib/utils/getBasePlacement.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = getBasePlacement;
+
+var _enums = require("../enums.js");
+
+function getBasePlacement(placement) {
+  return placement.split('-')[0];
+}
+},{"../enums.js":"../../../../node_modules/@popperjs/core/lib/enums.js"}],"../../../../node_modules/@popperjs/core/lib/dom-utils/getLayoutRect.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = getLayoutRect;
+
+// Returns the layout rect of an element relative to its offsetParent. Layout
+// means it doesn't take into account transforms.
+function getLayoutRect(element) {
+  return {
+    x: element.offsetLeft,
+    y: element.offsetTop,
+    width: element.offsetWidth,
+    height: element.offsetHeight
+  };
+}
+},{}],"../../../../node_modules/@popperjs/core/lib/dom-utils/contains.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = contains;
+
+var _instanceOf = require("./instanceOf.js");
+
+function contains(parent, child) {
+  var rootNode = child.getRootNode && child.getRootNode(); // First, attempt with faster native method
+
+  if (parent.contains(child)) {
+    return true;
+  } // then fallback to custom implementation with Shadow DOM support
+  else if (rootNode && (0, _instanceOf.isShadowRoot)(rootNode)) {
+      var next = child;
+
+      do {
+        if (next && parent.isSameNode(next)) {
+          return true;
+        } // $FlowFixMe[prop-missing]: need a better way to handle this...
+
+
+        next = next.parentNode || next.host;
+      } while (next);
+    } // Give up, the result is false
+
+
+  return false;
+}
+},{"./instanceOf.js":"../../../../node_modules/@popperjs/core/lib/dom-utils/instanceOf.js"}],"../../../../node_modules/@popperjs/core/lib/dom-utils/getComputedStyle.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = getComputedStyle;
+
+var _getWindow = _interopRequireDefault(require("./getWindow.js"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function getComputedStyle(element) {
+  return (0, _getWindow.default)(element).getComputedStyle(element);
+}
+},{"./getWindow.js":"../../../../node_modules/@popperjs/core/lib/dom-utils/getWindow.js"}],"../../../../node_modules/@popperjs/core/lib/dom-utils/isTableElement.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = isTableElement;
+
+var _getNodeName = _interopRequireDefault(require("./getNodeName.js"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function isTableElement(element) {
+  return ['table', 'td', 'th'].indexOf((0, _getNodeName.default)(element)) >= 0;
+}
+},{"./getNodeName.js":"../../../../node_modules/@popperjs/core/lib/dom-utils/getNodeName.js"}],"../../../../node_modules/@popperjs/core/lib/dom-utils/getDocumentElement.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = getDocumentElement;
+
+var _instanceOf = require("./instanceOf.js");
+
+function getDocumentElement(element) {
+  // $FlowFixMe[incompatible-return]: assume body is always available
+  return (((0, _instanceOf.isElement)(element) ? element.ownerDocument : // $FlowFixMe[prop-missing]
+  element.document) || window.document).documentElement;
+}
+},{"./instanceOf.js":"../../../../node_modules/@popperjs/core/lib/dom-utils/instanceOf.js"}],"../../../../node_modules/@popperjs/core/lib/dom-utils/getParentNode.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = getParentNode;
+
+var _getNodeName = _interopRequireDefault(require("./getNodeName.js"));
+
+var _getDocumentElement = _interopRequireDefault(require("./getDocumentElement.js"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function getParentNode(element) {
+  if ((0, _getNodeName.default)(element) === 'html') {
+    return element;
+  }
+
+  return (// this is a quicker (but less type safe) way to save quite some bytes from the bundle
+    // $FlowFixMe[incompatible-return]
+    // $FlowFixMe[prop-missing]
+    element.assignedSlot || // step into the shadow DOM of the parent of a slotted node
+    element.parentNode || // DOM Element detected
+    // $FlowFixMe[incompatible-return]: need a better way to handle this...
+    element.host || // ShadowRoot detected
+    // $FlowFixMe[incompatible-call]: HTMLElement is a Node
+    (0, _getDocumentElement.default)(element) // fallback
+
+  );
+}
+},{"./getNodeName.js":"../../../../node_modules/@popperjs/core/lib/dom-utils/getNodeName.js","./getDocumentElement.js":"../../../../node_modules/@popperjs/core/lib/dom-utils/getDocumentElement.js"}],"../../../../node_modules/@popperjs/core/lib/dom-utils/getOffsetParent.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = getOffsetParent;
+
+var _getWindow = _interopRequireDefault(require("./getWindow.js"));
+
+var _getNodeName = _interopRequireDefault(require("./getNodeName.js"));
+
+var _getComputedStyle = _interopRequireDefault(require("./getComputedStyle.js"));
+
+var _instanceOf = require("./instanceOf.js");
+
+var _isTableElement = _interopRequireDefault(require("./isTableElement.js"));
+
+var _getParentNode = _interopRequireDefault(require("./getParentNode.js"));
+
+var _getDocumentElement = _interopRequireDefault(require("./getDocumentElement.js"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function getTrueOffsetParent(element) {
+  if (!(0, _instanceOf.isHTMLElement)(element) || // https://github.com/popperjs/popper-core/issues/837
+  (0, _getComputedStyle.default)(element).position === 'fixed') {
+    return null;
+  }
+
+  var offsetParent = element.offsetParent;
+
+  if (offsetParent) {
+    var html = (0, _getDocumentElement.default)(offsetParent);
+
+    if ((0, _getNodeName.default)(offsetParent) === 'body' && (0, _getComputedStyle.default)(offsetParent).position === 'static' && (0, _getComputedStyle.default)(html).position !== 'static') {
+      return html;
+    }
+  }
+
+  return offsetParent;
+} // `.offsetParent` reports `null` for fixed elements, while absolute elements
+// return the containing block
+
+
+function getContainingBlock(element) {
+  var currentNode = (0, _getParentNode.default)(element);
+
+  while ((0, _instanceOf.isHTMLElement)(currentNode) && ['html', 'body'].indexOf((0, _getNodeName.default)(currentNode)) < 0) {
+    var css = (0, _getComputedStyle.default)(currentNode); // This is non-exhaustive but covers the most common CSS properties that
+    // create a containing block.
+
+    if (css.transform !== 'none' || css.perspective !== 'none' || css.willChange && css.willChange !== 'auto') {
+      return currentNode;
+    } else {
+      currentNode = currentNode.parentNode;
+    }
+  }
+
+  return null;
+} // Gets the closest ancestor positioned element. Handles some edge cases,
+// such as table ancestors and cross browser bugs.
+
+
+function getOffsetParent(element) {
+  var window = (0, _getWindow.default)(element);
+  var offsetParent = getTrueOffsetParent(element);
+
+  while (offsetParent && (0, _isTableElement.default)(offsetParent) && (0, _getComputedStyle.default)(offsetParent).position === 'static') {
+    offsetParent = getTrueOffsetParent(offsetParent);
+  }
+
+  if (offsetParent && (0, _getNodeName.default)(offsetParent) === 'body' && (0, _getComputedStyle.default)(offsetParent).position === 'static') {
+    return window;
+  }
+
+  return offsetParent || getContainingBlock(element) || window;
+}
+},{"./getWindow.js":"../../../../node_modules/@popperjs/core/lib/dom-utils/getWindow.js","./getNodeName.js":"../../../../node_modules/@popperjs/core/lib/dom-utils/getNodeName.js","./getComputedStyle.js":"../../../../node_modules/@popperjs/core/lib/dom-utils/getComputedStyle.js","./instanceOf.js":"../../../../node_modules/@popperjs/core/lib/dom-utils/instanceOf.js","./isTableElement.js":"../../../../node_modules/@popperjs/core/lib/dom-utils/isTableElement.js","./getParentNode.js":"../../../../node_modules/@popperjs/core/lib/dom-utils/getParentNode.js","./getDocumentElement.js":"../../../../node_modules/@popperjs/core/lib/dom-utils/getDocumentElement.js"}],"../../../../node_modules/@popperjs/core/lib/utils/getMainAxisFromPlacement.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = getMainAxisFromPlacement;
+
+function getMainAxisFromPlacement(placement) {
+  return ['top', 'bottom'].indexOf(placement) >= 0 ? 'x' : 'y';
+}
+},{}],"../../../../node_modules/@popperjs/core/lib/utils/within.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = within;
+
+function within(min, value, max) {
+  return Math.max(min, Math.min(value, max));
+}
+},{}],"../../../../node_modules/@popperjs/core/lib/utils/getFreshSideObject.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = getFreshSideObject;
+
+function getFreshSideObject() {
+  return {
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0
+  };
+}
+},{}],"../../../../node_modules/@popperjs/core/lib/utils/mergePaddingObject.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = mergePaddingObject;
+
+var _getFreshSideObject = _interopRequireDefault(require("./getFreshSideObject.js"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function mergePaddingObject(paddingObject) {
+  return Object.assign(Object.assign({}, (0, _getFreshSideObject.default)()), paddingObject);
+}
+},{"./getFreshSideObject.js":"../../../../node_modules/@popperjs/core/lib/utils/getFreshSideObject.js"}],"../../../../node_modules/@popperjs/core/lib/utils/expandToHashMap.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = expandToHashMap;
+
+function expandToHashMap(value, keys) {
+  return keys.reduce(function (hashMap, key) {
+    hashMap[key] = value;
+    return hashMap;
+  }, {});
+}
+},{}],"../../../../node_modules/@popperjs/core/lib/modifiers/arrow.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _getBasePlacement = _interopRequireDefault(require("../utils/getBasePlacement.js"));
+
+var _getLayoutRect = _interopRequireDefault(require("../dom-utils/getLayoutRect.js"));
+
+var _contains = _interopRequireDefault(require("../dom-utils/contains.js"));
+
+var _getOffsetParent = _interopRequireDefault(require("../dom-utils/getOffsetParent.js"));
+
+var _getMainAxisFromPlacement = _interopRequireDefault(require("../utils/getMainAxisFromPlacement.js"));
+
+var _within = _interopRequireDefault(require("../utils/within.js"));
+
+var _mergePaddingObject = _interopRequireDefault(require("../utils/mergePaddingObject.js"));
+
+var _expandToHashMap = _interopRequireDefault(require("../utils/expandToHashMap.js"));
+
+var _enums = require("../enums.js");
+
+var _instanceOf = require("../dom-utils/instanceOf.js");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// eslint-disable-next-line import/no-unused-modules
+function arrow(_ref) {
+  var _state$modifiersData$;
+
+  var state = _ref.state,
+      name = _ref.name;
+  var arrowElement = state.elements.arrow;
+  var popperOffsets = state.modifiersData.popperOffsets;
+  var basePlacement = (0, _getBasePlacement.default)(state.placement);
+  var axis = (0, _getMainAxisFromPlacement.default)(basePlacement);
+  var isVertical = [_enums.left, _enums.right].indexOf(basePlacement) >= 0;
+  var len = isVertical ? 'height' : 'width';
+
+  if (!arrowElement || !popperOffsets) {
+    return;
+  }
+
+  var paddingObject = state.modifiersData[name + "#persistent"].padding;
+  var arrowRect = (0, _getLayoutRect.default)(arrowElement);
+  var minProp = axis === 'y' ? _enums.top : _enums.left;
+  var maxProp = axis === 'y' ? _enums.bottom : _enums.right;
+  var endDiff = state.rects.reference[len] + state.rects.reference[axis] - popperOffsets[axis] - state.rects.popper[len];
+  var startDiff = popperOffsets[axis] - state.rects.reference[axis];
+  var arrowOffsetParent = (0, _getOffsetParent.default)(arrowElement);
+  var clientSize = arrowOffsetParent ? axis === 'y' ? arrowOffsetParent.clientHeight || 0 : arrowOffsetParent.clientWidth || 0 : 0;
+  var centerToReference = endDiff / 2 - startDiff / 2; // Make sure the arrow doesn't overflow the popper if the center point is
+  // outside of the popper bounds
+
+  var min = paddingObject[minProp];
+  var max = clientSize - arrowRect[len] - paddingObject[maxProp];
+  var center = clientSize / 2 - arrowRect[len] / 2 + centerToReference;
+  var offset = (0, _within.default)(min, center, max); // Prevents breaking syntax highlighting...
+
+  var axisProp = axis;
+  state.modifiersData[name] = (_state$modifiersData$ = {}, _state$modifiersData$[axisProp] = offset, _state$modifiersData$.centerOffset = offset - center, _state$modifiersData$);
+}
+
+function effect(_ref2) {
+  var state = _ref2.state,
+      options = _ref2.options,
+      name = _ref2.name;
+  var _options$element = options.element,
+      arrowElement = _options$element === void 0 ? '[data-popper-arrow]' : _options$element,
+      _options$padding = options.padding,
+      padding = _options$padding === void 0 ? 0 : _options$padding;
+
+  if (arrowElement == null) {
+    return;
+  } // CSS selector
+
+
+  if (typeof arrowElement === 'string') {
+    arrowElement = state.elements.popper.querySelector(arrowElement);
+
+    if (!arrowElement) {
+      return;
+    }
+  }
+
+  if ("development" !== "production") {
+    if (!(0, _instanceOf.isHTMLElement)(arrowElement)) {
+      console.error(['Popper: "arrow" element must be an HTMLElement (not an SVGElement).', 'To use an SVG arrow, wrap it in an HTMLElement that will be used as', 'the arrow.'].join(' '));
+    }
+  }
+
+  if (!(0, _contains.default)(state.elements.popper, arrowElement)) {
+    if ("development" !== "production") {
+      console.error(['Popper: "arrow" modifier\'s `element` must be a child of the popper', 'element.'].join(' '));
+    }
+
+    return;
+  }
+
+  state.elements.arrow = arrowElement;
+  state.modifiersData[name + "#persistent"] = {
+    padding: (0, _mergePaddingObject.default)(typeof padding !== 'number' ? padding : (0, _expandToHashMap.default)(padding, _enums.basePlacements))
+  };
+} // eslint-disable-next-line import/no-unused-modules
+
+
+var _default = {
+  name: 'arrow',
+  enabled: true,
+  phase: 'main',
+  fn: arrow,
+  effect: effect,
+  requires: ['popperOffsets'],
+  requiresIfExists: ['preventOverflow']
+};
+exports.default = _default;
+},{"../utils/getBasePlacement.js":"../../../../node_modules/@popperjs/core/lib/utils/getBasePlacement.js","../dom-utils/getLayoutRect.js":"../../../../node_modules/@popperjs/core/lib/dom-utils/getLayoutRect.js","../dom-utils/contains.js":"../../../../node_modules/@popperjs/core/lib/dom-utils/contains.js","../dom-utils/getOffsetParent.js":"../../../../node_modules/@popperjs/core/lib/dom-utils/getOffsetParent.js","../utils/getMainAxisFromPlacement.js":"../../../../node_modules/@popperjs/core/lib/utils/getMainAxisFromPlacement.js","../utils/within.js":"../../../../node_modules/@popperjs/core/lib/utils/within.js","../utils/mergePaddingObject.js":"../../../../node_modules/@popperjs/core/lib/utils/mergePaddingObject.js","../utils/expandToHashMap.js":"../../../../node_modules/@popperjs/core/lib/utils/expandToHashMap.js","../enums.js":"../../../../node_modules/@popperjs/core/lib/enums.js","../dom-utils/instanceOf.js":"../../../../node_modules/@popperjs/core/lib/dom-utils/instanceOf.js"}],"../../../../node_modules/@popperjs/core/lib/modifiers/computeStyles.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.mapToStyles = mapToStyles;
+exports.default = void 0;
+
+var _enums = require("../enums.js");
+
+var _getOffsetParent = _interopRequireDefault(require("../dom-utils/getOffsetParent.js"));
+
+var _getWindow = _interopRequireDefault(require("../dom-utils/getWindow.js"));
+
+var _getDocumentElement = _interopRequireDefault(require("../dom-utils/getDocumentElement.js"));
+
+var _getComputedStyle = _interopRequireDefault(require("../dom-utils/getComputedStyle.js"));
+
+var _getBasePlacement = _interopRequireDefault(require("../utils/getBasePlacement.js"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// eslint-disable-next-line import/no-unused-modules
+var unsetSides = {
+  top: 'auto',
+  right: 'auto',
+  bottom: 'auto',
+  left: 'auto'
+}; // Round the offsets to the nearest suitable subpixel based on the DPR.
+// Zooming can change the DPR, but it seems to report a value that will
+// cleanly divide the values into the appropriate subpixels.
+
+function roundOffsetsByDPR(_ref) {
+  var x = _ref.x,
+      y = _ref.y;
+  var win = window;
+  var dpr = win.devicePixelRatio || 1;
+  return {
+    x: Math.round(x * dpr) / dpr || 0,
+    y: Math.round(y * dpr) / dpr || 0
+  };
+}
+
+function mapToStyles(_ref2) {
+  var _Object$assign2;
+
+  var popper = _ref2.popper,
+      popperRect = _ref2.popperRect,
+      placement = _ref2.placement,
+      offsets = _ref2.offsets,
+      position = _ref2.position,
+      gpuAcceleration = _ref2.gpuAcceleration,
+      adaptive = _ref2.adaptive,
+      roundOffsets = _ref2.roundOffsets;
+
+  var _ref3 = roundOffsets ? roundOffsetsByDPR(offsets) : offsets,
+      _ref3$x = _ref3.x,
+      x = _ref3$x === void 0 ? 0 : _ref3$x,
+      _ref3$y = _ref3.y,
+      y = _ref3$y === void 0 ? 0 : _ref3$y;
+
+  var hasX = offsets.hasOwnProperty('x');
+  var hasY = offsets.hasOwnProperty('y');
+  var sideX = _enums.left;
+  var sideY = _enums.top;
+  var win = window;
+
+  if (adaptive) {
+    var offsetParent = (0, _getOffsetParent.default)(popper);
+
+    if (offsetParent === (0, _getWindow.default)(popper)) {
+      offsetParent = (0, _getDocumentElement.default)(popper);
+    } // $FlowFixMe[incompatible-cast]: force type refinement, we compare offsetParent with window above, but Flow doesn't detect it
+
+    /*:: offsetParent = (offsetParent: Element); */
+
+
+    if (placement === _enums.top) {
+      sideY = _enums.bottom;
+      y -= offsetParent.clientHeight - popperRect.height;
+      y *= gpuAcceleration ? 1 : -1;
+    }
+
+    if (placement === _enums.left) {
+      sideX = _enums.right;
+      x -= offsetParent.clientWidth - popperRect.width;
+      x *= gpuAcceleration ? 1 : -1;
+    }
+  }
+
+  var commonStyles = Object.assign({
+    position: position
+  }, adaptive && unsetSides);
+
+  if (gpuAcceleration) {
+    var _Object$assign;
+
+    return Object.assign(Object.assign({}, commonStyles), {}, (_Object$assign = {}, _Object$assign[sideY] = hasY ? '0' : '', _Object$assign[sideX] = hasX ? '0' : '', _Object$assign.transform = (win.devicePixelRatio || 1) < 2 ? "translate(" + x + "px, " + y + "px)" : "translate3d(" + x + "px, " + y + "px, 0)", _Object$assign));
+  }
+
+  return Object.assign(Object.assign({}, commonStyles), {}, (_Object$assign2 = {}, _Object$assign2[sideY] = hasY ? y + "px" : '', _Object$assign2[sideX] = hasX ? x + "px" : '', _Object$assign2.transform = '', _Object$assign2));
+}
+
+function computeStyles(_ref4) {
+  var state = _ref4.state,
+      options = _ref4.options;
+  var _options$gpuAccelerat = options.gpuAcceleration,
+      gpuAcceleration = _options$gpuAccelerat === void 0 ? true : _options$gpuAccelerat,
+      _options$adaptive = options.adaptive,
+      adaptive = _options$adaptive === void 0 ? true : _options$adaptive,
+      _options$roundOffsets = options.roundOffsets,
+      roundOffsets = _options$roundOffsets === void 0 ? true : _options$roundOffsets;
+
+  if ("development" !== "production") {
+    var transitionProperty = (0, _getComputedStyle.default)(state.elements.popper).transitionProperty || '';
+
+    if (adaptive && ['transform', 'top', 'right', 'bottom', 'left'].some(function (property) {
+      return transitionProperty.indexOf(property) >= 0;
+    })) {
+      console.warn(['Popper: Detected CSS transitions on at least one of the following', 'CSS properties: "transform", "top", "right", "bottom", "left".', '\n\n', 'Disable the "computeStyles" modifier\'s `adaptive` option to allow', 'for smooth transitions, or remove these properties from the CSS', 'transition declaration on the popper element if only transitioning', 'opacity or background-color for example.', '\n\n', 'We recommend using the popper element as a wrapper around an inner', 'element that can have any CSS property transitioned for animations.'].join(' '));
+    }
+  }
+
+  var commonStyles = {
+    placement: (0, _getBasePlacement.default)(state.placement),
+    popper: state.elements.popper,
+    popperRect: state.rects.popper,
+    gpuAcceleration: gpuAcceleration
+  };
+
+  if (state.modifiersData.popperOffsets != null) {
+    state.styles.popper = Object.assign(Object.assign({}, state.styles.popper), mapToStyles(Object.assign(Object.assign({}, commonStyles), {}, {
+      offsets: state.modifiersData.popperOffsets,
+      position: state.options.strategy,
+      adaptive: adaptive,
+      roundOffsets: roundOffsets
+    })));
+  }
+
+  if (state.modifiersData.arrow != null) {
+    state.styles.arrow = Object.assign(Object.assign({}, state.styles.arrow), mapToStyles(Object.assign(Object.assign({}, commonStyles), {}, {
+      offsets: state.modifiersData.arrow,
+      position: 'absolute',
+      adaptive: false,
+      roundOffsets: roundOffsets
+    })));
+  }
+
+  state.attributes.popper = Object.assign(Object.assign({}, state.attributes.popper), {}, {
+    'data-popper-placement': state.placement
+  });
+} // eslint-disable-next-line import/no-unused-modules
+
+
+var _default = {
+  name: 'computeStyles',
+  enabled: true,
+  phase: 'beforeWrite',
+  fn: computeStyles,
+  data: {}
+};
+exports.default = _default;
+},{"../enums.js":"../../../../node_modules/@popperjs/core/lib/enums.js","../dom-utils/getOffsetParent.js":"../../../../node_modules/@popperjs/core/lib/dom-utils/getOffsetParent.js","../dom-utils/getWindow.js":"../../../../node_modules/@popperjs/core/lib/dom-utils/getWindow.js","../dom-utils/getDocumentElement.js":"../../../../node_modules/@popperjs/core/lib/dom-utils/getDocumentElement.js","../dom-utils/getComputedStyle.js":"../../../../node_modules/@popperjs/core/lib/dom-utils/getComputedStyle.js","../utils/getBasePlacement.js":"../../../../node_modules/@popperjs/core/lib/utils/getBasePlacement.js"}],"../../../../node_modules/@popperjs/core/lib/modifiers/eventListeners.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _getWindow = _interopRequireDefault(require("../dom-utils/getWindow.js"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// eslint-disable-next-line import/no-unused-modules
+var passive = {
+  passive: true
+};
+
+function effect(_ref) {
+  var state = _ref.state,
+      instance = _ref.instance,
+      options = _ref.options;
+  var _options$scroll = options.scroll,
+      scroll = _options$scroll === void 0 ? true : _options$scroll,
+      _options$resize = options.resize,
+      resize = _options$resize === void 0 ? true : _options$resize;
+  var window = (0, _getWindow.default)(state.elements.popper);
+  var scrollParents = [].concat(state.scrollParents.reference, state.scrollParents.popper);
+
+  if (scroll) {
+    scrollParents.forEach(function (scrollParent) {
+      scrollParent.addEventListener('scroll', instance.update, passive);
+    });
+  }
+
+  if (resize) {
+    window.addEventListener('resize', instance.update, passive);
+  }
+
+  return function () {
+    if (scroll) {
+      scrollParents.forEach(function (scrollParent) {
+        scrollParent.removeEventListener('scroll', instance.update, passive);
+      });
+    }
+
+    if (resize) {
+      window.removeEventListener('resize', instance.update, passive);
+    }
+  };
+} // eslint-disable-next-line import/no-unused-modules
+
+
+var _default = {
+  name: 'eventListeners',
+  enabled: true,
+  phase: 'write',
+  fn: function fn() {},
+  effect: effect,
+  data: {}
+};
+exports.default = _default;
+},{"../dom-utils/getWindow.js":"../../../../node_modules/@popperjs/core/lib/dom-utils/getWindow.js"}],"../../../../node_modules/@popperjs/core/lib/utils/getOppositePlacement.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = getOppositePlacement;
+var hash = {
+  left: 'right',
+  right: 'left',
+  bottom: 'top',
+  top: 'bottom'
+};
+
+function getOppositePlacement(placement) {
+  return placement.replace(/left|right|bottom|top/g, function (matched) {
+    return hash[matched];
+  });
+}
+},{}],"../../../../node_modules/@popperjs/core/lib/utils/getOppositeVariationPlacement.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = getOppositeVariationPlacement;
+var hash = {
+  start: 'end',
+  end: 'start'
+};
+
+function getOppositeVariationPlacement(placement) {
+  return placement.replace(/start|end/g, function (matched) {
+    return hash[matched];
+  });
+}
+},{}],"../../../../node_modules/@popperjs/core/lib/dom-utils/getBoundingClientRect.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = getBoundingClientRect;
+
+function getBoundingClientRect(element) {
+  var rect = element.getBoundingClientRect();
+  return {
+    width: rect.width,
+    height: rect.height,
+    top: rect.top,
+    right: rect.right,
+    bottom: rect.bottom,
+    left: rect.left,
+    x: rect.left,
+    y: rect.top
+  };
+}
+},{}],"../../../../node_modules/@popperjs/core/lib/dom-utils/getWindowScroll.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = getWindowScroll;
+
+var _getWindow = _interopRequireDefault(require("./getWindow.js"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function getWindowScroll(node) {
+  var win = (0, _getWindow.default)(node);
+  var scrollLeft = win.pageXOffset;
+  var scrollTop = win.pageYOffset;
+  return {
+    scrollLeft: scrollLeft,
+    scrollTop: scrollTop
+  };
+}
+},{"./getWindow.js":"../../../../node_modules/@popperjs/core/lib/dom-utils/getWindow.js"}],"../../../../node_modules/@popperjs/core/lib/dom-utils/getWindowScrollBarX.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = getWindowScrollBarX;
+
+var _getBoundingClientRect = _interopRequireDefault(require("./getBoundingClientRect.js"));
+
+var _getDocumentElement = _interopRequireDefault(require("./getDocumentElement.js"));
+
+var _getWindowScroll = _interopRequireDefault(require("./getWindowScroll.js"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function getWindowScrollBarX(element) {
+  // If <html> has a CSS width greater than the viewport, then this will be
+  // incorrect for RTL.
+  // Popper 1 is broken in this case and never had a bug report so let's assume
+  // it's not an issue. I don't think anyone ever specifies width on <html>
+  // anyway.
+  // Browsers where the left scrollbar doesn't cause an issue report `0` for
+  // this (e.g. Edge 2019, IE11, Safari)
+  return (0, _getBoundingClientRect.default)((0, _getDocumentElement.default)(element)).left + (0, _getWindowScroll.default)(element).scrollLeft;
+}
+},{"./getBoundingClientRect.js":"../../../../node_modules/@popperjs/core/lib/dom-utils/getBoundingClientRect.js","./getDocumentElement.js":"../../../../node_modules/@popperjs/core/lib/dom-utils/getDocumentElement.js","./getWindowScroll.js":"../../../../node_modules/@popperjs/core/lib/dom-utils/getWindowScroll.js"}],"../../../../node_modules/@popperjs/core/lib/dom-utils/getViewportRect.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = getViewportRect;
+
+var _getWindow = _interopRequireDefault(require("./getWindow.js"));
+
+var _getDocumentElement = _interopRequireDefault(require("./getDocumentElement.js"));
+
+var _getWindowScrollBarX = _interopRequireDefault(require("./getWindowScrollBarX.js"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function getViewportRect(element) {
+  var win = (0, _getWindow.default)(element);
+  var html = (0, _getDocumentElement.default)(element);
+  var visualViewport = win.visualViewport;
+  var width = html.clientWidth;
+  var height = html.clientHeight;
+  var x = 0;
+  var y = 0; // NB: This isn't supported on iOS <= 12. If the keyboard is open, the popper
+  // can be obscured underneath it.
+  // Also, `html.clientHeight` adds the bottom bar height in Safari iOS, even
+  // if it isn't open, so if this isn't available, the popper will be detected
+  // to overflow the bottom of the screen too early.
+
+  if (visualViewport) {
+    width = visualViewport.width;
+    height = visualViewport.height; // Uses Layout Viewport (like Chrome; Safari does not currently)
+    // In Chrome, it returns a value very close to 0 (+/-) but contains rounding
+    // errors due to floating point numbers, so we need to check precision.
+    // Safari returns a number <= 0, usually < -1 when pinch-zoomed
+    // Feature detection fails in mobile emulation mode in Chrome.
+    // Math.abs(win.innerWidth / visualViewport.scale - visualViewport.width) <
+    // 0.001
+    // Fallback here: "Not Safari" userAgent
+
+    if (!/^((?!chrome|android).)*safari/i.test(navigator.userAgent)) {
+      x = visualViewport.offsetLeft;
+      y = visualViewport.offsetTop;
+    }
+  }
+
+  return {
+    width: width,
+    height: height,
+    x: x + (0, _getWindowScrollBarX.default)(element),
+    y: y
+  };
+}
+},{"./getWindow.js":"../../../../node_modules/@popperjs/core/lib/dom-utils/getWindow.js","./getDocumentElement.js":"../../../../node_modules/@popperjs/core/lib/dom-utils/getDocumentElement.js","./getWindowScrollBarX.js":"../../../../node_modules/@popperjs/core/lib/dom-utils/getWindowScrollBarX.js"}],"../../../../node_modules/@popperjs/core/lib/dom-utils/getDocumentRect.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = getDocumentRect;
+
+var _getDocumentElement = _interopRequireDefault(require("./getDocumentElement.js"));
+
+var _getComputedStyle = _interopRequireDefault(require("./getComputedStyle.js"));
+
+var _getWindowScrollBarX = _interopRequireDefault(require("./getWindowScrollBarX.js"));
+
+var _getWindowScroll = _interopRequireDefault(require("./getWindowScroll.js"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// Gets the entire size of the scrollable document area, even extending outside
+// of the `<html>` and `<body>` rect bounds if horizontally scrollable
+function getDocumentRect(element) {
+  var html = (0, _getDocumentElement.default)(element);
+  var winScroll = (0, _getWindowScroll.default)(element);
+  var body = element.ownerDocument.body;
+  var width = Math.max(html.scrollWidth, html.clientWidth, body ? body.scrollWidth : 0, body ? body.clientWidth : 0);
+  var height = Math.max(html.scrollHeight, html.clientHeight, body ? body.scrollHeight : 0, body ? body.clientHeight : 0);
+  var x = -winScroll.scrollLeft + (0, _getWindowScrollBarX.default)(element);
+  var y = -winScroll.scrollTop;
+
+  if ((0, _getComputedStyle.default)(body || html).direction === 'rtl') {
+    x += Math.max(html.clientWidth, body ? body.clientWidth : 0) - width;
+  }
+
+  return {
+    width: width,
+    height: height,
+    x: x,
+    y: y
+  };
+}
+},{"./getDocumentElement.js":"../../../../node_modules/@popperjs/core/lib/dom-utils/getDocumentElement.js","./getComputedStyle.js":"../../../../node_modules/@popperjs/core/lib/dom-utils/getComputedStyle.js","./getWindowScrollBarX.js":"../../../../node_modules/@popperjs/core/lib/dom-utils/getWindowScrollBarX.js","./getWindowScroll.js":"../../../../node_modules/@popperjs/core/lib/dom-utils/getWindowScroll.js"}],"../../../../node_modules/@popperjs/core/lib/dom-utils/isScrollParent.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = isScrollParent;
+
+var _getComputedStyle2 = _interopRequireDefault(require("./getComputedStyle.js"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function isScrollParent(element) {
+  // Firefox wants us to check `-x` and `-y` variations as well
+  var _getComputedStyle = (0, _getComputedStyle2.default)(element),
+      overflow = _getComputedStyle.overflow,
+      overflowX = _getComputedStyle.overflowX,
+      overflowY = _getComputedStyle.overflowY;
+
+  return /auto|scroll|overlay|hidden/.test(overflow + overflowY + overflowX);
+}
+},{"./getComputedStyle.js":"../../../../node_modules/@popperjs/core/lib/dom-utils/getComputedStyle.js"}],"../../../../node_modules/@popperjs/core/lib/dom-utils/getScrollParent.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = getScrollParent;
+
+var _getParentNode = _interopRequireDefault(require("./getParentNode.js"));
+
+var _isScrollParent = _interopRequireDefault(require("./isScrollParent.js"));
+
+var _getNodeName = _interopRequireDefault(require("./getNodeName.js"));
+
+var _instanceOf = require("./instanceOf.js");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function getScrollParent(node) {
+  if (['html', 'body', '#document'].indexOf((0, _getNodeName.default)(node)) >= 0) {
+    // $FlowFixMe[incompatible-return]: assume body is always available
+    return node.ownerDocument.body;
+  }
+
+  if ((0, _instanceOf.isHTMLElement)(node) && (0, _isScrollParent.default)(node)) {
+    return node;
+  }
+
+  return getScrollParent((0, _getParentNode.default)(node));
+}
+},{"./getParentNode.js":"../../../../node_modules/@popperjs/core/lib/dom-utils/getParentNode.js","./isScrollParent.js":"../../../../node_modules/@popperjs/core/lib/dom-utils/isScrollParent.js","./getNodeName.js":"../../../../node_modules/@popperjs/core/lib/dom-utils/getNodeName.js","./instanceOf.js":"../../../../node_modules/@popperjs/core/lib/dom-utils/instanceOf.js"}],"../../../../node_modules/@popperjs/core/lib/dom-utils/listScrollParents.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = listScrollParents;
+
+var _getScrollParent = _interopRequireDefault(require("./getScrollParent.js"));
+
+var _getParentNode = _interopRequireDefault(require("./getParentNode.js"));
+
+var _getNodeName = _interopRequireDefault(require("./getNodeName.js"));
+
+var _getWindow = _interopRequireDefault(require("./getWindow.js"));
+
+var _isScrollParent = _interopRequireDefault(require("./isScrollParent.js"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/*
+given a DOM element, return the list of all scroll parents, up the list of ancesors
+until we get to the top window object. This list is what we attach scroll listeners
+to, because if any of these parent elements scroll, we'll need to re-calculate the
+reference element's position.
+*/
+function listScrollParents(element, list) {
+  if (list === void 0) {
+    list = [];
+  }
+
+  var scrollParent = (0, _getScrollParent.default)(element);
+  var isBody = (0, _getNodeName.default)(scrollParent) === 'body';
+  var win = (0, _getWindow.default)(scrollParent);
+  var target = isBody ? [win].concat(win.visualViewport || [], (0, _isScrollParent.default)(scrollParent) ? scrollParent : []) : scrollParent;
+  var updatedList = list.concat(target);
+  return isBody ? updatedList : // $FlowFixMe[incompatible-call]: isBody tells us target will be an HTMLElement here
+  updatedList.concat(listScrollParents((0, _getParentNode.default)(target)));
+}
+},{"./getScrollParent.js":"../../../../node_modules/@popperjs/core/lib/dom-utils/getScrollParent.js","./getParentNode.js":"../../../../node_modules/@popperjs/core/lib/dom-utils/getParentNode.js","./getNodeName.js":"../../../../node_modules/@popperjs/core/lib/dom-utils/getNodeName.js","./getWindow.js":"../../../../node_modules/@popperjs/core/lib/dom-utils/getWindow.js","./isScrollParent.js":"../../../../node_modules/@popperjs/core/lib/dom-utils/isScrollParent.js"}],"../../../../node_modules/@popperjs/core/lib/utils/rectToClientRect.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = rectToClientRect;
+
+function rectToClientRect(rect) {
+  return Object.assign(Object.assign({}, rect), {}, {
+    left: rect.x,
+    top: rect.y,
+    right: rect.x + rect.width,
+    bottom: rect.y + rect.height
+  });
+}
+},{}],"../../../../node_modules/@popperjs/core/lib/dom-utils/getClippingRect.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = getClippingRect;
+
+var _enums = require("../enums.js");
+
+var _getViewportRect = _interopRequireDefault(require("./getViewportRect.js"));
+
+var _getDocumentRect = _interopRequireDefault(require("./getDocumentRect.js"));
+
+var _listScrollParents = _interopRequireDefault(require("./listScrollParents.js"));
+
+var _getOffsetParent = _interopRequireDefault(require("./getOffsetParent.js"));
+
+var _getDocumentElement = _interopRequireDefault(require("./getDocumentElement.js"));
+
+var _getComputedStyle = _interopRequireDefault(require("./getComputedStyle.js"));
+
+var _instanceOf = require("./instanceOf.js");
+
+var _getBoundingClientRect = _interopRequireDefault(require("./getBoundingClientRect.js"));
+
+var _getParentNode = _interopRequireDefault(require("./getParentNode.js"));
+
+var _contains = _interopRequireDefault(require("./contains.js"));
+
+var _getNodeName = _interopRequireDefault(require("./getNodeName.js"));
+
+var _rectToClientRect = _interopRequireDefault(require("../utils/rectToClientRect.js"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function getInnerBoundingClientRect(element) {
+  var rect = (0, _getBoundingClientRect.default)(element);
+  rect.top = rect.top + element.clientTop;
+  rect.left = rect.left + element.clientLeft;
+  rect.bottom = rect.top + element.clientHeight;
+  rect.right = rect.left + element.clientWidth;
+  rect.width = element.clientWidth;
+  rect.height = element.clientHeight;
+  rect.x = rect.left;
+  rect.y = rect.top;
+  return rect;
+}
+
+function getClientRectFromMixedType(element, clippingParent) {
+  return clippingParent === _enums.viewport ? (0, _rectToClientRect.default)((0, _getViewportRect.default)(element)) : (0, _instanceOf.isHTMLElement)(clippingParent) ? getInnerBoundingClientRect(clippingParent) : (0, _rectToClientRect.default)((0, _getDocumentRect.default)((0, _getDocumentElement.default)(element)));
+} // A "clipping parent" is an overflowable container with the characteristic of
+// clipping (or hiding) overflowing elements with a position different from
+// `initial`
+
+
+function getClippingParents(element) {
+  var clippingParents = (0, _listScrollParents.default)((0, _getParentNode.default)(element));
+  var canEscapeClipping = ['absolute', 'fixed'].indexOf((0, _getComputedStyle.default)(element).position) >= 0;
+  var clipperElement = canEscapeClipping && (0, _instanceOf.isHTMLElement)(element) ? (0, _getOffsetParent.default)(element) : element;
+
+  if (!(0, _instanceOf.isElement)(clipperElement)) {
+    return [];
+  } // $FlowFixMe[incompatible-return]: https://github.com/facebook/flow/issues/1414
+
+
+  return clippingParents.filter(function (clippingParent) {
+    return (0, _instanceOf.isElement)(clippingParent) && (0, _contains.default)(clippingParent, clipperElement) && (0, _getNodeName.default)(clippingParent) !== 'body';
+  });
+} // Gets the maximum area that the element is visible in due to any number of
+// clipping parents
+
+
+function getClippingRect(element, boundary, rootBoundary) {
+  var mainClippingParents = boundary === 'clippingParents' ? getClippingParents(element) : [].concat(boundary);
+  var clippingParents = [].concat(mainClippingParents, [rootBoundary]);
+  var firstClippingParent = clippingParents[0];
+  var clippingRect = clippingParents.reduce(function (accRect, clippingParent) {
+    var rect = getClientRectFromMixedType(element, clippingParent);
+    accRect.top = Math.max(rect.top, accRect.top);
+    accRect.right = Math.min(rect.right, accRect.right);
+    accRect.bottom = Math.min(rect.bottom, accRect.bottom);
+    accRect.left = Math.max(rect.left, accRect.left);
+    return accRect;
+  }, getClientRectFromMixedType(element, firstClippingParent));
+  clippingRect.width = clippingRect.right - clippingRect.left;
+  clippingRect.height = clippingRect.bottom - clippingRect.top;
+  clippingRect.x = clippingRect.left;
+  clippingRect.y = clippingRect.top;
+  return clippingRect;
+}
+},{"../enums.js":"../../../../node_modules/@popperjs/core/lib/enums.js","./getViewportRect.js":"../../../../node_modules/@popperjs/core/lib/dom-utils/getViewportRect.js","./getDocumentRect.js":"../../../../node_modules/@popperjs/core/lib/dom-utils/getDocumentRect.js","./listScrollParents.js":"../../../../node_modules/@popperjs/core/lib/dom-utils/listScrollParents.js","./getOffsetParent.js":"../../../../node_modules/@popperjs/core/lib/dom-utils/getOffsetParent.js","./getDocumentElement.js":"../../../../node_modules/@popperjs/core/lib/dom-utils/getDocumentElement.js","./getComputedStyle.js":"../../../../node_modules/@popperjs/core/lib/dom-utils/getComputedStyle.js","./instanceOf.js":"../../../../node_modules/@popperjs/core/lib/dom-utils/instanceOf.js","./getBoundingClientRect.js":"../../../../node_modules/@popperjs/core/lib/dom-utils/getBoundingClientRect.js","./getParentNode.js":"../../../../node_modules/@popperjs/core/lib/dom-utils/getParentNode.js","./contains.js":"../../../../node_modules/@popperjs/core/lib/dom-utils/contains.js","./getNodeName.js":"../../../../node_modules/@popperjs/core/lib/dom-utils/getNodeName.js","../utils/rectToClientRect.js":"../../../../node_modules/@popperjs/core/lib/utils/rectToClientRect.js"}],"../../../../node_modules/@popperjs/core/lib/utils/getVariation.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = getVariation;
+
+function getVariation(placement) {
+  return placement.split('-')[1];
+}
+},{}],"../../../../node_modules/@popperjs/core/lib/utils/computeOffsets.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = computeOffsets;
+
+var _getBasePlacement = _interopRequireDefault(require("./getBasePlacement.js"));
+
+var _getVariation = _interopRequireDefault(require("./getVariation.js"));
+
+var _getMainAxisFromPlacement = _interopRequireDefault(require("./getMainAxisFromPlacement.js"));
+
+var _enums = require("../enums.js");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function computeOffsets(_ref) {
+  var reference = _ref.reference,
+      element = _ref.element,
+      placement = _ref.placement;
+  var basePlacement = placement ? (0, _getBasePlacement.default)(placement) : null;
+  var variation = placement ? (0, _getVariation.default)(placement) : null;
+  var commonX = reference.x + reference.width / 2 - element.width / 2;
+  var commonY = reference.y + reference.height / 2 - element.height / 2;
+  var offsets;
+
+  switch (basePlacement) {
+    case _enums.top:
+      offsets = {
+        x: commonX,
+        y: reference.y - element.height
+      };
+      break;
+
+    case _enums.bottom:
+      offsets = {
+        x: commonX,
+        y: reference.y + reference.height
+      };
+      break;
+
+    case _enums.right:
+      offsets = {
+        x: reference.x + reference.width,
+        y: commonY
+      };
+      break;
+
+    case _enums.left:
+      offsets = {
+        x: reference.x - element.width,
+        y: commonY
+      };
+      break;
+
+    default:
+      offsets = {
+        x: reference.x,
+        y: reference.y
+      };
+  }
+
+  var mainAxis = basePlacement ? (0, _getMainAxisFromPlacement.default)(basePlacement) : null;
+
+  if (mainAxis != null) {
+    var len = mainAxis === 'y' ? 'height' : 'width';
+
+    switch (variation) {
+      case _enums.start:
+        offsets[mainAxis] = offsets[mainAxis] - (reference[len] / 2 - element[len] / 2);
+        break;
+
+      case _enums.end:
+        offsets[mainAxis] = offsets[mainAxis] + (reference[len] / 2 - element[len] / 2);
+        break;
+
+      default:
+    }
+  }
+
+  return offsets;
+}
+},{"./getBasePlacement.js":"../../../../node_modules/@popperjs/core/lib/utils/getBasePlacement.js","./getVariation.js":"../../../../node_modules/@popperjs/core/lib/utils/getVariation.js","./getMainAxisFromPlacement.js":"../../../../node_modules/@popperjs/core/lib/utils/getMainAxisFromPlacement.js","../enums.js":"../../../../node_modules/@popperjs/core/lib/enums.js"}],"../../../../node_modules/@popperjs/core/lib/utils/detectOverflow.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = detectOverflow;
+
+var _getBoundingClientRect = _interopRequireDefault(require("../dom-utils/getBoundingClientRect.js"));
+
+var _getClippingRect = _interopRequireDefault(require("../dom-utils/getClippingRect.js"));
+
+var _getDocumentElement = _interopRequireDefault(require("../dom-utils/getDocumentElement.js"));
+
+var _computeOffsets = _interopRequireDefault(require("./computeOffsets.js"));
+
+var _rectToClientRect = _interopRequireDefault(require("./rectToClientRect.js"));
+
+var _enums = require("../enums.js");
+
+var _instanceOf = require("../dom-utils/instanceOf.js");
+
+var _mergePaddingObject = _interopRequireDefault(require("./mergePaddingObject.js"));
+
+var _expandToHashMap = _interopRequireDefault(require("./expandToHashMap.js"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// eslint-disable-next-line import/no-unused-modules
+function detectOverflow(state, options) {
+  if (options === void 0) {
+    options = {};
+  }
+
+  var _options = options,
+      _options$placement = _options.placement,
+      placement = _options$placement === void 0 ? state.placement : _options$placement,
+      _options$boundary = _options.boundary,
+      boundary = _options$boundary === void 0 ? _enums.clippingParents : _options$boundary,
+      _options$rootBoundary = _options.rootBoundary,
+      rootBoundary = _options$rootBoundary === void 0 ? _enums.viewport : _options$rootBoundary,
+      _options$elementConte = _options.elementContext,
+      elementContext = _options$elementConte === void 0 ? _enums.popper : _options$elementConte,
+      _options$altBoundary = _options.altBoundary,
+      altBoundary = _options$altBoundary === void 0 ? false : _options$altBoundary,
+      _options$padding = _options.padding,
+      padding = _options$padding === void 0 ? 0 : _options$padding;
+  var paddingObject = (0, _mergePaddingObject.default)(typeof padding !== 'number' ? padding : (0, _expandToHashMap.default)(padding, _enums.basePlacements));
+  var altContext = elementContext === _enums.popper ? _enums.reference : _enums.popper;
+  var referenceElement = state.elements.reference;
+  var popperRect = state.rects.popper;
+  var element = state.elements[altBoundary ? altContext : elementContext];
+  var clippingClientRect = (0, _getClippingRect.default)((0, _instanceOf.isElement)(element) ? element : element.contextElement || (0, _getDocumentElement.default)(state.elements.popper), boundary, rootBoundary);
+  var referenceClientRect = (0, _getBoundingClientRect.default)(referenceElement);
+  var popperOffsets = (0, _computeOffsets.default)({
+    reference: referenceClientRect,
+    element: popperRect,
+    strategy: 'absolute',
+    placement: placement
+  });
+  var popperClientRect = (0, _rectToClientRect.default)(Object.assign(Object.assign({}, popperRect), popperOffsets));
+  var elementClientRect = elementContext === _enums.popper ? popperClientRect : referenceClientRect; // positive = overflowing the clipping rect
+  // 0 or negative = within the clipping rect
+
+  var overflowOffsets = {
+    top: clippingClientRect.top - elementClientRect.top + paddingObject.top,
+    bottom: elementClientRect.bottom - clippingClientRect.bottom + paddingObject.bottom,
+    left: clippingClientRect.left - elementClientRect.left + paddingObject.left,
+    right: elementClientRect.right - clippingClientRect.right + paddingObject.right
+  };
+  var offsetData = state.modifiersData.offset; // Offsets can be applied only to the popper element
+
+  if (elementContext === _enums.popper && offsetData) {
+    var offset = offsetData[placement];
+    Object.keys(overflowOffsets).forEach(function (key) {
+      var multiply = [_enums.right, _enums.bottom].indexOf(key) >= 0 ? 1 : -1;
+      var axis = [_enums.top, _enums.bottom].indexOf(key) >= 0 ? 'y' : 'x';
+      overflowOffsets[key] += offset[axis] * multiply;
+    });
+  }
+
+  return overflowOffsets;
+}
+},{"../dom-utils/getBoundingClientRect.js":"../../../../node_modules/@popperjs/core/lib/dom-utils/getBoundingClientRect.js","../dom-utils/getClippingRect.js":"../../../../node_modules/@popperjs/core/lib/dom-utils/getClippingRect.js","../dom-utils/getDocumentElement.js":"../../../../node_modules/@popperjs/core/lib/dom-utils/getDocumentElement.js","./computeOffsets.js":"../../../../node_modules/@popperjs/core/lib/utils/computeOffsets.js","./rectToClientRect.js":"../../../../node_modules/@popperjs/core/lib/utils/rectToClientRect.js","../enums.js":"../../../../node_modules/@popperjs/core/lib/enums.js","../dom-utils/instanceOf.js":"../../../../node_modules/@popperjs/core/lib/dom-utils/instanceOf.js","./mergePaddingObject.js":"../../../../node_modules/@popperjs/core/lib/utils/mergePaddingObject.js","./expandToHashMap.js":"../../../../node_modules/@popperjs/core/lib/utils/expandToHashMap.js"}],"../../../../node_modules/@popperjs/core/lib/utils/computeAutoPlacement.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = computeAutoPlacement;
+
+var _getVariation = _interopRequireDefault(require("./getVariation.js"));
+
+var _enums = require("../enums.js");
+
+var _detectOverflow = _interopRequireDefault(require("./detectOverflow.js"));
+
+var _getBasePlacement = _interopRequireDefault(require("./getBasePlacement.js"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/*:: type OverflowsMap = { [ComputedPlacement]: number }; */
+
+/*;; type OverflowsMap = { [key in ComputedPlacement]: number }; */
+function computeAutoPlacement(state, options) {
+  if (options === void 0) {
+    options = {};
+  }
+
+  var _options = options,
+      placement = _options.placement,
+      boundary = _options.boundary,
+      rootBoundary = _options.rootBoundary,
+      padding = _options.padding,
+      flipVariations = _options.flipVariations,
+      _options$allowedAutoP = _options.allowedAutoPlacements,
+      allowedAutoPlacements = _options$allowedAutoP === void 0 ? _enums.placements : _options$allowedAutoP;
+  var variation = (0, _getVariation.default)(placement);
+  var placements = variation ? flipVariations ? _enums.variationPlacements : _enums.variationPlacements.filter(function (placement) {
+    return (0, _getVariation.default)(placement) === variation;
+  }) : _enums.basePlacements;
+  var allowedPlacements = placements.filter(function (placement) {
+    return allowedAutoPlacements.indexOf(placement) >= 0;
+  });
+
+  if (allowedPlacements.length === 0) {
+    allowedPlacements = placements;
+
+    if ("development" !== "production") {
+      console.error(['Popper: The `allowedAutoPlacements` option did not allow any', 'placements. Ensure the `placement` option matches the variation', 'of the allowed placements.', 'For example, "auto" cannot be used to allow "bottom-start".', 'Use "auto-start" instead.'].join(' '));
+    }
+  } // $FlowFixMe[incompatible-type]: Flow seems to have problems with two array unions...
+
+
+  var overflows = allowedPlacements.reduce(function (acc, placement) {
+    acc[placement] = (0, _detectOverflow.default)(state, {
+      placement: placement,
+      boundary: boundary,
+      rootBoundary: rootBoundary,
+      padding: padding
+    })[(0, _getBasePlacement.default)(placement)];
+    return acc;
+  }, {});
+  return Object.keys(overflows).sort(function (a, b) {
+    return overflows[a] - overflows[b];
+  });
+}
+},{"./getVariation.js":"../../../../node_modules/@popperjs/core/lib/utils/getVariation.js","../enums.js":"../../../../node_modules/@popperjs/core/lib/enums.js","./detectOverflow.js":"../../../../node_modules/@popperjs/core/lib/utils/detectOverflow.js","./getBasePlacement.js":"../../../../node_modules/@popperjs/core/lib/utils/getBasePlacement.js"}],"../../../../node_modules/@popperjs/core/lib/modifiers/flip.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _getOppositePlacement = _interopRequireDefault(require("../utils/getOppositePlacement.js"));
+
+var _getBasePlacement = _interopRequireDefault(require("../utils/getBasePlacement.js"));
+
+var _getOppositeVariationPlacement = _interopRequireDefault(require("../utils/getOppositeVariationPlacement.js"));
+
+var _detectOverflow = _interopRequireDefault(require("../utils/detectOverflow.js"));
+
+var _computeAutoPlacement = _interopRequireDefault(require("../utils/computeAutoPlacement.js"));
+
+var _enums = require("../enums.js");
+
+var _getVariation = _interopRequireDefault(require("../utils/getVariation.js"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// eslint-disable-next-line import/no-unused-modules
+function getExpandedFallbackPlacements(placement) {
+  if ((0, _getBasePlacement.default)(placement) === _enums.auto) {
+    return [];
+  }
+
+  var oppositePlacement = (0, _getOppositePlacement.default)(placement);
+  return [(0, _getOppositeVariationPlacement.default)(placement), oppositePlacement, (0, _getOppositeVariationPlacement.default)(oppositePlacement)];
+}
+
+function flip(_ref) {
+  var state = _ref.state,
+      options = _ref.options,
+      name = _ref.name;
+
+  if (state.modifiersData[name]._skip) {
+    return;
+  }
+
+  var _options$mainAxis = options.mainAxis,
+      checkMainAxis = _options$mainAxis === void 0 ? true : _options$mainAxis,
+      _options$altAxis = options.altAxis,
+      checkAltAxis = _options$altAxis === void 0 ? true : _options$altAxis,
+      specifiedFallbackPlacements = options.fallbackPlacements,
+      padding = options.padding,
+      boundary = options.boundary,
+      rootBoundary = options.rootBoundary,
+      altBoundary = options.altBoundary,
+      _options$flipVariatio = options.flipVariations,
+      flipVariations = _options$flipVariatio === void 0 ? true : _options$flipVariatio,
+      allowedAutoPlacements = options.allowedAutoPlacements;
+  var preferredPlacement = state.options.placement;
+  var basePlacement = (0, _getBasePlacement.default)(preferredPlacement);
+  var isBasePlacement = basePlacement === preferredPlacement;
+  var fallbackPlacements = specifiedFallbackPlacements || (isBasePlacement || !flipVariations ? [(0, _getOppositePlacement.default)(preferredPlacement)] : getExpandedFallbackPlacements(preferredPlacement));
+  var placements = [preferredPlacement].concat(fallbackPlacements).reduce(function (acc, placement) {
+    return acc.concat((0, _getBasePlacement.default)(placement) === _enums.auto ? (0, _computeAutoPlacement.default)(state, {
+      placement: placement,
+      boundary: boundary,
+      rootBoundary: rootBoundary,
+      padding: padding,
+      flipVariations: flipVariations,
+      allowedAutoPlacements: allowedAutoPlacements
+    }) : placement);
+  }, []);
+  var referenceRect = state.rects.reference;
+  var popperRect = state.rects.popper;
+  var checksMap = new Map();
+  var makeFallbackChecks = true;
+  var firstFittingPlacement = placements[0];
+
+  for (var i = 0; i < placements.length; i++) {
+    var placement = placements[i];
+
+    var _basePlacement = (0, _getBasePlacement.default)(placement);
+
+    var isStartVariation = (0, _getVariation.default)(placement) === _enums.start;
+
+    var isVertical = [_enums.top, _enums.bottom].indexOf(_basePlacement) >= 0;
+    var len = isVertical ? 'width' : 'height';
+    var overflow = (0, _detectOverflow.default)(state, {
+      placement: placement,
+      boundary: boundary,
+      rootBoundary: rootBoundary,
+      altBoundary: altBoundary,
+      padding: padding
+    });
+    var mainVariationSide = isVertical ? isStartVariation ? _enums.right : _enums.left : isStartVariation ? _enums.bottom : _enums.top;
+
+    if (referenceRect[len] > popperRect[len]) {
+      mainVariationSide = (0, _getOppositePlacement.default)(mainVariationSide);
+    }
+
+    var altVariationSide = (0, _getOppositePlacement.default)(mainVariationSide);
+    var checks = [];
+
+    if (checkMainAxis) {
+      checks.push(overflow[_basePlacement] <= 0);
+    }
+
+    if (checkAltAxis) {
+      checks.push(overflow[mainVariationSide] <= 0, overflow[altVariationSide] <= 0);
+    }
+
+    if (checks.every(function (check) {
+      return check;
+    })) {
+      firstFittingPlacement = placement;
+      makeFallbackChecks = false;
+      break;
+    }
+
+    checksMap.set(placement, checks);
+  }
+
+  if (makeFallbackChecks) {
+    // `2` may be desired in some cases – research later
+    var numberOfChecks = flipVariations ? 3 : 1;
+
+    var _loop = function _loop(_i) {
+      var fittingPlacement = placements.find(function (placement) {
+        var checks = checksMap.get(placement);
+
+        if (checks) {
+          return checks.slice(0, _i).every(function (check) {
+            return check;
+          });
+        }
+      });
+
+      if (fittingPlacement) {
+        firstFittingPlacement = fittingPlacement;
+        return "break";
+      }
+    };
+
+    for (var _i = numberOfChecks; _i > 0; _i--) {
+      var _ret = _loop(_i);
+
+      if (_ret === "break") break;
+    }
+  }
+
+  if (state.placement !== firstFittingPlacement) {
+    state.modifiersData[name]._skip = true;
+    state.placement = firstFittingPlacement;
+    state.reset = true;
+  }
+} // eslint-disable-next-line import/no-unused-modules
+
+
+var _default = {
+  name: 'flip',
+  enabled: true,
+  phase: 'main',
+  fn: flip,
+  requiresIfExists: ['offset'],
+  data: {
+    _skip: false
+  }
+};
+exports.default = _default;
+},{"../utils/getOppositePlacement.js":"../../../../node_modules/@popperjs/core/lib/utils/getOppositePlacement.js","../utils/getBasePlacement.js":"../../../../node_modules/@popperjs/core/lib/utils/getBasePlacement.js","../utils/getOppositeVariationPlacement.js":"../../../../node_modules/@popperjs/core/lib/utils/getOppositeVariationPlacement.js","../utils/detectOverflow.js":"../../../../node_modules/@popperjs/core/lib/utils/detectOverflow.js","../utils/computeAutoPlacement.js":"../../../../node_modules/@popperjs/core/lib/utils/computeAutoPlacement.js","../enums.js":"../../../../node_modules/@popperjs/core/lib/enums.js","../utils/getVariation.js":"../../../../node_modules/@popperjs/core/lib/utils/getVariation.js"}],"../../../../node_modules/@popperjs/core/lib/modifiers/hide.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _enums = require("../enums.js");
+
+var _detectOverflow = _interopRequireDefault(require("../utils/detectOverflow.js"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function getSideOffsets(overflow, rect, preventedOffsets) {
+  if (preventedOffsets === void 0) {
+    preventedOffsets = {
+      x: 0,
+      y: 0
+    };
+  }
+
+  return {
+    top: overflow.top - rect.height - preventedOffsets.y,
+    right: overflow.right - rect.width + preventedOffsets.x,
+    bottom: overflow.bottom - rect.height + preventedOffsets.y,
+    left: overflow.left - rect.width - preventedOffsets.x
+  };
+}
+
+function isAnySideFullyClipped(overflow) {
+  return [_enums.top, _enums.right, _enums.bottom, _enums.left].some(function (side) {
+    return overflow[side] >= 0;
+  });
+}
+
+function hide(_ref) {
+  var state = _ref.state,
+      name = _ref.name;
+  var referenceRect = state.rects.reference;
+  var popperRect = state.rects.popper;
+  var preventedOffsets = state.modifiersData.preventOverflow;
+  var referenceOverflow = (0, _detectOverflow.default)(state, {
+    elementContext: 'reference'
+  });
+  var popperAltOverflow = (0, _detectOverflow.default)(state, {
+    altBoundary: true
+  });
+  var referenceClippingOffsets = getSideOffsets(referenceOverflow, referenceRect);
+  var popperEscapeOffsets = getSideOffsets(popperAltOverflow, popperRect, preventedOffsets);
+  var isReferenceHidden = isAnySideFullyClipped(referenceClippingOffsets);
+  var hasPopperEscaped = isAnySideFullyClipped(popperEscapeOffsets);
+  state.modifiersData[name] = {
+    referenceClippingOffsets: referenceClippingOffsets,
+    popperEscapeOffsets: popperEscapeOffsets,
+    isReferenceHidden: isReferenceHidden,
+    hasPopperEscaped: hasPopperEscaped
+  };
+  state.attributes.popper = Object.assign(Object.assign({}, state.attributes.popper), {}, {
+    'data-popper-reference-hidden': isReferenceHidden,
+    'data-popper-escaped': hasPopperEscaped
+  });
+} // eslint-disable-next-line import/no-unused-modules
+
+
+var _default = {
+  name: 'hide',
+  enabled: true,
+  phase: 'main',
+  requiresIfExists: ['preventOverflow'],
+  fn: hide
+};
+exports.default = _default;
+},{"../enums.js":"../../../../node_modules/@popperjs/core/lib/enums.js","../utils/detectOverflow.js":"../../../../node_modules/@popperjs/core/lib/utils/detectOverflow.js"}],"../../../../node_modules/@popperjs/core/lib/modifiers/offset.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.distanceAndSkiddingToXY = distanceAndSkiddingToXY;
+exports.default = void 0;
+
+var _getBasePlacement = _interopRequireDefault(require("../utils/getBasePlacement.js"));
+
+var _enums = require("../enums.js");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function distanceAndSkiddingToXY(placement, rects, offset) {
+  var basePlacement = (0, _getBasePlacement.default)(placement);
+  var invertDistance = [_enums.left, _enums.top].indexOf(basePlacement) >= 0 ? -1 : 1;
+
+  var _ref = typeof offset === 'function' ? offset(Object.assign(Object.assign({}, rects), {}, {
+    placement: placement
+  })) : offset,
+      skidding = _ref[0],
+      distance = _ref[1];
+
+  skidding = skidding || 0;
+  distance = (distance || 0) * invertDistance;
+  return [_enums.left, _enums.right].indexOf(basePlacement) >= 0 ? {
+    x: distance,
+    y: skidding
+  } : {
+    x: skidding,
+    y: distance
+  };
+}
+
+function offset(_ref2) {
+  var state = _ref2.state,
+      options = _ref2.options,
+      name = _ref2.name;
+  var _options$offset = options.offset,
+      offset = _options$offset === void 0 ? [0, 0] : _options$offset;
+
+  var data = _enums.placements.reduce(function (acc, placement) {
+    acc[placement] = distanceAndSkiddingToXY(placement, state.rects, offset);
+    return acc;
+  }, {});
+
+  var _data$state$placement = data[state.placement],
+      x = _data$state$placement.x,
+      y = _data$state$placement.y;
+
+  if (state.modifiersData.popperOffsets != null) {
+    state.modifiersData.popperOffsets.x += x;
+    state.modifiersData.popperOffsets.y += y;
+  }
+
+  state.modifiersData[name] = data;
+} // eslint-disable-next-line import/no-unused-modules
+
+
+var _default = {
+  name: 'offset',
+  enabled: true,
+  phase: 'main',
+  requires: ['popperOffsets'],
+  fn: offset
+};
+exports.default = _default;
+},{"../utils/getBasePlacement.js":"../../../../node_modules/@popperjs/core/lib/utils/getBasePlacement.js","../enums.js":"../../../../node_modules/@popperjs/core/lib/enums.js"}],"../../../../node_modules/@popperjs/core/lib/modifiers/popperOffsets.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _computeOffsets = _interopRequireDefault(require("../utils/computeOffsets.js"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function popperOffsets(_ref) {
+  var state = _ref.state,
+      name = _ref.name; // Offsets are the actual position the popper needs to have to be
+  // properly positioned near its reference element
+  // This is the most basic placement, and will be adjusted by
+  // the modifiers in the next step
+
+  state.modifiersData[name] = (0, _computeOffsets.default)({
+    reference: state.rects.reference,
+    element: state.rects.popper,
+    strategy: 'absolute',
+    placement: state.placement
+  });
+} // eslint-disable-next-line import/no-unused-modules
+
+
+var _default = {
+  name: 'popperOffsets',
+  enabled: true,
+  phase: 'read',
+  fn: popperOffsets,
+  data: {}
+};
+exports.default = _default;
+},{"../utils/computeOffsets.js":"../../../../node_modules/@popperjs/core/lib/utils/computeOffsets.js"}],"../../../../node_modules/@popperjs/core/lib/utils/getAltAxis.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = getAltAxis;
+
+function getAltAxis(axis) {
+  return axis === 'x' ? 'y' : 'x';
+}
+},{}],"../../../../node_modules/@popperjs/core/lib/modifiers/preventOverflow.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _enums = require("../enums.js");
+
+var _getBasePlacement = _interopRequireDefault(require("../utils/getBasePlacement.js"));
+
+var _getMainAxisFromPlacement = _interopRequireDefault(require("../utils/getMainAxisFromPlacement.js"));
+
+var _getAltAxis = _interopRequireDefault(require("../utils/getAltAxis.js"));
+
+var _within = _interopRequireDefault(require("../utils/within.js"));
+
+var _getLayoutRect = _interopRequireDefault(require("../dom-utils/getLayoutRect.js"));
+
+var _getOffsetParent = _interopRequireDefault(require("../dom-utils/getOffsetParent.js"));
+
+var _detectOverflow = _interopRequireDefault(require("../utils/detectOverflow.js"));
+
+var _getVariation = _interopRequireDefault(require("../utils/getVariation.js"));
+
+var _getFreshSideObject = _interopRequireDefault(require("../utils/getFreshSideObject.js"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function preventOverflow(_ref) {
+  var state = _ref.state,
+      options = _ref.options,
+      name = _ref.name;
+  var _options$mainAxis = options.mainAxis,
+      checkMainAxis = _options$mainAxis === void 0 ? true : _options$mainAxis,
+      _options$altAxis = options.altAxis,
+      checkAltAxis = _options$altAxis === void 0 ? false : _options$altAxis,
+      boundary = options.boundary,
+      rootBoundary = options.rootBoundary,
+      altBoundary = options.altBoundary,
+      padding = options.padding,
+      _options$tether = options.tether,
+      tether = _options$tether === void 0 ? true : _options$tether,
+      _options$tetherOffset = options.tetherOffset,
+      tetherOffset = _options$tetherOffset === void 0 ? 0 : _options$tetherOffset;
+  var overflow = (0, _detectOverflow.default)(state, {
+    boundary: boundary,
+    rootBoundary: rootBoundary,
+    padding: padding,
+    altBoundary: altBoundary
+  });
+  var basePlacement = (0, _getBasePlacement.default)(state.placement);
+  var variation = (0, _getVariation.default)(state.placement);
+  var isBasePlacement = !variation;
+  var mainAxis = (0, _getMainAxisFromPlacement.default)(basePlacement);
+  var altAxis = (0, _getAltAxis.default)(mainAxis);
+  var popperOffsets = state.modifiersData.popperOffsets;
+  var referenceRect = state.rects.reference;
+  var popperRect = state.rects.popper;
+  var tetherOffsetValue = typeof tetherOffset === 'function' ? tetherOffset(Object.assign(Object.assign({}, state.rects), {}, {
+    placement: state.placement
+  })) : tetherOffset;
+  var data = {
+    x: 0,
+    y: 0
+  };
+
+  if (!popperOffsets) {
+    return;
+  }
+
+  if (checkMainAxis) {
+    var mainSide = mainAxis === 'y' ? _enums.top : _enums.left;
+    var altSide = mainAxis === 'y' ? _enums.bottom : _enums.right;
+    var len = mainAxis === 'y' ? 'height' : 'width';
+    var offset = popperOffsets[mainAxis];
+    var min = popperOffsets[mainAxis] + overflow[mainSide];
+    var max = popperOffsets[mainAxis] - overflow[altSide];
+    var additive = tether ? -popperRect[len] / 2 : 0;
+    var minLen = variation === _enums.start ? referenceRect[len] : popperRect[len];
+    var maxLen = variation === _enums.start ? -popperRect[len] : -referenceRect[len]; // We need to include the arrow in the calculation so the arrow doesn't go
+    // outside the reference bounds
+
+    var arrowElement = state.elements.arrow;
+    var arrowRect = tether && arrowElement ? (0, _getLayoutRect.default)(arrowElement) : {
+      width: 0,
+      height: 0
+    };
+    var arrowPaddingObject = state.modifiersData['arrow#persistent'] ? state.modifiersData['arrow#persistent'].padding : (0, _getFreshSideObject.default)();
+    var arrowPaddingMin = arrowPaddingObject[mainSide];
+    var arrowPaddingMax = arrowPaddingObject[altSide]; // If the reference length is smaller than the arrow length, we don't want
+    // to include its full size in the calculation. If the reference is small
+    // and near the edge of a boundary, the popper can overflow even if the
+    // reference is not overflowing as well (e.g. virtual elements with no
+    // width or height)
+
+    var arrowLen = (0, _within.default)(0, referenceRect[len], arrowRect[len]);
+    var minOffset = isBasePlacement ? referenceRect[len] / 2 - additive - arrowLen - arrowPaddingMin - tetherOffsetValue : minLen - arrowLen - arrowPaddingMin - tetherOffsetValue;
+    var maxOffset = isBasePlacement ? -referenceRect[len] / 2 + additive + arrowLen + arrowPaddingMax + tetherOffsetValue : maxLen + arrowLen + arrowPaddingMax + tetherOffsetValue;
+    var arrowOffsetParent = state.elements.arrow && (0, _getOffsetParent.default)(state.elements.arrow);
+    var clientOffset = arrowOffsetParent ? mainAxis === 'y' ? arrowOffsetParent.clientTop || 0 : arrowOffsetParent.clientLeft || 0 : 0;
+    var offsetModifierValue = state.modifiersData.offset ? state.modifiersData.offset[state.placement][mainAxis] : 0;
+    var tetherMin = popperOffsets[mainAxis] + minOffset - offsetModifierValue - clientOffset;
+    var tetherMax = popperOffsets[mainAxis] + maxOffset - offsetModifierValue;
+    var preventedOffset = (0, _within.default)(tether ? Math.min(min, tetherMin) : min, offset, tether ? Math.max(max, tetherMax) : max);
+    popperOffsets[mainAxis] = preventedOffset;
+    data[mainAxis] = preventedOffset - offset;
+  }
+
+  if (checkAltAxis) {
+    var _mainSide = mainAxis === 'x' ? _enums.top : _enums.left;
+
+    var _altSide = mainAxis === 'x' ? _enums.bottom : _enums.right;
+
+    var _offset = popperOffsets[altAxis];
+
+    var _min = _offset + overflow[_mainSide];
+
+    var _max = _offset - overflow[_altSide];
+
+    var _preventedOffset = (0, _within.default)(_min, _offset, _max);
+
+    popperOffsets[altAxis] = _preventedOffset;
+    data[altAxis] = _preventedOffset - _offset;
+  }
+
+  state.modifiersData[name] = data;
+} // eslint-disable-next-line import/no-unused-modules
+
+
+var _default = {
+  name: 'preventOverflow',
+  enabled: true,
+  phase: 'main',
+  fn: preventOverflow,
+  requiresIfExists: ['offset']
+};
+exports.default = _default;
+},{"../enums.js":"../../../../node_modules/@popperjs/core/lib/enums.js","../utils/getBasePlacement.js":"../../../../node_modules/@popperjs/core/lib/utils/getBasePlacement.js","../utils/getMainAxisFromPlacement.js":"../../../../node_modules/@popperjs/core/lib/utils/getMainAxisFromPlacement.js","../utils/getAltAxis.js":"../../../../node_modules/@popperjs/core/lib/utils/getAltAxis.js","../utils/within.js":"../../../../node_modules/@popperjs/core/lib/utils/within.js","../dom-utils/getLayoutRect.js":"../../../../node_modules/@popperjs/core/lib/dom-utils/getLayoutRect.js","../dom-utils/getOffsetParent.js":"../../../../node_modules/@popperjs/core/lib/dom-utils/getOffsetParent.js","../utils/detectOverflow.js":"../../../../node_modules/@popperjs/core/lib/utils/detectOverflow.js","../utils/getVariation.js":"../../../../node_modules/@popperjs/core/lib/utils/getVariation.js","../utils/getFreshSideObject.js":"../../../../node_modules/@popperjs/core/lib/utils/getFreshSideObject.js"}],"../../../../node_modules/@popperjs/core/lib/modifiers/index.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+Object.defineProperty(exports, "applyStyles", {
+  enumerable: true,
+  get: function () {
+    return _applyStyles.default;
+  }
+});
+Object.defineProperty(exports, "arrow", {
+  enumerable: true,
+  get: function () {
+    return _arrow.default;
+  }
+});
+Object.defineProperty(exports, "computeStyles", {
+  enumerable: true,
+  get: function () {
+    return _computeStyles.default;
+  }
+});
+Object.defineProperty(exports, "eventListeners", {
+  enumerable: true,
+  get: function () {
+    return _eventListeners.default;
+  }
+});
+Object.defineProperty(exports, "flip", {
+  enumerable: true,
+  get: function () {
+    return _flip.default;
+  }
+});
+Object.defineProperty(exports, "hide", {
+  enumerable: true,
+  get: function () {
+    return _hide.default;
+  }
+});
+Object.defineProperty(exports, "offset", {
+  enumerable: true,
+  get: function () {
+    return _offset.default;
+  }
+});
+Object.defineProperty(exports, "popperOffsets", {
+  enumerable: true,
+  get: function () {
+    return _popperOffsets.default;
+  }
+});
+Object.defineProperty(exports, "preventOverflow", {
+  enumerable: true,
+  get: function () {
+    return _preventOverflow.default;
+  }
+});
+
+var _applyStyles = _interopRequireDefault(require("./applyStyles.js"));
+
+var _arrow = _interopRequireDefault(require("./arrow.js"));
+
+var _computeStyles = _interopRequireDefault(require("./computeStyles.js"));
+
+var _eventListeners = _interopRequireDefault(require("./eventListeners.js"));
+
+var _flip = _interopRequireDefault(require("./flip.js"));
+
+var _hide = _interopRequireDefault(require("./hide.js"));
+
+var _offset = _interopRequireDefault(require("./offset.js"));
+
+var _popperOffsets = _interopRequireDefault(require("./popperOffsets.js"));
+
+var _preventOverflow = _interopRequireDefault(require("./preventOverflow.js"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+},{"./applyStyles.js":"../../../../node_modules/@popperjs/core/lib/modifiers/applyStyles.js","./arrow.js":"../../../../node_modules/@popperjs/core/lib/modifiers/arrow.js","./computeStyles.js":"../../../../node_modules/@popperjs/core/lib/modifiers/computeStyles.js","./eventListeners.js":"../../../../node_modules/@popperjs/core/lib/modifiers/eventListeners.js","./flip.js":"../../../../node_modules/@popperjs/core/lib/modifiers/flip.js","./hide.js":"../../../../node_modules/@popperjs/core/lib/modifiers/hide.js","./offset.js":"../../../../node_modules/@popperjs/core/lib/modifiers/offset.js","./popperOffsets.js":"../../../../node_modules/@popperjs/core/lib/modifiers/popperOffsets.js","./preventOverflow.js":"../../../../node_modules/@popperjs/core/lib/modifiers/preventOverflow.js"}],"../../../../node_modules/@popperjs/core/lib/dom-utils/getHTMLElementScroll.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = getHTMLElementScroll;
+
+function getHTMLElementScroll(element) {
+  return {
+    scrollLeft: element.scrollLeft,
+    scrollTop: element.scrollTop
+  };
+}
+},{}],"../../../../node_modules/@popperjs/core/lib/dom-utils/getNodeScroll.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = getNodeScroll;
+
+var _getWindowScroll = _interopRequireDefault(require("./getWindowScroll.js"));
+
+var _getWindow = _interopRequireDefault(require("./getWindow.js"));
+
+var _instanceOf = require("./instanceOf.js");
+
+var _getHTMLElementScroll = _interopRequireDefault(require("./getHTMLElementScroll.js"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function getNodeScroll(node) {
+  if (node === (0, _getWindow.default)(node) || !(0, _instanceOf.isHTMLElement)(node)) {
+    return (0, _getWindowScroll.default)(node);
+  } else {
+    return (0, _getHTMLElementScroll.default)(node);
+  }
+}
+},{"./getWindowScroll.js":"../../../../node_modules/@popperjs/core/lib/dom-utils/getWindowScroll.js","./getWindow.js":"../../../../node_modules/@popperjs/core/lib/dom-utils/getWindow.js","./instanceOf.js":"../../../../node_modules/@popperjs/core/lib/dom-utils/instanceOf.js","./getHTMLElementScroll.js":"../../../../node_modules/@popperjs/core/lib/dom-utils/getHTMLElementScroll.js"}],"../../../../node_modules/@popperjs/core/lib/dom-utils/getCompositeRect.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = getCompositeRect;
+
+var _getBoundingClientRect = _interopRequireDefault(require("./getBoundingClientRect.js"));
+
+var _getNodeScroll = _interopRequireDefault(require("./getNodeScroll.js"));
+
+var _getNodeName = _interopRequireDefault(require("./getNodeName.js"));
+
+var _instanceOf = require("./instanceOf.js");
+
+var _getWindowScrollBarX = _interopRequireDefault(require("./getWindowScrollBarX.js"));
+
+var _getDocumentElement = _interopRequireDefault(require("./getDocumentElement.js"));
+
+var _isScrollParent = _interopRequireDefault(require("./isScrollParent.js"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// Returns the composite rect of an element relative to its offsetParent.
+// Composite means it takes into account transforms as well as layout.
+function getCompositeRect(elementOrVirtualElement, offsetParent, isFixed) {
+  if (isFixed === void 0) {
+    isFixed = false;
+  }
+
+  var documentElement = (0, _getDocumentElement.default)(offsetParent);
+  var rect = (0, _getBoundingClientRect.default)(elementOrVirtualElement);
+  var isOffsetParentAnElement = (0, _instanceOf.isHTMLElement)(offsetParent);
+  var scroll = {
+    scrollLeft: 0,
+    scrollTop: 0
+  };
+  var offsets = {
+    x: 0,
+    y: 0
+  };
+
+  if (isOffsetParentAnElement || !isOffsetParentAnElement && !isFixed) {
+    if ((0, _getNodeName.default)(offsetParent) !== 'body' || // https://github.com/popperjs/popper-core/issues/1078
+    (0, _isScrollParent.default)(documentElement)) {
+      scroll = (0, _getNodeScroll.default)(offsetParent);
+    }
+
+    if ((0, _instanceOf.isHTMLElement)(offsetParent)) {
+      offsets = (0, _getBoundingClientRect.default)(offsetParent);
+      offsets.x += offsetParent.clientLeft;
+      offsets.y += offsetParent.clientTop;
+    } else if (documentElement) {
+      offsets.x = (0, _getWindowScrollBarX.default)(documentElement);
+    }
+  }
+
+  return {
+    x: rect.left + scroll.scrollLeft - offsets.x,
+    y: rect.top + scroll.scrollTop - offsets.y,
+    width: rect.width,
+    height: rect.height
+  };
+}
+},{"./getBoundingClientRect.js":"../../../../node_modules/@popperjs/core/lib/dom-utils/getBoundingClientRect.js","./getNodeScroll.js":"../../../../node_modules/@popperjs/core/lib/dom-utils/getNodeScroll.js","./getNodeName.js":"../../../../node_modules/@popperjs/core/lib/dom-utils/getNodeName.js","./instanceOf.js":"../../../../node_modules/@popperjs/core/lib/dom-utils/instanceOf.js","./getWindowScrollBarX.js":"../../../../node_modules/@popperjs/core/lib/dom-utils/getWindowScrollBarX.js","./getDocumentElement.js":"../../../../node_modules/@popperjs/core/lib/dom-utils/getDocumentElement.js","./isScrollParent.js":"../../../../node_modules/@popperjs/core/lib/dom-utils/isScrollParent.js"}],"../../../../node_modules/@popperjs/core/lib/utils/orderModifiers.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = orderModifiers;
+
+var _enums = require("../enums.js");
+
+// source: https://stackoverflow.com/questions/49875255
+function order(modifiers) {
+  var map = new Map();
+  var visited = new Set();
+  var result = [];
+  modifiers.forEach(function (modifier) {
+    map.set(modifier.name, modifier);
+  }); // On visiting object, check for its dependencies and visit them recursively
+
+  function sort(modifier) {
+    visited.add(modifier.name);
+    var requires = [].concat(modifier.requires || [], modifier.requiresIfExists || []);
+    requires.forEach(function (dep) {
+      if (!visited.has(dep)) {
+        var depModifier = map.get(dep);
+
+        if (depModifier) {
+          sort(depModifier);
+        }
+      }
+    });
+    result.push(modifier);
+  }
+
+  modifiers.forEach(function (modifier) {
+    if (!visited.has(modifier.name)) {
+      // check for visited object
+      sort(modifier);
+    }
+  });
+  return result;
+}
+
+function orderModifiers(modifiers) {
+  // order based on dependencies
+  var orderedModifiers = order(modifiers); // order based on phase
+
+  return _enums.modifierPhases.reduce(function (acc, phase) {
+    return acc.concat(orderedModifiers.filter(function (modifier) {
+      return modifier.phase === phase;
+    }));
+  }, []);
+}
+},{"../enums.js":"../../../../node_modules/@popperjs/core/lib/enums.js"}],"../../../../node_modules/@popperjs/core/lib/utils/debounce.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = debounce;
+
+function debounce(fn) {
+  var pending;
+  return function () {
+    if (!pending) {
+      pending = new Promise(function (resolve) {
+        Promise.resolve().then(function () {
+          pending = undefined;
+          resolve(fn());
+        });
+      });
+    }
+
+    return pending;
+  };
+}
+},{}],"../../../../node_modules/@popperjs/core/lib/utils/format.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = format;
+
+function format(str) {
+  for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+    args[_key - 1] = arguments[_key];
+  }
+
+  return [].concat(args).reduce(function (p, c) {
+    return p.replace(/%s/, c);
+  }, str);
+}
+},{}],"../../../../node_modules/@popperjs/core/lib/utils/validateModifiers.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = validateModifiers;
+
+var _format = _interopRequireDefault(require("./format.js"));
+
+var _enums = require("../enums.js");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var INVALID_MODIFIER_ERROR = 'Popper: modifier "%s" provided an invalid %s property, expected %s but got %s';
+var MISSING_DEPENDENCY_ERROR = 'Popper: modifier "%s" requires "%s", but "%s" modifier is not available';
+var VALID_PROPERTIES = ['name', 'enabled', 'phase', 'fn', 'effect', 'requires', 'options'];
+
+function validateModifiers(modifiers) {
+  modifiers.forEach(function (modifier) {
+    Object.keys(modifier).forEach(function (key) {
+      switch (key) {
+        case 'name':
+          if (typeof modifier.name !== 'string') {
+            console.error((0, _format.default)(INVALID_MODIFIER_ERROR, String(modifier.name), '"name"', '"string"', "\"" + String(modifier.name) + "\""));
+          }
+
+          break;
+
+        case 'enabled':
+          if (typeof modifier.enabled !== 'boolean') {
+            console.error((0, _format.default)(INVALID_MODIFIER_ERROR, modifier.name, '"enabled"', '"boolean"', "\"" + String(modifier.enabled) + "\""));
+          }
+
+        case 'phase':
+          if (_enums.modifierPhases.indexOf(modifier.phase) < 0) {
+            console.error((0, _format.default)(INVALID_MODIFIER_ERROR, modifier.name, '"phase"', "either " + _enums.modifierPhases.join(', '), "\"" + String(modifier.phase) + "\""));
+          }
+
+          break;
+
+        case 'fn':
+          if (typeof modifier.fn !== 'function') {
+            console.error((0, _format.default)(INVALID_MODIFIER_ERROR, modifier.name, '"fn"', '"function"', "\"" + String(modifier.fn) + "\""));
+          }
+
+          break;
+
+        case 'effect':
+          if (typeof modifier.effect !== 'function') {
+            console.error((0, _format.default)(INVALID_MODIFIER_ERROR, modifier.name, '"effect"', '"function"', "\"" + String(modifier.fn) + "\""));
+          }
+
+          break;
+
+        case 'requires':
+          if (!Array.isArray(modifier.requires)) {
+            console.error((0, _format.default)(INVALID_MODIFIER_ERROR, modifier.name, '"requires"', '"array"', "\"" + String(modifier.requires) + "\""));
+          }
+
+          break;
+
+        case 'requiresIfExists':
+          if (!Array.isArray(modifier.requiresIfExists)) {
+            console.error((0, _format.default)(INVALID_MODIFIER_ERROR, modifier.name, '"requiresIfExists"', '"array"', "\"" + String(modifier.requiresIfExists) + "\""));
+          }
+
+          break;
+
+        case 'options':
+        case 'data':
+          break;
+
+        default:
+          console.error("PopperJS: an invalid property has been provided to the \"" + modifier.name + "\" modifier, valid properties are " + VALID_PROPERTIES.map(function (s) {
+            return "\"" + s + "\"";
+          }).join(', ') + "; but \"" + key + "\" was provided.");
+      }
+
+      modifier.requires && modifier.requires.forEach(function (requirement) {
+        if (modifiers.find(function (mod) {
+          return mod.name === requirement;
+        }) == null) {
+          console.error((0, _format.default)(MISSING_DEPENDENCY_ERROR, String(modifier.name), requirement, requirement));
+        }
+      });
+    });
+  });
+}
+},{"./format.js":"../../../../node_modules/@popperjs/core/lib/utils/format.js","../enums.js":"../../../../node_modules/@popperjs/core/lib/enums.js"}],"../../../../node_modules/@popperjs/core/lib/utils/uniqueBy.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = uniqueBy;
+
+function uniqueBy(arr, fn) {
+  var identifiers = new Set();
+  return arr.filter(function (item) {
+    var identifier = fn(item);
+
+    if (!identifiers.has(identifier)) {
+      identifiers.add(identifier);
+      return true;
+    }
+  });
+}
+},{}],"../../../../node_modules/@popperjs/core/lib/utils/mergeByName.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = mergeByName;
+
+function mergeByName(modifiers) {
+  var merged = modifiers.reduce(function (merged, current) {
+    var existing = merged[current.name];
+    merged[current.name] = existing ? Object.assign(Object.assign(Object.assign({}, existing), current), {}, {
+      options: Object.assign(Object.assign({}, existing.options), current.options),
+      data: Object.assign(Object.assign({}, existing.data), current.data)
+    }) : current;
+    return merged;
+  }, {}); // IE11 does not support Object.values
+
+  return Object.keys(merged).map(function (key) {
+    return merged[key];
+  });
+}
+},{}],"../../../../node_modules/@popperjs/core/lib/createPopper.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.popperGenerator = popperGenerator;
+Object.defineProperty(exports, "detectOverflow", {
+  enumerable: true,
+  get: function () {
+    return _detectOverflow.default;
+  }
+});
+exports.createPopper = void 0;
+
+var _getCompositeRect = _interopRequireDefault(require("./dom-utils/getCompositeRect.js"));
+
+var _getLayoutRect = _interopRequireDefault(require("./dom-utils/getLayoutRect.js"));
+
+var _listScrollParents = _interopRequireDefault(require("./dom-utils/listScrollParents.js"));
+
+var _getOffsetParent = _interopRequireDefault(require("./dom-utils/getOffsetParent.js"));
+
+var _getComputedStyle2 = _interopRequireDefault(require("./dom-utils/getComputedStyle.js"));
+
+var _orderModifiers = _interopRequireDefault(require("./utils/orderModifiers.js"));
+
+var _debounce = _interopRequireDefault(require("./utils/debounce.js"));
+
+var _validateModifiers = _interopRequireDefault(require("./utils/validateModifiers.js"));
+
+var _uniqueBy = _interopRequireDefault(require("./utils/uniqueBy.js"));
+
+var _getBasePlacement = _interopRequireDefault(require("./utils/getBasePlacement.js"));
+
+var _mergeByName = _interopRequireDefault(require("./utils/mergeByName.js"));
+
+var _detectOverflow = _interopRequireDefault(require("./utils/detectOverflow.js"));
+
+var _instanceOf = require("./dom-utils/instanceOf.js");
+
+var _enums = require("./enums.js");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var INVALID_ELEMENT_ERROR = 'Popper: Invalid reference or popper argument provided. They must be either a DOM element or virtual element.';
+var INFINITE_LOOP_ERROR = 'Popper: An infinite loop in the modifiers cycle has been detected! The cycle has been interrupted to prevent a browser crash.';
+var DEFAULT_OPTIONS = {
+  placement: 'bottom',
+  modifiers: [],
+  strategy: 'absolute'
+};
+
+function areValidElements() {
+  for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+    args[_key] = arguments[_key];
+  }
+
+  return !args.some(function (element) {
+    return !(element && typeof element.getBoundingClientRect === 'function');
+  });
+}
+
+function popperGenerator(generatorOptions) {
+  if (generatorOptions === void 0) {
+    generatorOptions = {};
+  }
+
+  var _generatorOptions = generatorOptions,
+      _generatorOptions$def = _generatorOptions.defaultModifiers,
+      defaultModifiers = _generatorOptions$def === void 0 ? [] : _generatorOptions$def,
+      _generatorOptions$def2 = _generatorOptions.defaultOptions,
+      defaultOptions = _generatorOptions$def2 === void 0 ? DEFAULT_OPTIONS : _generatorOptions$def2;
+  return function createPopper(reference, popper, options) {
+    if (options === void 0) {
+      options = defaultOptions;
+    }
+
+    var state = {
+      placement: 'bottom',
+      orderedModifiers: [],
+      options: Object.assign(Object.assign({}, DEFAULT_OPTIONS), defaultOptions),
+      modifiersData: {},
+      elements: {
+        reference: reference,
+        popper: popper
+      },
+      attributes: {},
+      styles: {}
+    };
+    var effectCleanupFns = [];
+    var isDestroyed = false;
+    var instance = {
+      state: state,
+      setOptions: function setOptions(options) {
+        cleanupModifierEffects();
+        state.options = Object.assign(Object.assign(Object.assign({}, defaultOptions), state.options), options);
+        state.scrollParents = {
+          reference: (0, _instanceOf.isElement)(reference) ? (0, _listScrollParents.default)(reference) : reference.contextElement ? (0, _listScrollParents.default)(reference.contextElement) : [],
+          popper: (0, _listScrollParents.default)(popper)
+        }; // Orders the modifiers based on their dependencies and `phase`
+        // properties
+
+        var orderedModifiers = (0, _orderModifiers.default)((0, _mergeByName.default)([].concat(defaultModifiers, state.options.modifiers))); // Strip out disabled modifiers
+
+        state.orderedModifiers = orderedModifiers.filter(function (m) {
+          return m.enabled;
+        }); // Validate the provided modifiers so that the consumer will get warned
+        // if one of the modifiers is invalid for any reason
+
+        if ("development" !== "production") {
+          var modifiers = (0, _uniqueBy.default)([].concat(orderedModifiers, state.options.modifiers), function (_ref) {
+            var name = _ref.name;
+            return name;
+          });
+          (0, _validateModifiers.default)(modifiers);
+
+          if ((0, _getBasePlacement.default)(state.options.placement) === _enums.auto) {
+            var flipModifier = state.orderedModifiers.find(function (_ref2) {
+              var name = _ref2.name;
+              return name === 'flip';
+            });
+
+            if (!flipModifier) {
+              console.error(['Popper: "auto" placements require the "flip" modifier be', 'present and enabled to work.'].join(' '));
+            }
+          }
+
+          var _getComputedStyle = (0, _getComputedStyle2.default)(popper),
+              marginTop = _getComputedStyle.marginTop,
+              marginRight = _getComputedStyle.marginRight,
+              marginBottom = _getComputedStyle.marginBottom,
+              marginLeft = _getComputedStyle.marginLeft; // We no longer take into account `margins` on the popper, and it can
+          // cause bugs with positioning, so we'll warn the consumer
+
+
+          if ([marginTop, marginRight, marginBottom, marginLeft].some(function (margin) {
+            return parseFloat(margin);
+          })) {
+            console.warn(['Popper: CSS "margin" styles cannot be used to apply padding', 'between the popper and its reference element or boundary.', 'To replicate margin, use the `offset` modifier, as well as', 'the `padding` option in the `preventOverflow` and `flip`', 'modifiers.'].join(' '));
+          }
+        }
+
+        runModifierEffects();
+        return instance.update();
+      },
+      // Sync update – it will always be executed, even if not necessary. This
+      // is useful for low frequency updates where sync behavior simplifies the
+      // logic.
+      // For high frequency updates (e.g. `resize` and `scroll` events), always
+      // prefer the async Popper#update method
+      forceUpdate: function forceUpdate() {
+        if (isDestroyed) {
+          return;
+        }
+
+        var _state$elements = state.elements,
+            reference = _state$elements.reference,
+            popper = _state$elements.popper; // Don't proceed if `reference` or `popper` are not valid elements
+        // anymore
+
+        if (!areValidElements(reference, popper)) {
+          if ("development" !== "production") {
+            console.error(INVALID_ELEMENT_ERROR);
+          }
+
+          return;
+        } // Store the reference and popper rects to be read by modifiers
+
+
+        state.rects = {
+          reference: (0, _getCompositeRect.default)(reference, (0, _getOffsetParent.default)(popper), state.options.strategy === 'fixed'),
+          popper: (0, _getLayoutRect.default)(popper)
+        }; // Modifiers have the ability to reset the current update cycle. The
+        // most common use case for this is the `flip` modifier changing the
+        // placement, which then needs to re-run all the modifiers, because the
+        // logic was previously ran for the previous placement and is therefore
+        // stale/incorrect
+
+        state.reset = false;
+        state.placement = state.options.placement; // On each update cycle, the `modifiersData` property for each modifier
+        // is filled with the initial data specified by the modifier. This means
+        // it doesn't persist and is fresh on each update.
+        // To ensure persistent data, use `${name}#persistent`
+
+        state.orderedModifiers.forEach(function (modifier) {
+          return state.modifiersData[modifier.name] = Object.assign({}, modifier.data);
+        });
+        var __debug_loops__ = 0;
+
+        for (var index = 0; index < state.orderedModifiers.length; index++) {
+          if ("development" !== "production") {
+            __debug_loops__ += 1;
+
+            if (__debug_loops__ > 100) {
+              console.error(INFINITE_LOOP_ERROR);
+              break;
+            }
+          }
+
+          if (state.reset === true) {
+            state.reset = false;
+            index = -1;
+            continue;
+          }
+
+          var _state$orderedModifie = state.orderedModifiers[index],
+              fn = _state$orderedModifie.fn,
+              _state$orderedModifie2 = _state$orderedModifie.options,
+              _options = _state$orderedModifie2 === void 0 ? {} : _state$orderedModifie2,
+              name = _state$orderedModifie.name;
+
+          if (typeof fn === 'function') {
+            state = fn({
+              state: state,
+              options: _options,
+              name: name,
+              instance: instance
+            }) || state;
+          }
+        }
+      },
+      // Async and optimistically optimized update – it will not be executed if
+      // not necessary (debounced to run at most once-per-tick)
+      update: (0, _debounce.default)(function () {
+        return new Promise(function (resolve) {
+          instance.forceUpdate();
+          resolve(state);
+        });
+      }),
+      destroy: function destroy() {
+        cleanupModifierEffects();
+        isDestroyed = true;
+      }
+    };
+
+    if (!areValidElements(reference, popper)) {
+      if ("development" !== "production") {
+        console.error(INVALID_ELEMENT_ERROR);
+      }
+
+      return instance;
+    }
+
+    instance.setOptions(options).then(function (state) {
+      if (!isDestroyed && options.onFirstUpdate) {
+        options.onFirstUpdate(state);
+      }
+    }); // Modifiers have the ability to execute arbitrary code before the first
+    // update cycle runs. They will be executed in the same order as the update
+    // cycle. This is useful when a modifier adds some persistent data that
+    // other modifiers need to use, but the modifier is run after the dependent
+    // one.
+
+    function runModifierEffects() {
+      state.orderedModifiers.forEach(function (_ref3) {
+        var name = _ref3.name,
+            _ref3$options = _ref3.options,
+            options = _ref3$options === void 0 ? {} : _ref3$options,
+            effect = _ref3.effect;
+
+        if (typeof effect === 'function') {
+          var cleanupFn = effect({
+            state: state,
+            name: name,
+            instance: instance,
+            options: options
+          });
+
+          var noopFn = function noopFn() {};
+
+          effectCleanupFns.push(cleanupFn || noopFn);
+        }
+      });
+    }
+
+    function cleanupModifierEffects() {
+      effectCleanupFns.forEach(function (fn) {
+        return fn();
+      });
+      effectCleanupFns = [];
+    }
+
+    return instance;
+  };
+}
+
+var createPopper = /*#__PURE__*/popperGenerator(); // eslint-disable-next-line import/no-unused-modules
+
+exports.createPopper = createPopper;
+},{"./dom-utils/getCompositeRect.js":"../../../../node_modules/@popperjs/core/lib/dom-utils/getCompositeRect.js","./dom-utils/getLayoutRect.js":"../../../../node_modules/@popperjs/core/lib/dom-utils/getLayoutRect.js","./dom-utils/listScrollParents.js":"../../../../node_modules/@popperjs/core/lib/dom-utils/listScrollParents.js","./dom-utils/getOffsetParent.js":"../../../../node_modules/@popperjs/core/lib/dom-utils/getOffsetParent.js","./dom-utils/getComputedStyle.js":"../../../../node_modules/@popperjs/core/lib/dom-utils/getComputedStyle.js","./utils/orderModifiers.js":"../../../../node_modules/@popperjs/core/lib/utils/orderModifiers.js","./utils/debounce.js":"../../../../node_modules/@popperjs/core/lib/utils/debounce.js","./utils/validateModifiers.js":"../../../../node_modules/@popperjs/core/lib/utils/validateModifiers.js","./utils/uniqueBy.js":"../../../../node_modules/@popperjs/core/lib/utils/uniqueBy.js","./utils/getBasePlacement.js":"../../../../node_modules/@popperjs/core/lib/utils/getBasePlacement.js","./utils/mergeByName.js":"../../../../node_modules/@popperjs/core/lib/utils/mergeByName.js","./utils/detectOverflow.js":"../../../../node_modules/@popperjs/core/lib/utils/detectOverflow.js","./dom-utils/instanceOf.js":"../../../../node_modules/@popperjs/core/lib/dom-utils/instanceOf.js","./enums.js":"../../../../node_modules/@popperjs/core/lib/enums.js"}],"../../../../node_modules/@popperjs/core/lib/popper-lite.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+Object.defineProperty(exports, "popperGenerator", {
+  enumerable: true,
+  get: function () {
+    return _createPopper.popperGenerator;
+  }
+});
+Object.defineProperty(exports, "detectOverflow", {
+  enumerable: true,
+  get: function () {
+    return _createPopper.detectOverflow;
+  }
+});
+exports.defaultModifiers = exports.createPopper = void 0;
+
+var _createPopper = require("./createPopper.js");
+
+var _eventListeners = _interopRequireDefault(require("./modifiers/eventListeners.js"));
+
+var _popperOffsets = _interopRequireDefault(require("./modifiers/popperOffsets.js"));
+
+var _computeStyles = _interopRequireDefault(require("./modifiers/computeStyles.js"));
+
+var _applyStyles = _interopRequireDefault(require("./modifiers/applyStyles.js"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var defaultModifiers = [_eventListeners.default, _popperOffsets.default, _computeStyles.default, _applyStyles.default];
+exports.defaultModifiers = defaultModifiers;
+var createPopper = /*#__PURE__*/(0, _createPopper.popperGenerator)({
+  defaultModifiers: defaultModifiers
+}); // eslint-disable-next-line import/no-unused-modules
+
+exports.createPopper = createPopper;
+},{"./createPopper.js":"../../../../node_modules/@popperjs/core/lib/createPopper.js","./modifiers/eventListeners.js":"../../../../node_modules/@popperjs/core/lib/modifiers/eventListeners.js","./modifiers/popperOffsets.js":"../../../../node_modules/@popperjs/core/lib/modifiers/popperOffsets.js","./modifiers/computeStyles.js":"../../../../node_modules/@popperjs/core/lib/modifiers/computeStyles.js","./modifiers/applyStyles.js":"../../../../node_modules/@popperjs/core/lib/modifiers/applyStyles.js"}],"../../../../node_modules/@popperjs/core/lib/popper.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var _exportNames = {
+  createPopper: true,
+  defaultModifiers: true,
+  popperGenerator: true,
+  detectOverflow: true,
+  createPopperLite: true
+};
+Object.defineProperty(exports, "popperGenerator", {
+  enumerable: true,
+  get: function () {
+    return _createPopper.popperGenerator;
+  }
+});
+Object.defineProperty(exports, "detectOverflow", {
+  enumerable: true,
+  get: function () {
+    return _createPopper.detectOverflow;
+  }
+});
+Object.defineProperty(exports, "createPopperLite", {
+  enumerable: true,
+  get: function () {
+    return _popperLite.createPopper;
+  }
+});
+exports.defaultModifiers = exports.createPopper = void 0;
+
+var _createPopper = require("./createPopper.js");
+
+var _eventListeners = _interopRequireDefault(require("./modifiers/eventListeners.js"));
+
+var _popperOffsets = _interopRequireDefault(require("./modifiers/popperOffsets.js"));
+
+var _computeStyles = _interopRequireDefault(require("./modifiers/computeStyles.js"));
+
+var _applyStyles = _interopRequireDefault(require("./modifiers/applyStyles.js"));
+
+var _offset = _interopRequireDefault(require("./modifiers/offset.js"));
+
+var _flip = _interopRequireDefault(require("./modifiers/flip.js"));
+
+var _preventOverflow = _interopRequireDefault(require("./modifiers/preventOverflow.js"));
+
+var _arrow = _interopRequireDefault(require("./modifiers/arrow.js"));
+
+var _hide = _interopRequireDefault(require("./modifiers/hide.js"));
+
+var _popperLite = require("./popper-lite.js");
+
+var _index = require("./modifiers/index.js");
+
+Object.keys(_index).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
+  if (key in exports && exports[key] === _index[key]) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _index[key];
+    }
+  });
+});
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var defaultModifiers = [_eventListeners.default, _popperOffsets.default, _computeStyles.default, _applyStyles.default, _offset.default, _flip.default, _preventOverflow.default, _arrow.default, _hide.default];
+exports.defaultModifiers = defaultModifiers;
+var createPopper = /*#__PURE__*/(0, _createPopper.popperGenerator)({
+  defaultModifiers: defaultModifiers
+}); // eslint-disable-next-line import/no-unused-modules
+
+exports.createPopper = createPopper;
+},{"./createPopper.js":"../../../../node_modules/@popperjs/core/lib/createPopper.js","./modifiers/eventListeners.js":"../../../../node_modules/@popperjs/core/lib/modifiers/eventListeners.js","./modifiers/popperOffsets.js":"../../../../node_modules/@popperjs/core/lib/modifiers/popperOffsets.js","./modifiers/computeStyles.js":"../../../../node_modules/@popperjs/core/lib/modifiers/computeStyles.js","./modifiers/applyStyles.js":"../../../../node_modules/@popperjs/core/lib/modifiers/applyStyles.js","./modifiers/offset.js":"../../../../node_modules/@popperjs/core/lib/modifiers/offset.js","./modifiers/flip.js":"../../../../node_modules/@popperjs/core/lib/modifiers/flip.js","./modifiers/preventOverflow.js":"../../../../node_modules/@popperjs/core/lib/modifiers/preventOverflow.js","./modifiers/arrow.js":"../../../../node_modules/@popperjs/core/lib/modifiers/arrow.js","./modifiers/hide.js":"../../../../node_modules/@popperjs/core/lib/modifiers/hide.js","./popper-lite.js":"../../../../node_modules/@popperjs/core/lib/popper-lite.js","./modifiers/index.js":"../../../../node_modules/@popperjs/core/lib/modifiers/index.js"}],"../../../../node_modules/@popperjs/core/lib/index.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var _exportNames = {
+  popperGenerator: true,
+  detectOverflow: true,
+  createPopperBase: true,
+  createPopper: true,
+  createPopperLite: true
+};
+Object.defineProperty(exports, "popperGenerator", {
+  enumerable: true,
+  get: function () {
+    return _createPopper.popperGenerator;
+  }
+});
+Object.defineProperty(exports, "detectOverflow", {
+  enumerable: true,
+  get: function () {
+    return _createPopper.detectOverflow;
+  }
+});
+Object.defineProperty(exports, "createPopperBase", {
+  enumerable: true,
+  get: function () {
+    return _createPopper.createPopper;
+  }
+});
+Object.defineProperty(exports, "createPopper", {
+  enumerable: true,
+  get: function () {
+    return _popper.createPopper;
+  }
+});
+Object.defineProperty(exports, "createPopperLite", {
+  enumerable: true,
+  get: function () {
+    return _popperLite.createPopper;
+  }
+});
+
+var _enums = require("./enums.js");
+
+Object.keys(_enums).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
+  if (key in exports && exports[key] === _enums[key]) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _enums[key];
+    }
+  });
+});
+
+var _index = require("./modifiers/index.js");
+
+Object.keys(_index).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
+  if (key in exports && exports[key] === _index[key]) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _index[key];
+    }
+  });
+});
+
+var _createPopper = require("./createPopper.js");
+
+var _popper = require("./popper.js");
+
+var _popperLite = require("./popper-lite.js");
+},{"./enums.js":"../../../../node_modules/@popperjs/core/lib/enums.js","./modifiers/index.js":"../../../../node_modules/@popperjs/core/lib/modifiers/index.js","./createPopper.js":"../../../../node_modules/@popperjs/core/lib/createPopper.js","./popper.js":"../../../../node_modules/@popperjs/core/lib/popper.js","./popper-lite.js":"../../../../node_modules/@popperjs/core/lib/popper-lite.js"}],"../../../../node_modules/bootstrap/dist/js/bootstrap.js":[function(require,module,exports) {
 var define;
-var e,t=arguments[3],n=require("process");!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.exports=e.document?t(e,!0):function(e){if(!e.document)throw new Error("jQuery requires a window with a document");return t(e)}:t(e)}("undefined"!=typeof window?window:this,function(t,n){"use strict";var r=[],i=Object.getPrototypeOf,o=r.slice,a=r.flat?function(e){return r.flat.call(e)}:function(e){return r.concat.apply([],e)},s=r.push,u=r.indexOf,l={},c=l.toString,f=l.hasOwnProperty,d=f.toString,p=d.call(Object),h={},g=function(e){return"function"==typeof e&&"number"!=typeof e.nodeType},v=function(e){return null!=e&&e===e.window},m=t.document,y={type:!0,src:!0,nonce:!0,noModule:!0};function b(e,t,n){var r,i,o=(n=n||m).createElement("script");if(o.text=e,t)for(r in y)(i=t[r]||t.getAttribute&&t.getAttribute(r))&&o.setAttribute(r,i);n.head.appendChild(o).parentNode.removeChild(o)}function x(e){return null==e?e+"":"object"==typeof e||"function"==typeof e?l[c.call(e)]||"object":typeof e}var w="3.5.1 -ajax,-ajax/jsonp,-ajax/load,-ajax/script,-ajax/var/location,-ajax/var/nonce,-ajax/var/rquery,-ajax/xhr,-manipulation/_evalUrl,-deprecated/ajax-event-alias,-effects,-effects/Tween,-effects/animatedSelector",C=function(e,t){return new C.fn.init(e,t)};function T(e){var t=!!e&&"length"in e&&e.length,n=x(e);return!g(e)&&!v(e)&&("array"===n||0===t||"number"==typeof t&&t>0&&t-1 in e)}C.fn=C.prototype={jquery:w,constructor:C,length:0,toArray:function(){return o.call(this)},get:function(e){return null==e?o.call(this):e<0?this[e+this.length]:this[e]},pushStack:function(e){var t=C.merge(this.constructor(),e);return t.prevObject=this,t},each:function(e){return C.each(this,e)},map:function(e){return this.pushStack(C.map(this,function(t,n){return e.call(t,n,t)}))},slice:function(){return this.pushStack(o.apply(this,arguments))},first:function(){return this.eq(0)},last:function(){return this.eq(-1)},even:function(){return this.pushStack(C.grep(this,function(e,t){return(t+1)%2}))},odd:function(){return this.pushStack(C.grep(this,function(e,t){return t%2}))},eq:function(e){var t=this.length,n=+e+(e<0?t:0);return this.pushStack(n>=0&&n<t?[this[n]]:[])},end:function(){return this.prevObject||this.constructor()},push:s,sort:r.sort,splice:r.splice},C.extend=C.fn.extend=function(){var e,t,n,r,i,o,a=arguments[0]||{},s=1,u=arguments.length,l=!1;for("boolean"==typeof a&&(l=a,a=arguments[s]||{},s++),"object"==typeof a||g(a)||(a={}),s===u&&(a=this,s--);s<u;s++)if(null!=(e=arguments[s]))for(t in e)r=e[t],"__proto__"!==t&&a!==r&&(l&&r&&(C.isPlainObject(r)||(i=Array.isArray(r)))?(n=a[t],o=i&&!Array.isArray(n)?[]:i||C.isPlainObject(n)?n:{},i=!1,a[t]=C.extend(l,o,r)):void 0!==r&&(a[t]=r));return a},C.extend({expando:"jQuery"+(w+Math.random()).replace(/\D/g,""),isReady:!0,error:function(e){throw new Error(e)},noop:function(){},isPlainObject:function(e){var t,n;return!(!e||"[object Object]"!==c.call(e))&&(!(t=i(e))||"function"==typeof(n=f.call(t,"constructor")&&t.constructor)&&d.call(n)===p)},isEmptyObject:function(e){var t;for(t in e)return!1;return!0},globalEval:function(e,t,n){b(e,{nonce:t&&t.nonce},n)},each:function(e,t){var n,r=0;if(T(e))for(n=e.length;r<n&&!1!==t.call(e[r],r,e[r]);r++);else for(r in e)if(!1===t.call(e[r],r,e[r]))break;return e},makeArray:function(e,t){var n=t||[];return null!=e&&(T(Object(e))?C.merge(n,"string"==typeof e?[e]:e):s.call(n,e)),n},inArray:function(e,t,n){return null==t?-1:u.call(t,e,n)},merge:function(e,t){for(var n=+t.length,r=0,i=e.length;r<n;r++)e[i++]=t[r];return e.length=i,e},grep:function(e,t,n){for(var r=[],i=0,o=e.length,a=!n;i<o;i++)!t(e[i],i)!==a&&r.push(e[i]);return r},map:function(e,t,n){var r,i,o=0,s=[];if(T(e))for(r=e.length;o<r;o++)null!=(i=t(e[o],o,n))&&s.push(i);else for(o in e)null!=(i=t(e[o],o,n))&&s.push(i);return a(s)},guid:1,support:h}),"function"==typeof Symbol&&(C.fn[Symbol.iterator]=r[Symbol.iterator]),C.each("Boolean Number String Function Array Date RegExp Object Error Symbol".split(" "),function(e,t){l["[object "+t+"]"]=t.toLowerCase()});var E=function(e){var t,n,r,i,o,a,s,u,l,c,f,d,p,h,g,v,m,y,b,x="sizzle"+1*new Date,w=e.document,C=0,T=0,E=ue(),A=ue(),N=ue(),S=ue(),k=function(e,t){return e===t&&(f=!0),0},D={}.hasOwnProperty,L=[],j=L.pop,q=L.push,O=L.push,P=L.slice,H=function(e,t){for(var n=0,r=e.length;n<r;n++)if(e[n]===t)return n;return-1},I="checked|selected|async|autofocus|autoplay|controls|defer|disabled|hidden|ismap|loop|multiple|open|readonly|required|scoped",R="[\\x20\\t\\r\\n\\f]",B="(?:\\\\[\\da-fA-F]{1,6}"+R+"?|\\\\[^\\r\\n\\f]|[\\w-]|[^\0-\\x7f])+",M="\\["+R+"*("+B+")(?:"+R+"*([*^$|!~]?=)"+R+"*(?:'((?:\\\\.|[^\\\\'])*)'|\"((?:\\\\.|[^\\\\\"])*)\"|("+B+"))|)"+R+"*\\]",W=":("+B+")(?:\\((('((?:\\\\.|[^\\\\'])*)'|\"((?:\\\\.|[^\\\\\"])*)\")|((?:\\\\.|[^\\\\()[\\]]|"+M+")*)|.*)\\)|)",F=new RegExp(R+"+","g"),$=new RegExp("^"+R+"+|((?:^|[^\\\\])(?:\\\\.)*)"+R+"+$","g"),z=new RegExp("^"+R+"*,"+R+"*"),_=new RegExp("^"+R+"*([>+~]|"+R+")"+R+"*"),U=new RegExp(R+"|>"),V=new RegExp(W),X=new RegExp("^"+B+"$"),Q={ID:new RegExp("^#("+B+")"),CLASS:new RegExp("^\\.("+B+")"),TAG:new RegExp("^("+B+"|[*])"),ATTR:new RegExp("^"+M),PSEUDO:new RegExp("^"+W),CHILD:new RegExp("^:(only|first|last|nth|nth-last)-(child|of-type)(?:\\("+R+"*(even|odd|(([+-]|)(\\d*)n|)"+R+"*(?:([+-]|)"+R+"*(\\d+)|))"+R+"*\\)|)","i"),bool:new RegExp("^(?:"+I+")$","i"),needsContext:new RegExp("^"+R+"*[>+~]|:(even|odd|eq|gt|lt|nth|first|last)(?:\\("+R+"*((?:-\\d)?\\d*)"+R+"*\\)|)(?=[^-]|$)","i")},Y=/HTML$/i,G=/^(?:input|select|textarea|button)$/i,K=/^h\d$/i,J=/^[^{]+\{\s*\[native \w/,Z=/^(?:#([\w-]+)|(\w+)|\.([\w-]+))$/,ee=/[+~]/,te=new RegExp("\\\\[\\da-fA-F]{1,6}"+R+"?|\\\\([^\\r\\n\\f])","g"),ne=function(e,t){var n="0x"+e.slice(1)-65536;return t||(n<0?String.fromCharCode(n+65536):String.fromCharCode(n>>10|55296,1023&n|56320))},re=/([\0-\x1f\x7f]|^-?\d)|^-$|[^\0-\x1f\x7f-\uFFFF\w-]/g,ie=function(e,t){return t?"\0"===e?"�":e.slice(0,-1)+"\\"+e.charCodeAt(e.length-1).toString(16)+" ":"\\"+e},oe=function(){d()},ae=xe(function(e){return!0===e.disabled&&"fieldset"===e.nodeName.toLowerCase()},{dir:"parentNode",next:"legend"});try{O.apply(L=P.call(w.childNodes),w.childNodes),L[w.childNodes.length].nodeType}catch(Ae){O={apply:L.length?function(e,t){q.apply(e,P.call(t))}:function(e,t){for(var n=e.length,r=0;e[n++]=t[r++];);e.length=n-1}}}function se(e,t,r,i){var o,s,l,c,f,h,m,y=t&&t.ownerDocument,w=t?t.nodeType:9;if(r=r||[],"string"!=typeof e||!e||1!==w&&9!==w&&11!==w)return r;if(!i&&(d(t),t=t||p,g)){if(11!==w&&(f=Z.exec(e)))if(o=f[1]){if(9===w){if(!(l=t.getElementById(o)))return r;if(l.id===o)return r.push(l),r}else if(y&&(l=y.getElementById(o))&&b(t,l)&&l.id===o)return r.push(l),r}else{if(f[2])return O.apply(r,t.getElementsByTagName(e)),r;if((o=f[3])&&n.getElementsByClassName&&t.getElementsByClassName)return O.apply(r,t.getElementsByClassName(o)),r}if(n.qsa&&!S[e+" "]&&(!v||!v.test(e))&&(1!==w||"object"!==t.nodeName.toLowerCase())){if(m=e,y=t,1===w&&(U.test(e)||_.test(e))){for((y=ee.test(e)&&me(t.parentNode)||t)===t&&n.scope||((c=t.getAttribute("id"))?c=c.replace(re,ie):t.setAttribute("id",c=x)),s=(h=a(e)).length;s--;)h[s]=(c?"#"+c:":scope")+" "+be(h[s]);m=h.join(",")}try{return O.apply(r,y.querySelectorAll(m)),r}catch(C){S(e,!0)}finally{c===x&&t.removeAttribute("id")}}}return u(e.replace($,"$1"),t,r,i)}function ue(){var e=[];return function t(n,i){return e.push(n+" ")>r.cacheLength&&delete t[e.shift()],t[n+" "]=i}}function le(e){return e[x]=!0,e}function ce(e){var t=p.createElement("fieldset");try{return!!e(t)}catch(Ae){return!1}finally{t.parentNode&&t.parentNode.removeChild(t),t=null}}function fe(e,t){for(var n=e.split("|"),i=n.length;i--;)r.attrHandle[n[i]]=t}function de(e,t){var n=t&&e,r=n&&1===e.nodeType&&1===t.nodeType&&e.sourceIndex-t.sourceIndex;if(r)return r;if(n)for(;n=n.nextSibling;)if(n===t)return-1;return e?1:-1}function pe(e){return function(t){return"input"===t.nodeName.toLowerCase()&&t.type===e}}function he(e){return function(t){var n=t.nodeName.toLowerCase();return("input"===n||"button"===n)&&t.type===e}}function ge(e){return function(t){return"form"in t?t.parentNode&&!1===t.disabled?"label"in t?"label"in t.parentNode?t.parentNode.disabled===e:t.disabled===e:t.isDisabled===e||t.isDisabled!==!e&&ae(t)===e:t.disabled===e:"label"in t&&t.disabled===e}}function ve(e){return le(function(t){return t=+t,le(function(n,r){for(var i,o=e([],n.length,t),a=o.length;a--;)n[i=o[a]]&&(n[i]=!(r[i]=n[i]))})})}function me(e){return e&&void 0!==e.getElementsByTagName&&e}for(t in n=se.support={},o=se.isXML=function(e){var t=e.namespaceURI,n=(e.ownerDocument||e).documentElement;return!Y.test(t||n&&n.nodeName||"HTML")},d=se.setDocument=function(e){var t,i,a=e?e.ownerDocument||e:w;return a!=p&&9===a.nodeType&&a.documentElement?(h=(p=a).documentElement,g=!o(p),w!=p&&(i=p.defaultView)&&i.top!==i&&(i.addEventListener?i.addEventListener("unload",oe,!1):i.attachEvent&&i.attachEvent("onunload",oe)),n.scope=ce(function(e){return h.appendChild(e).appendChild(p.createElement("div")),void 0!==e.querySelectorAll&&!e.querySelectorAll(":scope fieldset div").length}),n.attributes=ce(function(e){return e.className="i",!e.getAttribute("className")}),n.getElementsByTagName=ce(function(e){return e.appendChild(p.createComment("")),!e.getElementsByTagName("*").length}),n.getElementsByClassName=J.test(p.getElementsByClassName),n.getById=ce(function(e){return h.appendChild(e).id=x,!p.getElementsByName||!p.getElementsByName(x).length}),n.getById?(r.filter.ID=function(e){var t=e.replace(te,ne);return function(e){return e.getAttribute("id")===t}},r.find.ID=function(e,t){if(void 0!==t.getElementById&&g){var n=t.getElementById(e);return n?[n]:[]}}):(r.filter.ID=function(e){var t=e.replace(te,ne);return function(e){var n=void 0!==e.getAttributeNode&&e.getAttributeNode("id");return n&&n.value===t}},r.find.ID=function(e,t){if(void 0!==t.getElementById&&g){var n,r,i,o=t.getElementById(e);if(o){if((n=o.getAttributeNode("id"))&&n.value===e)return[o];for(i=t.getElementsByName(e),r=0;o=i[r++];)if((n=o.getAttributeNode("id"))&&n.value===e)return[o]}return[]}}),r.find.TAG=n.getElementsByTagName?function(e,t){return void 0!==t.getElementsByTagName?t.getElementsByTagName(e):n.qsa?t.querySelectorAll(e):void 0}:function(e,t){var n,r=[],i=0,o=t.getElementsByTagName(e);if("*"===e){for(;n=o[i++];)1===n.nodeType&&r.push(n);return r}return o},r.find.CLASS=n.getElementsByClassName&&function(e,t){if(void 0!==t.getElementsByClassName&&g)return t.getElementsByClassName(e)},m=[],v=[],(n.qsa=J.test(p.querySelectorAll))&&(ce(function(e){var t;h.appendChild(e).innerHTML="<a id='"+x+"'></a><select id='"+x+"-\r\\' msallowcapture=''><option selected=''></option></select>",e.querySelectorAll("[msallowcapture^='']").length&&v.push("[*^$]="+R+"*(?:''|\"\")"),e.querySelectorAll("[selected]").length||v.push("\\["+R+"*(?:value|"+I+")"),e.querySelectorAll("[id~="+x+"-]").length||v.push("~="),(t=p.createElement("input")).setAttribute("name",""),e.appendChild(t),e.querySelectorAll("[name='']").length||v.push("\\["+R+"*name"+R+"*="+R+"*(?:''|\"\")"),e.querySelectorAll(":checked").length||v.push(":checked"),e.querySelectorAll("a#"+x+"+*").length||v.push(".#.+[+~]"),e.querySelectorAll("\\\f"),v.push("[\\r\\n\\f]")}),ce(function(e){e.innerHTML="<a href='' disabled='disabled'></a><select disabled='disabled'><option/></select>";var t=p.createElement("input");t.setAttribute("type","hidden"),e.appendChild(t).setAttribute("name","D"),e.querySelectorAll("[name=d]").length&&v.push("name"+R+"*[*^$|!~]?="),2!==e.querySelectorAll(":enabled").length&&v.push(":enabled",":disabled"),h.appendChild(e).disabled=!0,2!==e.querySelectorAll(":disabled").length&&v.push(":enabled",":disabled"),e.querySelectorAll("*,:x"),v.push(",.*:")})),(n.matchesSelector=J.test(y=h.matches||h.webkitMatchesSelector||h.mozMatchesSelector||h.oMatchesSelector||h.msMatchesSelector))&&ce(function(e){n.disconnectedMatch=y.call(e,"*"),y.call(e,"[s!='']:x"),m.push("!=",W)}),v=v.length&&new RegExp(v.join("|")),m=m.length&&new RegExp(m.join("|")),t=J.test(h.compareDocumentPosition),b=t||J.test(h.contains)?function(e,t){var n=9===e.nodeType?e.documentElement:e,r=t&&t.parentNode;return e===r||!(!r||1!==r.nodeType||!(n.contains?n.contains(r):e.compareDocumentPosition&&16&e.compareDocumentPosition(r)))}:function(e,t){if(t)for(;t=t.parentNode;)if(t===e)return!0;return!1},k=t?function(e,t){if(e===t)return f=!0,0;var r=!e.compareDocumentPosition-!t.compareDocumentPosition;return r||(1&(r=(e.ownerDocument||e)==(t.ownerDocument||t)?e.compareDocumentPosition(t):1)||!n.sortDetached&&t.compareDocumentPosition(e)===r?e==p||e.ownerDocument==w&&b(w,e)?-1:t==p||t.ownerDocument==w&&b(w,t)?1:c?H(c,e)-H(c,t):0:4&r?-1:1)}:function(e,t){if(e===t)return f=!0,0;var n,r=0,i=e.parentNode,o=t.parentNode,a=[e],s=[t];if(!i||!o)return e==p?-1:t==p?1:i?-1:o?1:c?H(c,e)-H(c,t):0;if(i===o)return de(e,t);for(n=e;n=n.parentNode;)a.unshift(n);for(n=t;n=n.parentNode;)s.unshift(n);for(;a[r]===s[r];)r++;return r?de(a[r],s[r]):a[r]==w?-1:s[r]==w?1:0},p):p},se.matches=function(e,t){return se(e,null,null,t)},se.matchesSelector=function(e,t){if(d(e),n.matchesSelector&&g&&!S[t+" "]&&(!m||!m.test(t))&&(!v||!v.test(t)))try{var r=y.call(e,t);if(r||n.disconnectedMatch||e.document&&11!==e.document.nodeType)return r}catch(Ae){S(t,!0)}return se(t,p,null,[e]).length>0},se.contains=function(e,t){return(e.ownerDocument||e)!=p&&d(e),b(e,t)},se.attr=function(e,t){(e.ownerDocument||e)!=p&&d(e);var i=r.attrHandle[t.toLowerCase()],o=i&&D.call(r.attrHandle,t.toLowerCase())?i(e,t,!g):void 0;return void 0!==o?o:n.attributes||!g?e.getAttribute(t):(o=e.getAttributeNode(t))&&o.specified?o.value:null},se.escape=function(e){return(e+"").replace(re,ie)},se.error=function(e){throw new Error("Syntax error, unrecognized expression: "+e)},se.uniqueSort=function(e){var t,r=[],i=0,o=0;if(f=!n.detectDuplicates,c=!n.sortStable&&e.slice(0),e.sort(k),f){for(;t=e[o++];)t===e[o]&&(i=r.push(o));for(;i--;)e.splice(r[i],1)}return c=null,e},i=se.getText=function(e){var t,n="",r=0,o=e.nodeType;if(o){if(1===o||9===o||11===o){if("string"==typeof e.textContent)return e.textContent;for(e=e.firstChild;e;e=e.nextSibling)n+=i(e)}else if(3===o||4===o)return e.nodeValue}else for(;t=e[r++];)n+=i(t);return n},(r=se.selectors={cacheLength:50,createPseudo:le,match:Q,attrHandle:{},find:{},relative:{">":{dir:"parentNode",first:!0}," ":{dir:"parentNode"},"+":{dir:"previousSibling",first:!0},"~":{dir:"previousSibling"}},preFilter:{ATTR:function(e){return e[1]=e[1].replace(te,ne),e[3]=(e[3]||e[4]||e[5]||"").replace(te,ne),"~="===e[2]&&(e[3]=" "+e[3]+" "),e.slice(0,4)},CHILD:function(e){return e[1]=e[1].toLowerCase(),"nth"===e[1].slice(0,3)?(e[3]||se.error(e[0]),e[4]=+(e[4]?e[5]+(e[6]||1):2*("even"===e[3]||"odd"===e[3])),e[5]=+(e[7]+e[8]||"odd"===e[3])):e[3]&&se.error(e[0]),e},PSEUDO:function(e){var t,n=!e[6]&&e[2];return Q.CHILD.test(e[0])?null:(e[3]?e[2]=e[4]||e[5]||"":n&&V.test(n)&&(t=a(n,!0))&&(t=n.indexOf(")",n.length-t)-n.length)&&(e[0]=e[0].slice(0,t),e[2]=n.slice(0,t)),e.slice(0,3))}},filter:{TAG:function(e){var t=e.replace(te,ne).toLowerCase();return"*"===e?function(){return!0}:function(e){return e.nodeName&&e.nodeName.toLowerCase()===t}},CLASS:function(e){var t=E[e+" "];return t||(t=new RegExp("(^|"+R+")"+e+"("+R+"|$)"))&&E(e,function(e){return t.test("string"==typeof e.className&&e.className||void 0!==e.getAttribute&&e.getAttribute("class")||"")})},ATTR:function(e,t,n){return function(r){var i=se.attr(r,e);return null==i?"!="===t:!t||(i+="","="===t?i===n:"!="===t?i!==n:"^="===t?n&&0===i.indexOf(n):"*="===t?n&&i.indexOf(n)>-1:"$="===t?n&&i.slice(-n.length)===n:"~="===t?(" "+i.replace(F," ")+" ").indexOf(n)>-1:"|="===t&&(i===n||i.slice(0,n.length+1)===n+"-"))}},CHILD:function(e,t,n,r,i){var o="nth"!==e.slice(0,3),a="last"!==e.slice(-4),s="of-type"===t;return 1===r&&0===i?function(e){return!!e.parentNode}:function(t,n,u){var l,c,f,d,p,h,g=o!==a?"nextSibling":"previousSibling",v=t.parentNode,m=s&&t.nodeName.toLowerCase(),y=!u&&!s,b=!1;if(v){if(o){for(;g;){for(d=t;d=d[g];)if(s?d.nodeName.toLowerCase()===m:1===d.nodeType)return!1;h=g="only"===e&&!h&&"nextSibling"}return!0}if(h=[a?v.firstChild:v.lastChild],a&&y){for(b=(p=(l=(c=(f=(d=v)[x]||(d[x]={}))[d.uniqueID]||(f[d.uniqueID]={}))[e]||[])[0]===C&&l[1])&&l[2],d=p&&v.childNodes[p];d=++p&&d&&d[g]||(b=p=0)||h.pop();)if(1===d.nodeType&&++b&&d===t){c[e]=[C,p,b];break}}else if(y&&(b=p=(l=(c=(f=(d=t)[x]||(d[x]={}))[d.uniqueID]||(f[d.uniqueID]={}))[e]||[])[0]===C&&l[1]),!1===b)for(;(d=++p&&d&&d[g]||(b=p=0)||h.pop())&&((s?d.nodeName.toLowerCase()!==m:1!==d.nodeType)||!++b||(y&&((c=(f=d[x]||(d[x]={}))[d.uniqueID]||(f[d.uniqueID]={}))[e]=[C,b]),d!==t)););return(b-=i)===r||b%r==0&&b/r>=0}}},PSEUDO:function(e,t){var n,i=r.pseudos[e]||r.setFilters[e.toLowerCase()]||se.error("unsupported pseudo: "+e);return i[x]?i(t):i.length>1?(n=[e,e,"",t],r.setFilters.hasOwnProperty(e.toLowerCase())?le(function(e,n){for(var r,o=i(e,t),a=o.length;a--;)e[r=H(e,o[a])]=!(n[r]=o[a])}):function(e){return i(e,0,n)}):i}},pseudos:{not:le(function(e){var t=[],n=[],r=s(e.replace($,"$1"));return r[x]?le(function(e,t,n,i){for(var o,a=r(e,null,i,[]),s=e.length;s--;)(o=a[s])&&(e[s]=!(t[s]=o))}):function(e,i,o){return t[0]=e,r(t,null,o,n),t[0]=null,!n.pop()}}),has:le(function(e){return function(t){return se(e,t).length>0}}),contains:le(function(e){return e=e.replace(te,ne),function(t){return(t.textContent||i(t)).indexOf(e)>-1}}),lang:le(function(e){return X.test(e||"")||se.error("unsupported lang: "+e),e=e.replace(te,ne).toLowerCase(),function(t){var n;do{if(n=g?t.lang:t.getAttribute("xml:lang")||t.getAttribute("lang"))return(n=n.toLowerCase())===e||0===n.indexOf(e+"-")}while((t=t.parentNode)&&1===t.nodeType);return!1}}),target:function(t){var n=e.location&&e.location.hash;return n&&n.slice(1)===t.id},root:function(e){return e===h},focus:function(e){return e===p.activeElement&&(!p.hasFocus||p.hasFocus())&&!!(e.type||e.href||~e.tabIndex)},enabled:ge(!1),disabled:ge(!0),checked:function(e){var t=e.nodeName.toLowerCase();return"input"===t&&!!e.checked||"option"===t&&!!e.selected},selected:function(e){return e.parentNode&&e.parentNode.selectedIndex,!0===e.selected},empty:function(e){for(e=e.firstChild;e;e=e.nextSibling)if(e.nodeType<6)return!1;return!0},parent:function(e){return!r.pseudos.empty(e)},header:function(e){return K.test(e.nodeName)},input:function(e){return G.test(e.nodeName)},button:function(e){var t=e.nodeName.toLowerCase();return"input"===t&&"button"===e.type||"button"===t},text:function(e){var t;return"input"===e.nodeName.toLowerCase()&&"text"===e.type&&(null==(t=e.getAttribute("type"))||"text"===t.toLowerCase())},first:ve(function(){return[0]}),last:ve(function(e,t){return[t-1]}),eq:ve(function(e,t,n){return[n<0?n+t:n]}),even:ve(function(e,t){for(var n=0;n<t;n+=2)e.push(n);return e}),odd:ve(function(e,t){for(var n=1;n<t;n+=2)e.push(n);return e}),lt:ve(function(e,t,n){for(var r=n<0?n+t:n>t?t:n;--r>=0;)e.push(r);return e}),gt:ve(function(e,t,n){for(var r=n<0?n+t:n;++r<t;)e.push(r);return e})}}).pseudos.nth=r.pseudos.eq,{radio:!0,checkbox:!0,file:!0,password:!0,image:!0})r.pseudos[t]=pe(t);for(t in{submit:!0,reset:!0})r.pseudos[t]=he(t);function ye(){}function be(e){for(var t=0,n=e.length,r="";t<n;t++)r+=e[t].value;return r}function xe(e,t,n){var r=t.dir,i=t.next,o=i||r,a=n&&"parentNode"===o,s=T++;return t.first?function(t,n,i){for(;t=t[r];)if(1===t.nodeType||a)return e(t,n,i);return!1}:function(t,n,u){var l,c,f,d=[C,s];if(u){for(;t=t[r];)if((1===t.nodeType||a)&&e(t,n,u))return!0}else for(;t=t[r];)if(1===t.nodeType||a)if(c=(f=t[x]||(t[x]={}))[t.uniqueID]||(f[t.uniqueID]={}),i&&i===t.nodeName.toLowerCase())t=t[r]||t;else{if((l=c[o])&&l[0]===C&&l[1]===s)return d[2]=l[2];if(c[o]=d,d[2]=e(t,n,u))return!0}return!1}}function we(e){return e.length>1?function(t,n,r){for(var i=e.length;i--;)if(!e[i](t,n,r))return!1;return!0}:e[0]}function Ce(e,t,n,r,i){for(var o,a=[],s=0,u=e.length,l=null!=t;s<u;s++)(o=e[s])&&(n&&!n(o,r,i)||(a.push(o),l&&t.push(s)));return a}function Te(e,t,n,r,i,o){return r&&!r[x]&&(r=Te(r)),i&&!i[x]&&(i=Te(i,o)),le(function(o,a,s,u){var l,c,f,d=[],p=[],h=a.length,g=o||function(e,t,n){for(var r=0,i=t.length;r<i;r++)se(e,t[r],n);return n}(t||"*",s.nodeType?[s]:s,[]),v=!e||!o&&t?g:Ce(g,d,e,s,u),m=n?i||(o?e:h||r)?[]:a:v;if(n&&n(v,m,s,u),r)for(l=Ce(m,p),r(l,[],s,u),c=l.length;c--;)(f=l[c])&&(m[p[c]]=!(v[p[c]]=f));if(o){if(i||e){if(i){for(l=[],c=m.length;c--;)(f=m[c])&&l.push(v[c]=f);i(null,m=[],l,u)}for(c=m.length;c--;)(f=m[c])&&(l=i?H(o,f):d[c])>-1&&(o[l]=!(a[l]=f))}}else m=Ce(m===a?m.splice(h,m.length):m),i?i(null,a,m,u):O.apply(a,m)})}function Ee(e){for(var t,n,i,o=e.length,a=r.relative[e[0].type],s=a||r.relative[" "],u=a?1:0,c=xe(function(e){return e===t},s,!0),f=xe(function(e){return H(t,e)>-1},s,!0),d=[function(e,n,r){var i=!a&&(r||n!==l)||((t=n).nodeType?c(e,n,r):f(e,n,r));return t=null,i}];u<o;u++)if(n=r.relative[e[u].type])d=[xe(we(d),n)];else{if((n=r.filter[e[u].type].apply(null,e[u].matches))[x]){for(i=++u;i<o&&!r.relative[e[i].type];i++);return Te(u>1&&we(d),u>1&&be(e.slice(0,u-1).concat({value:" "===e[u-2].type?"*":""})).replace($,"$1"),n,u<i&&Ee(e.slice(u,i)),i<o&&Ee(e=e.slice(i)),i<o&&be(e))}d.push(n)}return we(d)}return ye.prototype=r.filters=r.pseudos,r.setFilters=new ye,a=se.tokenize=function(e,t){var n,i,o,a,s,u,l,c=A[e+" "];if(c)return t?0:c.slice(0);for(s=e,u=[],l=r.preFilter;s;){for(a in n&&!(i=z.exec(s))||(i&&(s=s.slice(i[0].length)||s),u.push(o=[])),n=!1,(i=_.exec(s))&&(n=i.shift(),o.push({value:n,type:i[0].replace($," ")}),s=s.slice(n.length)),r.filter)!(i=Q[a].exec(s))||l[a]&&!(i=l[a](i))||(n=i.shift(),o.push({value:n,type:a,matches:i}),s=s.slice(n.length));if(!n)break}return t?s.length:s?se.error(e):A(e,u).slice(0)},s=se.compile=function(e,t){var n,i=[],o=[],s=N[e+" "];if(!s){for(t||(t=a(e)),n=t.length;n--;)(s=Ee(t[n]))[x]?i.push(s):o.push(s);(s=N(e,function(e,t){var n=t.length>0,i=e.length>0,o=function(o,a,s,u,c){var f,h,v,m=0,y="0",b=o&&[],x=[],w=l,T=o||i&&r.find.TAG("*",c),E=C+=null==w?1:Math.random()||.1,A=T.length;for(c&&(l=a==p||a||c);y!==A&&null!=(f=T[y]);y++){if(i&&f){for(h=0,a||f.ownerDocument==p||(d(f),s=!g);v=e[h++];)if(v(f,a||p,s)){u.push(f);break}c&&(C=E)}n&&((f=!v&&f)&&m--,o&&b.push(f))}if(m+=y,n&&y!==m){for(h=0;v=t[h++];)v(b,x,a,s);if(o){if(m>0)for(;y--;)b[y]||x[y]||(x[y]=j.call(u));x=Ce(x)}O.apply(u,x),c&&!o&&x.length>0&&m+t.length>1&&se.uniqueSort(u)}return c&&(C=E,l=w),b};return n?le(o):o}(o,i))).selector=e}return s},u=se.select=function(e,t,n,i){var o,u,l,c,f,d="function"==typeof e&&e,p=!i&&a(e=d.selector||e);if(n=n||[],1===p.length){if((u=p[0]=p[0].slice(0)).length>2&&"ID"===(l=u[0]).type&&9===t.nodeType&&g&&r.relative[u[1].type]){if(!(t=(r.find.ID(l.matches[0].replace(te,ne),t)||[])[0]))return n;d&&(t=t.parentNode),e=e.slice(u.shift().value.length)}for(o=Q.needsContext.test(e)?0:u.length;o--&&(l=u[o],!r.relative[c=l.type]);)if((f=r.find[c])&&(i=f(l.matches[0].replace(te,ne),ee.test(u[0].type)&&me(t.parentNode)||t))){if(u.splice(o,1),!(e=i.length&&be(u)))return O.apply(n,i),n;break}}return(d||s(e,p))(i,t,!g,n,!t||ee.test(e)&&me(t.parentNode)||t),n},n.sortStable=x.split("").sort(k).join("")===x,n.detectDuplicates=!!f,d(),n.sortDetached=ce(function(e){return 1&e.compareDocumentPosition(p.createElement("fieldset"))}),ce(function(e){return e.innerHTML="<a href='#'></a>","#"===e.firstChild.getAttribute("href")})||fe("type|href|height|width",function(e,t,n){if(!n)return e.getAttribute(t,"type"===t.toLowerCase()?1:2)}),n.attributes&&ce(function(e){return e.innerHTML="<input/>",e.firstChild.setAttribute("value",""),""===e.firstChild.getAttribute("value")})||fe("value",function(e,t,n){if(!n&&"input"===e.nodeName.toLowerCase())return e.defaultValue}),ce(function(e){return null==e.getAttribute("disabled")})||fe(I,function(e,t,n){var r;if(!n)return!0===e[t]?t.toLowerCase():(r=e.getAttributeNode(t))&&r.specified?r.value:null}),se}(t);C.find=E,C.expr=E.selectors,C.expr[":"]=C.expr.pseudos,C.uniqueSort=C.unique=E.uniqueSort,C.text=E.getText,C.isXMLDoc=E.isXML,C.contains=E.contains,C.escapeSelector=E.escape;var A=function(e,t,n){for(var r=[],i=void 0!==n;(e=e[t])&&9!==e.nodeType;)if(1===e.nodeType){if(i&&C(e).is(n))break;r.push(e)}return r},N=function(e,t){for(var n=[];e;e=e.nextSibling)1===e.nodeType&&e!==t&&n.push(e);return n},S=C.expr.match.needsContext;function k(e,t){return e.nodeName&&e.nodeName.toLowerCase()===t.toLowerCase()}var D=/^<([a-z][^\/\0>:\x20\t\r\n\f]*)[\x20\t\r\n\f]*\/?>(?:<\/\1>|)$/i;function L(e,t,n){return g(t)?C.grep(e,function(e,r){return!!t.call(e,r,e)!==n}):t.nodeType?C.grep(e,function(e){return e===t!==n}):"string"!=typeof t?C.grep(e,function(e){return u.call(t,e)>-1!==n}):C.filter(t,e,n)}C.filter=function(e,t,n){var r=t[0];return n&&(e=":not("+e+")"),1===t.length&&1===r.nodeType?C.find.matchesSelector(r,e)?[r]:[]:C.find.matches(e,C.grep(t,function(e){return 1===e.nodeType}))},C.fn.extend({find:function(e){var t,n,r=this.length,i=this;if("string"!=typeof e)return this.pushStack(C(e).filter(function(){for(t=0;t<r;t++)if(C.contains(i[t],this))return!0}));for(n=this.pushStack([]),t=0;t<r;t++)C.find(e,i[t],n);return r>1?C.uniqueSort(n):n},filter:function(e){return this.pushStack(L(this,e||[],!1))},not:function(e){return this.pushStack(L(this,e||[],!0))},is:function(e){return!!L(this,"string"==typeof e&&S.test(e)?C(e):e||[],!1).length}});var j,q=/^(?:\s*(<[\w\W]+>)[^>]*|#([\w-]+))$/;(C.fn.init=function(e,t,n){var r,i;if(!e)return this;if(n=n||j,"string"==typeof e){if(!(r="<"===e[0]&&">"===e[e.length-1]&&e.length>=3?[null,e,null]:q.exec(e))||!r[1]&&t)return!t||t.jquery?(t||n).find(e):this.constructor(t).find(e);if(r[1]){if(t=t instanceof C?t[0]:t,C.merge(this,C.parseHTML(r[1],t&&t.nodeType?t.ownerDocument||t:m,!0)),D.test(r[1])&&C.isPlainObject(t))for(r in t)g(this[r])?this[r](t[r]):this.attr(r,t[r]);return this}return(i=m.getElementById(r[2]))&&(this[0]=i,this.length=1),this}return e.nodeType?(this[0]=e,this.length=1,this):g(e)?void 0!==n.ready?n.ready(e):e(C):C.makeArray(e,this)}).prototype=C.fn,j=C(m);var O=/^(?:parents|prev(?:Until|All))/,P={children:!0,contents:!0,next:!0,prev:!0};function H(e,t){for(;(e=e[t])&&1!==e.nodeType;);return e}C.fn.extend({has:function(e){var t=C(e,this),n=t.length;return this.filter(function(){for(var e=0;e<n;e++)if(C.contains(this,t[e]))return!0})},closest:function(e,t){var n,r=0,i=this.length,o=[],a="string"!=typeof e&&C(e);if(!S.test(e))for(;r<i;r++)for(n=this[r];n&&n!==t;n=n.parentNode)if(n.nodeType<11&&(a?a.index(n)>-1:1===n.nodeType&&C.find.matchesSelector(n,e))){o.push(n);break}return this.pushStack(o.length>1?C.uniqueSort(o):o)},index:function(e){return e?"string"==typeof e?u.call(C(e),this[0]):u.call(this,e.jquery?e[0]:e):this[0]&&this[0].parentNode?this.first().prevAll().length:-1},add:function(e,t){return this.pushStack(C.uniqueSort(C.merge(this.get(),C(e,t))))},addBack:function(e){return this.add(null==e?this.prevObject:this.prevObject.filter(e))}}),C.each({parent:function(e){var t=e.parentNode;return t&&11!==t.nodeType?t:null},parents:function(e){return A(e,"parentNode")},parentsUntil:function(e,t,n){return A(e,"parentNode",n)},next:function(e){return H(e,"nextSibling")},prev:function(e){return H(e,"previousSibling")},nextAll:function(e){return A(e,"nextSibling")},prevAll:function(e){return A(e,"previousSibling")},nextUntil:function(e,t,n){return A(e,"nextSibling",n)},prevUntil:function(e,t,n){return A(e,"previousSibling",n)},siblings:function(e){return N((e.parentNode||{}).firstChild,e)},children:function(e){return N(e.firstChild)},contents:function(e){return null!=e.contentDocument&&i(e.contentDocument)?e.contentDocument:(k(e,"template")&&(e=e.content||e),C.merge([],e.childNodes))}},function(e,t){C.fn[e]=function(n,r){var i=C.map(this,t,n);return"Until"!==e.slice(-5)&&(r=n),r&&"string"==typeof r&&(i=C.filter(r,i)),this.length>1&&(P[e]||C.uniqueSort(i),O.test(e)&&i.reverse()),this.pushStack(i)}});var I=/[^\x20\t\r\n\f]+/g;function R(e){return e}function B(e){throw e}function M(e,t,n,r){var i;try{e&&g(i=e.promise)?i.call(e).done(t).fail(n):e&&g(i=e.then)?i.call(e,t,n):t.apply(void 0,[e].slice(r))}catch(e){n.apply(void 0,[e])}}C.Callbacks=function(e){e="string"==typeof e?function(e){var t={};return C.each(e.match(I)||[],function(e,n){t[n]=!0}),t}(e):C.extend({},e);var t,n,r,i,o=[],a=[],s=-1,u=function(){for(i=i||e.once,r=t=!0;a.length;s=-1)for(n=a.shift();++s<o.length;)!1===o[s].apply(n[0],n[1])&&e.stopOnFalse&&(s=o.length,n=!1);e.memory||(n=!1),t=!1,i&&(o=n?[]:"")},l={add:function(){return o&&(n&&!t&&(s=o.length-1,a.push(n)),function t(n){C.each(n,function(n,r){g(r)?e.unique&&l.has(r)||o.push(r):r&&r.length&&"string"!==x(r)&&t(r)})}(arguments),n&&!t&&u()),this},remove:function(){return C.each(arguments,function(e,t){for(var n;(n=C.inArray(t,o,n))>-1;)o.splice(n,1),n<=s&&s--}),this},has:function(e){return e?C.inArray(e,o)>-1:o.length>0},empty:function(){return o&&(o=[]),this},disable:function(){return i=a=[],o=n="",this},disabled:function(){return!o},lock:function(){return i=a=[],n||t||(o=n=""),this},locked:function(){return!!i},fireWith:function(e,n){return i||(n=[e,(n=n||[]).slice?n.slice():n],a.push(n),t||u()),this},fire:function(){return l.fireWith(this,arguments),this},fired:function(){return!!r}};return l},C.extend({Deferred:function(e){var n=[["notify","progress",C.Callbacks("memory"),C.Callbacks("memory"),2],["resolve","done",C.Callbacks("once memory"),C.Callbacks("once memory"),0,"resolved"],["reject","fail",C.Callbacks("once memory"),C.Callbacks("once memory"),1,"rejected"]],r="pending",i={state:function(){return r},always:function(){return o.done(arguments).fail(arguments),this},catch:function(e){return i.then(null,e)},pipe:function(){var e=arguments;return C.Deferred(function(t){C.each(n,function(n,r){var i=g(e[r[4]])&&e[r[4]];o[r[1]](function(){var e=i&&i.apply(this,arguments);e&&g(e.promise)?e.promise().progress(t.notify).done(t.resolve).fail(t.reject):t[r[0]+"With"](this,i?[e]:arguments)})}),e=null}).promise()},then:function(e,r,i){var o=0;function a(e,n,r,i){return function(){var s=this,u=arguments,l=function(){var t,l;if(!(e<o)){if((t=r.apply(s,u))===n.promise())throw new TypeError("Thenable self-resolution");l=t&&("object"==typeof t||"function"==typeof t)&&t.then,g(l)?i?l.call(t,a(o,n,R,i),a(o,n,B,i)):(o++,l.call(t,a(o,n,R,i),a(o,n,B,i),a(o,n,R,n.notifyWith))):(r!==R&&(s=void 0,u=[t]),(i||n.resolveWith)(s,u))}},c=i?l:function(){try{l()}catch(t){C.Deferred.exceptionHook&&C.Deferred.exceptionHook(t,c.stackTrace),e+1>=o&&(r!==B&&(s=void 0,u=[t]),n.rejectWith(s,u))}};e?c():(C.Deferred.getStackHook&&(c.stackTrace=C.Deferred.getStackHook()),t.setTimeout(c))}}return C.Deferred(function(t){n[0][3].add(a(0,t,g(i)?i:R,t.notifyWith)),n[1][3].add(a(0,t,g(e)?e:R)),n[2][3].add(a(0,t,g(r)?r:B))}).promise()},promise:function(e){return null!=e?C.extend(e,i):i}},o={};return C.each(n,function(e,t){var a=t[2],s=t[5];i[t[1]]=a.add,s&&a.add(function(){r=s},n[3-e][2].disable,n[3-e][3].disable,n[0][2].lock,n[0][3].lock),a.add(t[3].fire),o[t[0]]=function(){return o[t[0]+"With"](this===o?void 0:this,arguments),this},o[t[0]+"With"]=a.fireWith}),i.promise(o),e&&e.call(o,o),o},when:function(e){var t=arguments.length,n=t,r=Array(n),i=o.call(arguments),a=C.Deferred(),s=function(e){return function(n){r[e]=this,i[e]=arguments.length>1?o.call(arguments):n,--t||a.resolveWith(r,i)}};if(t<=1&&(M(e,a.done(s(n)).resolve,a.reject,!t),"pending"===a.state()||g(i[n]&&i[n].then)))return a.then();for(;n--;)M(i[n],s(n),a.reject);return a.promise()}});var W=/^(Eval|Internal|Range|Reference|Syntax|Type|URI)Error$/;C.Deferred.exceptionHook=function(e,n){t.console&&t.console.warn&&e&&W.test(e.name)&&t.console.warn("jQuery.Deferred exception: "+e.message,e.stack,n)},C.readyException=function(e){t.setTimeout(function(){throw e})};var F=C.Deferred();function $(){m.removeEventListener("DOMContentLoaded",$),t.removeEventListener("load",$),C.ready()}C.fn.ready=function(e){return F.then(e).catch(function(e){C.readyException(e)}),this},C.extend({isReady:!1,readyWait:1,ready:function(e){(!0===e?--C.readyWait:C.isReady)||(C.isReady=!0,!0!==e&&--C.readyWait>0||F.resolveWith(m,[C]))}}),C.ready.then=F.then,"complete"===m.readyState||"loading"!==m.readyState&&!m.documentElement.doScroll?t.setTimeout(C.ready):(m.addEventListener("DOMContentLoaded",$),t.addEventListener("load",$));var z=function(e,t,n,r,i,o,a){var s=0,u=e.length,l=null==n;if("object"===x(n))for(s in i=!0,n)z(e,t,s,n[s],!0,o,a);else if(void 0!==r&&(i=!0,g(r)||(a=!0),l&&(a?(t.call(e,r),t=null):(l=t,t=function(e,t,n){return l.call(C(e),n)})),t))for(;s<u;s++)t(e[s],n,a?r:r.call(e[s],s,t(e[s],n)));return i?e:l?t.call(e):u?t(e[0],n):o},_=/^-ms-/,U=/-([a-z])/g;function V(e,t){return t.toUpperCase()}function X(e){return e.replace(_,"ms-").replace(U,V)}var Q=function(e){return 1===e.nodeType||9===e.nodeType||!+e.nodeType};function Y(){this.expando=C.expando+Y.uid++}Y.uid=1,Y.prototype={cache:function(e){var t=e[this.expando];return t||(t={},Q(e)&&(e.nodeType?e[this.expando]=t:Object.defineProperty(e,this.expando,{value:t,configurable:!0}))),t},set:function(e,t,n){var r,i=this.cache(e);if("string"==typeof t)i[X(t)]=n;else for(r in t)i[X(r)]=t[r];return i},get:function(e,t){return void 0===t?this.cache(e):e[this.expando]&&e[this.expando][X(t)]},access:function(e,t,n){return void 0===t||t&&"string"==typeof t&&void 0===n?this.get(e,t):(this.set(e,t,n),void 0!==n?n:t)},remove:function(e,t){var n,r=e[this.expando];if(void 0!==r){if(void 0!==t){n=(t=Array.isArray(t)?t.map(X):(t=X(t))in r?[t]:t.match(I)||[]).length;for(;n--;)delete r[t[n]]}(void 0===t||C.isEmptyObject(r))&&(e.nodeType?e[this.expando]=void 0:delete e[this.expando])}},hasData:function(e){var t=e[this.expando];return void 0!==t&&!C.isEmptyObject(t)}};var G=new Y,K=new Y,J=/^(?:\{[\w\W]*\}|\[[\w\W]*\])$/,Z=/[A-Z]/g;function ee(e,t,n){var r;if(void 0===n&&1===e.nodeType)if(r="data-"+t.replace(Z,"-$&").toLowerCase(),"string"==typeof(n=e.getAttribute(r))){try{n=function(e){return"true"===e||"false"!==e&&("null"===e?null:e===+e+""?+e:J.test(e)?JSON.parse(e):e)}(n)}catch(i){}K.set(e,t,n)}else n=void 0;return n}C.extend({hasData:function(e){return K.hasData(e)||G.hasData(e)},data:function(e,t,n){return K.access(e,t,n)},removeData:function(e,t){K.remove(e,t)},_data:function(e,t,n){return G.access(e,t,n)},_removeData:function(e,t){G.remove(e,t)}}),C.fn.extend({data:function(e,t){var n,r,i,o=this[0],a=o&&o.attributes;if(void 0===e){if(this.length&&(i=K.get(o),1===o.nodeType&&!G.get(o,"hasDataAttrs"))){for(n=a.length;n--;)a[n]&&0===(r=a[n].name).indexOf("data-")&&(r=X(r.slice(5)),ee(o,r,i[r]));G.set(o,"hasDataAttrs",!0)}return i}return"object"==typeof e?this.each(function(){K.set(this,e)}):z(this,function(t){var n;if(o&&void 0===t)return void 0!==(n=K.get(o,e))?n:void 0!==(n=ee(o,e))?n:void 0;this.each(function(){K.set(this,e,t)})},null,t,arguments.length>1,null,!0)},removeData:function(e){return this.each(function(){K.remove(this,e)})}}),C.extend({queue:function(e,t,n){var r;if(e)return t=(t||"fx")+"queue",r=G.get(e,t),n&&(!r||Array.isArray(n)?r=G.access(e,t,C.makeArray(n)):r.push(n)),r||[]},dequeue:function(e,t){t=t||"fx";var n=C.queue(e,t),r=n.length,i=n.shift(),o=C._queueHooks(e,t);"inprogress"===i&&(i=n.shift(),r--),i&&("fx"===t&&n.unshift("inprogress"),delete o.stop,i.call(e,function(){C.dequeue(e,t)},o)),!r&&o&&o.empty.fire()},_queueHooks:function(e,t){var n=t+"queueHooks";return G.get(e,n)||G.access(e,n,{empty:C.Callbacks("once memory").add(function(){G.remove(e,[t+"queue",n])})})}}),C.fn.extend({queue:function(e,t){var n=2;return"string"!=typeof e&&(t=e,e="fx",n--),arguments.length<n?C.queue(this[0],e):void 0===t?this:this.each(function(){var n=C.queue(this,e,t);C._queueHooks(this,e),"fx"===e&&"inprogress"!==n[0]&&C.dequeue(this,e)})},dequeue:function(e){return this.each(function(){C.dequeue(this,e)})},clearQueue:function(e){return this.queue(e||"fx",[])},promise:function(e,t){var n,r=1,i=C.Deferred(),o=this,a=this.length,s=function(){--r||i.resolveWith(o,[o])};for("string"!=typeof e&&(t=e,e=void 0),e=e||"fx";a--;)(n=G.get(o[a],e+"queueHooks"))&&n.empty&&(r++,n.empty.add(s));return s(),i.promise(t)}});var te=/[+-]?(?:\d*\.|)\d+(?:[eE][+-]?\d+|)/.source,ne=new RegExp("^(?:([+-])=|)("+te+")([a-z%]*)$","i"),re=["Top","Right","Bottom","Left"],ie=m.documentElement,oe=function(e){return C.contains(e.ownerDocument,e)},ae={composed:!0};ie.getRootNode&&(oe=function(e){return C.contains(e.ownerDocument,e)||e.getRootNode(ae)===e.ownerDocument});var se=function(e,t){return"none"===(e=t||e).style.display||""===e.style.display&&oe(e)&&"none"===C.css(e,"display")};var ue={};function le(e){var t,n=e.ownerDocument,r=e.nodeName,i=ue[r];return i||(t=n.body.appendChild(n.createElement(r)),i=C.css(t,"display"),t.parentNode.removeChild(t),"none"===i&&(i="block"),ue[r]=i,i)}function ce(e,t){for(var n,r,i=[],o=0,a=e.length;o<a;o++)(r=e[o]).style&&(n=r.style.display,t?("none"===n&&(i[o]=G.get(r,"display")||null,i[o]||(r.style.display="")),""===r.style.display&&se(r)&&(i[o]=le(r))):"none"!==n&&(i[o]="none",G.set(r,"display",n)));for(o=0;o<a;o++)null!=i[o]&&(e[o].style.display=i[o]);return e}C.fn.extend({show:function(){return ce(this,!0)},hide:function(){return ce(this)},toggle:function(e){return"boolean"==typeof e?e?this.show():this.hide():this.each(function(){se(this)?C(this).show():C(this).hide()})}});var fe,de,pe=/^(?:checkbox|radio)$/i,he=/<([a-z][^\/\0>\x20\t\r\n\f]*)/i,ge=/^$|^module$|\/(?:java|ecma)script/i;fe=m.createDocumentFragment().appendChild(m.createElement("div")),(de=m.createElement("input")).setAttribute("type","radio"),de.setAttribute("checked","checked"),de.setAttribute("name","t"),fe.appendChild(de),h.checkClone=fe.cloneNode(!0).cloneNode(!0).lastChild.checked,fe.innerHTML="<textarea>x</textarea>",h.noCloneChecked=!!fe.cloneNode(!0).lastChild.defaultValue,fe.innerHTML="<option></option>",h.option=!!fe.lastChild;var ve={thead:[1,"<table>","</table>"],col:[2,"<table><colgroup>","</colgroup></table>"],tr:[2,"<table><tbody>","</tbody></table>"],td:[3,"<table><tbody><tr>","</tr></tbody></table>"],_default:[0,"",""]};function me(e,t){var n;return n=void 0!==e.getElementsByTagName?e.getElementsByTagName(t||"*"):void 0!==e.querySelectorAll?e.querySelectorAll(t||"*"):[],void 0===t||t&&k(e,t)?C.merge([e],n):n}function ye(e,t){for(var n=0,r=e.length;n<r;n++)G.set(e[n],"globalEval",!t||G.get(t[n],"globalEval"))}ve.tbody=ve.tfoot=ve.colgroup=ve.caption=ve.thead,ve.th=ve.td,h.option||(ve.optgroup=ve.option=[1,"<select multiple='multiple'>","</select>"]);var be=/<|&#?\w+;/;function xe(e,t,n,r,i){for(var o,a,s,u,l,c,f=t.createDocumentFragment(),d=[],p=0,h=e.length;p<h;p++)if((o=e[p])||0===o)if("object"===x(o))C.merge(d,o.nodeType?[o]:o);else if(be.test(o)){for(a=a||f.appendChild(t.createElement("div")),s=(he.exec(o)||["",""])[1].toLowerCase(),u=ve[s]||ve._default,a.innerHTML=u[1]+C.htmlPrefilter(o)+u[2],c=u[0];c--;)a=a.lastChild;C.merge(d,a.childNodes),(a=f.firstChild).textContent=""}else d.push(t.createTextNode(o));for(f.textContent="",p=0;o=d[p++];)if(r&&C.inArray(o,r)>-1)i&&i.push(o);else if(l=oe(o),a=me(f.appendChild(o),"script"),l&&ye(a),n)for(c=0;o=a[c++];)ge.test(o.type||"")&&n.push(o);return f}var we=/^key/,Ce=/^(?:mouse|pointer|contextmenu|drag|drop)|click/,Te=/^([^.]*)(?:\.(.+)|)/;function Ee(){return!0}function Ae(){return!1}function Ne(e,t){return e===function(){try{return m.activeElement}catch(e){}}()==("focus"===t)}function Se(e,t,n,r,i,o){var a,s;if("object"==typeof t){for(s in"string"!=typeof n&&(r=r||n,n=void 0),t)Se(e,s,n,r,t[s],o);return e}if(null==r&&null==i?(i=n,r=n=void 0):null==i&&("string"==typeof n?(i=r,r=void 0):(i=r,r=n,n=void 0)),!1===i)i=Ae;else if(!i)return e;return 1===o&&(a=i,(i=function(e){return C().off(e),a.apply(this,arguments)}).guid=a.guid||(a.guid=C.guid++)),e.each(function(){C.event.add(this,t,i,r,n)})}function ke(e,t,n){n?(G.set(e,t,!1),C.event.add(e,t,{namespace:!1,handler:function(e){var r,i,a=G.get(this,t);if(1&e.isTrigger&&this[t]){if(a.length)(C.event.special[t]||{}).delegateType&&e.stopPropagation();else if(a=o.call(arguments),G.set(this,t,a),r=n(this,t),this[t](),a!==(i=G.get(this,t))||r?G.set(this,t,!1):i={},a!==i)return e.stopImmediatePropagation(),e.preventDefault(),i.value}else a.length&&(G.set(this,t,{value:C.event.trigger(C.extend(a[0],C.Event.prototype),a.slice(1),this)}),e.stopImmediatePropagation())}})):void 0===G.get(e,t)&&C.event.add(e,t,Ee)}C.event={global:{},add:function(e,t,n,r,i){var o,a,s,u,l,c,f,d,p,h,g,v=G.get(e);if(Q(e))for(n.handler&&(n=(o=n).handler,i=o.selector),i&&C.find.matchesSelector(ie,i),n.guid||(n.guid=C.guid++),(u=v.events)||(u=v.events=Object.create(null)),(a=v.handle)||(a=v.handle=function(t){return void 0!==C&&C.event.triggered!==t.type?C.event.dispatch.apply(e,arguments):void 0}),l=(t=(t||"").match(I)||[""]).length;l--;)p=g=(s=Te.exec(t[l])||[])[1],h=(s[2]||"").split(".").sort(),p&&(f=C.event.special[p]||{},p=(i?f.delegateType:f.bindType)||p,f=C.event.special[p]||{},c=C.extend({type:p,origType:g,data:r,handler:n,guid:n.guid,selector:i,needsContext:i&&C.expr.match.needsContext.test(i),namespace:h.join(".")},o),(d=u[p])||((d=u[p]=[]).delegateCount=0,f.setup&&!1!==f.setup.call(e,r,h,a)||e.addEventListener&&e.addEventListener(p,a)),f.add&&(f.add.call(e,c),c.handler.guid||(c.handler.guid=n.guid)),i?d.splice(d.delegateCount++,0,c):d.push(c),C.event.global[p]=!0)},remove:function(e,t,n,r,i){var o,a,s,u,l,c,f,d,p,h,g,v=G.hasData(e)&&G.get(e);if(v&&(u=v.events)){for(l=(t=(t||"").match(I)||[""]).length;l--;)if(p=g=(s=Te.exec(t[l])||[])[1],h=(s[2]||"").split(".").sort(),p){for(f=C.event.special[p]||{},d=u[p=(r?f.delegateType:f.bindType)||p]||[],s=s[2]&&new RegExp("(^|\\.)"+h.join("\\.(?:.*\\.|)")+"(\\.|$)"),a=o=d.length;o--;)c=d[o],!i&&g!==c.origType||n&&n.guid!==c.guid||s&&!s.test(c.namespace)||r&&r!==c.selector&&("**"!==r||!c.selector)||(d.splice(o,1),c.selector&&d.delegateCount--,f.remove&&f.remove.call(e,c));a&&!d.length&&(f.teardown&&!1!==f.teardown.call(e,h,v.handle)||C.removeEvent(e,p,v.handle),delete u[p])}else for(p in u)C.event.remove(e,p+t[l],n,r,!0);C.isEmptyObject(u)&&G.remove(e,"handle events")}},dispatch:function(e){var t,n,r,i,o,a,s=new Array(arguments.length),u=C.event.fix(e),l=(G.get(this,"events")||Object.create(null))[u.type]||[],c=C.event.special[u.type]||{};for(s[0]=u,t=1;t<arguments.length;t++)s[t]=arguments[t];if(u.delegateTarget=this,!c.preDispatch||!1!==c.preDispatch.call(this,u)){for(a=C.event.handlers.call(this,u,l),t=0;(i=a[t++])&&!u.isPropagationStopped();)for(u.currentTarget=i.elem,n=0;(o=i.handlers[n++])&&!u.isImmediatePropagationStopped();)u.rnamespace&&!1!==o.namespace&&!u.rnamespace.test(o.namespace)||(u.handleObj=o,u.data=o.data,void 0!==(r=((C.event.special[o.origType]||{}).handle||o.handler).apply(i.elem,s))&&!1===(u.result=r)&&(u.preventDefault(),u.stopPropagation()));return c.postDispatch&&c.postDispatch.call(this,u),u.result}},handlers:function(e,t){var n,r,i,o,a,s=[],u=t.delegateCount,l=e.target;if(u&&l.nodeType&&!("click"===e.type&&e.button>=1))for(;l!==this;l=l.parentNode||this)if(1===l.nodeType&&("click"!==e.type||!0!==l.disabled)){for(o=[],a={},n=0;n<u;n++)void 0===a[i=(r=t[n]).selector+" "]&&(a[i]=r.needsContext?C(i,this).index(l)>-1:C.find(i,this,null,[l]).length),a[i]&&o.push(r);o.length&&s.push({elem:l,handlers:o})}return l=this,u<t.length&&s.push({elem:l,handlers:t.slice(u)}),s},addProp:function(e,t){Object.defineProperty(C.Event.prototype,e,{enumerable:!0,configurable:!0,get:g(t)?function(){if(this.originalEvent)return t(this.originalEvent)}:function(){if(this.originalEvent)return this.originalEvent[e]},set:function(t){Object.defineProperty(this,e,{enumerable:!0,configurable:!0,writable:!0,value:t})}})},fix:function(e){return e[C.expando]?e:new C.Event(e)},special:{load:{noBubble:!0},click:{setup:function(e){var t=this||e;return pe.test(t.type)&&t.click&&k(t,"input")&&ke(t,"click",Ee),!1},trigger:function(e){var t=this||e;return pe.test(t.type)&&t.click&&k(t,"input")&&ke(t,"click"),!0},_default:function(e){var t=e.target;return pe.test(t.type)&&t.click&&k(t,"input")&&G.get(t,"click")||k(t,"a")}},beforeunload:{postDispatch:function(e){void 0!==e.result&&e.originalEvent&&(e.originalEvent.returnValue=e.result)}}}},C.removeEvent=function(e,t,n){e.removeEventListener&&e.removeEventListener(t,n)},C.Event=function(e,t){if(!(this instanceof C.Event))return new C.Event(e,t);e&&e.type?(this.originalEvent=e,this.type=e.type,this.isDefaultPrevented=e.defaultPrevented||void 0===e.defaultPrevented&&!1===e.returnValue?Ee:Ae,this.target=e.target&&3===e.target.nodeType?e.target.parentNode:e.target,this.currentTarget=e.currentTarget,this.relatedTarget=e.relatedTarget):this.type=e,t&&C.extend(this,t),this.timeStamp=e&&e.timeStamp||Date.now(),this[C.expando]=!0},C.Event.prototype={constructor:C.Event,isDefaultPrevented:Ae,isPropagationStopped:Ae,isImmediatePropagationStopped:Ae,isSimulated:!1,preventDefault:function(){var e=this.originalEvent;this.isDefaultPrevented=Ee,e&&!this.isSimulated&&e.preventDefault()},stopPropagation:function(){var e=this.originalEvent;this.isPropagationStopped=Ee,e&&!this.isSimulated&&e.stopPropagation()},stopImmediatePropagation:function(){var e=this.originalEvent;this.isImmediatePropagationStopped=Ee,e&&!this.isSimulated&&e.stopImmediatePropagation(),this.stopPropagation()}},C.each({altKey:!0,bubbles:!0,cancelable:!0,changedTouches:!0,ctrlKey:!0,detail:!0,eventPhase:!0,metaKey:!0,pageX:!0,pageY:!0,shiftKey:!0,view:!0,char:!0,code:!0,charCode:!0,key:!0,keyCode:!0,button:!0,buttons:!0,clientX:!0,clientY:!0,offsetX:!0,offsetY:!0,pointerId:!0,pointerType:!0,screenX:!0,screenY:!0,targetTouches:!0,toElement:!0,touches:!0,which:function(e){var t=e.button;return null==e.which&&we.test(e.type)?null!=e.charCode?e.charCode:e.keyCode:!e.which&&void 0!==t&&Ce.test(e.type)?1&t?1:2&t?3:4&t?2:0:e.which}},C.event.addProp),C.each({focus:"focusin",blur:"focusout"},function(e,t){C.event.special[e]={setup:function(){return ke(this,e,Ne),!1},trigger:function(){return ke(this,e),!0},delegateType:t}}),C.each({mouseenter:"mouseover",mouseleave:"mouseout",pointerenter:"pointerover",pointerleave:"pointerout"},function(e,t){C.event.special[e]={delegateType:t,bindType:t,handle:function(e){var n,r=e.relatedTarget,i=e.handleObj;return r&&(r===this||C.contains(this,r))||(e.type=i.origType,n=i.handler.apply(this,arguments),e.type=t),n}}}),C.fn.extend({on:function(e,t,n,r){return Se(this,e,t,n,r)},one:function(e,t,n,r){return Se(this,e,t,n,r,1)},off:function(e,t,n){var r,i;if(e&&e.preventDefault&&e.handleObj)return r=e.handleObj,C(e.delegateTarget).off(r.namespace?r.origType+"."+r.namespace:r.origType,r.selector,r.handler),this;if("object"==typeof e){for(i in e)this.off(i,t,e[i]);return this}return!1!==t&&"function"!=typeof t||(n=t,t=void 0),!1===n&&(n=Ae),this.each(function(){C.event.remove(this,e,n,t)})}});var De=/<script|<style|<link/i,Le=/checked\s*(?:[^=]|=\s*.checked.)/i,je=/^\s*<!(?:\[CDATA\[|--)|(?:\]\]|--)>\s*$/g;function qe(e,t){return k(e,"table")&&k(11!==t.nodeType?t:t.firstChild,"tr")&&C(e).children("tbody")[0]||e}function Oe(e){return e.type=(null!==e.getAttribute("type"))+"/"+e.type,e}function Pe(e){return"true/"===(e.type||"").slice(0,5)?e.type=e.type.slice(5):e.removeAttribute("type"),e}function He(e,t){var n,r,i,o,a,s;if(1===t.nodeType){if(G.hasData(e)&&(s=G.get(e).events))for(i in G.remove(t,"handle events"),s)for(n=0,r=s[i].length;n<r;n++)C.event.add(t,i,s[i][n]);K.hasData(e)&&(o=K.access(e),a=C.extend({},o),K.set(t,a))}}function Ie(e,t,n,r){t=a(t);var i,o,s,u,l,c,f=0,d=e.length,p=d-1,v=t[0],m=g(v);if(m||d>1&&"string"==typeof v&&!h.checkClone&&Le.test(v))return e.each(function(i){var o=e.eq(i);m&&(t[0]=v.call(this,i,o.html())),Ie(o,t,n,r)});if(d&&(o=(i=xe(t,e[0].ownerDocument,!1,e,r)).firstChild,1===i.childNodes.length&&(i=o),o||r)){for(u=(s=C.map(me(i,"script"),Oe)).length;f<d;f++)l=i,f!==p&&(l=C.clone(l,!0,!0),u&&C.merge(s,me(l,"script"))),n.call(e[f],l,f);if(u)for(c=s[s.length-1].ownerDocument,C.map(s,Pe),f=0;f<u;f++)l=s[f],ge.test(l.type||"")&&!G.access(l,"globalEval")&&C.contains(c,l)&&(l.src&&"module"!==(l.type||"").toLowerCase()?C._evalUrl&&!l.noModule&&C._evalUrl(l.src,{nonce:l.nonce||l.getAttribute("nonce")},c):b(l.textContent.replace(je,""),l,c))}return e}function Re(e,t,n){for(var r,i=t?C.filter(t,e):e,o=0;null!=(r=i[o]);o++)n||1!==r.nodeType||C.cleanData(me(r)),r.parentNode&&(n&&oe(r)&&ye(me(r,"script")),r.parentNode.removeChild(r));return e}C.extend({htmlPrefilter:function(e){return e},clone:function(e,t,n){var r,i,o,a,s,u,l,c=e.cloneNode(!0),f=oe(e);if(!(h.noCloneChecked||1!==e.nodeType&&11!==e.nodeType||C.isXMLDoc(e)))for(a=me(c),r=0,i=(o=me(e)).length;r<i;r++)s=o[r],u=a[r],l=void 0,"input"===(l=u.nodeName.toLowerCase())&&pe.test(s.type)?u.checked=s.checked:"input"!==l&&"textarea"!==l||(u.defaultValue=s.defaultValue);if(t)if(n)for(o=o||me(e),a=a||me(c),r=0,i=o.length;r<i;r++)He(o[r],a[r]);else He(e,c);return(a=me(c,"script")).length>0&&ye(a,!f&&me(e,"script")),c},cleanData:function(e){for(var t,n,r,i=C.event.special,o=0;void 0!==(n=e[o]);o++)if(Q(n)){if(t=n[G.expando]){if(t.events)for(r in t.events)i[r]?C.event.remove(n,r):C.removeEvent(n,r,t.handle);n[G.expando]=void 0}n[K.expando]&&(n[K.expando]=void 0)}}}),C.fn.extend({detach:function(e){return Re(this,e,!0)},remove:function(e){return Re(this,e)},text:function(e){return z(this,function(e){return void 0===e?C.text(this):this.empty().each(function(){1!==this.nodeType&&11!==this.nodeType&&9!==this.nodeType||(this.textContent=e)})},null,e,arguments.length)},append:function(){return Ie(this,arguments,function(e){1!==this.nodeType&&11!==this.nodeType&&9!==this.nodeType||qe(this,e).appendChild(e)})},prepend:function(){return Ie(this,arguments,function(e){if(1===this.nodeType||11===this.nodeType||9===this.nodeType){var t=qe(this,e);t.insertBefore(e,t.firstChild)}})},before:function(){return Ie(this,arguments,function(e){this.parentNode&&this.parentNode.insertBefore(e,this)})},after:function(){return Ie(this,arguments,function(e){this.parentNode&&this.parentNode.insertBefore(e,this.nextSibling)})},empty:function(){for(var e,t=0;null!=(e=this[t]);t++)1===e.nodeType&&(C.cleanData(me(e,!1)),e.textContent="");return this},clone:function(e,t){return e=null!=e&&e,t=null==t?e:t,this.map(function(){return C.clone(this,e,t)})},html:function(e){return z(this,function(e){var t=this[0]||{},n=0,r=this.length;if(void 0===e&&1===t.nodeType)return t.innerHTML;if("string"==typeof e&&!De.test(e)&&!ve[(he.exec(e)||["",""])[1].toLowerCase()]){e=C.htmlPrefilter(e);try{for(;n<r;n++)1===(t=this[n]||{}).nodeType&&(C.cleanData(me(t,!1)),t.innerHTML=e);t=0}catch(i){}}t&&this.empty().append(e)},null,e,arguments.length)},replaceWith:function(){var e=[];return Ie(this,arguments,function(t){var n=this.parentNode;C.inArray(this,e)<0&&(C.cleanData(me(this)),n&&n.replaceChild(t,this))},e)}}),C.each({appendTo:"append",prependTo:"prepend",insertBefore:"before",insertAfter:"after",replaceAll:"replaceWith"},function(e,t){C.fn[e]=function(e){for(var n,r=[],i=C(e),o=i.length-1,a=0;a<=o;a++)n=a===o?this:this.clone(!0),C(i[a])[t](n),s.apply(r,n.get());return this.pushStack(r)}});var Be=new RegExp("^("+te+")(?!px)[a-z%]+$","i"),Me=function(e){var n=e.ownerDocument.defaultView;return n&&n.opener||(n=t),n.getComputedStyle(e)},We=function(e,t,n){var r,i,o={};for(i in t)o[i]=e.style[i],e.style[i]=t[i];for(i in r=n.call(e),t)e.style[i]=o[i];return r},Fe=new RegExp(re.join("|"),"i");function $e(e,t,n){var r,i,o,a,s=e.style;return(n=n||Me(e))&&(""!==(a=n.getPropertyValue(t)||n[t])||oe(e)||(a=C.style(e,t)),!h.pixelBoxStyles()&&Be.test(a)&&Fe.test(t)&&(r=s.width,i=s.minWidth,o=s.maxWidth,s.minWidth=s.maxWidth=s.width=a,a=n.width,s.width=r,s.minWidth=i,s.maxWidth=o)),void 0!==a?a+"":a}function ze(e,t){return{get:function(){if(!e())return(this.get=t).apply(this,arguments);delete this.get}}}!function(){function e(){if(c){l.style.cssText="position:absolute;left:-11111px;width:60px;margin-top:1px;padding:0;border:0",c.style.cssText="position:relative;display:block;box-sizing:border-box;overflow:scroll;margin:auto;border:1px;padding:1px;width:60%;top:1%",ie.appendChild(l).appendChild(c);var e=t.getComputedStyle(c);r="1%"!==e.top,u=12===n(e.marginLeft),c.style.right="60%",a=36===n(e.right),i=36===n(e.width),c.style.position="absolute",o=12===n(c.offsetWidth/3),ie.removeChild(l),c=null}}function n(e){return Math.round(parseFloat(e))}var r,i,o,a,s,u,l=m.createElement("div"),c=m.createElement("div");c.style&&(c.style.backgroundClip="content-box",c.cloneNode(!0).style.backgroundClip="",h.clearCloneStyle="content-box"===c.style.backgroundClip,C.extend(h,{boxSizingReliable:function(){return e(),i},pixelBoxStyles:function(){return e(),a},pixelPosition:function(){return e(),r},reliableMarginLeft:function(){return e(),u},scrollboxSize:function(){return e(),o},reliableTrDimensions:function(){var e,n,r,i;return null==s&&(e=m.createElement("table"),n=m.createElement("tr"),r=m.createElement("div"),e.style.cssText="position:absolute;left:-11111px",n.style.height="1px",r.style.height="9px",ie.appendChild(e).appendChild(n).appendChild(r),i=t.getComputedStyle(n),s=parseInt(i.height)>3,ie.removeChild(e)),s}}))}();var _e=["Webkit","Moz","ms"],Ue=m.createElement("div").style,Ve={};function Xe(e){var t=C.cssProps[e]||Ve[e];return t||(e in Ue?e:Ve[e]=function(e){for(var t=e[0].toUpperCase()+e.slice(1),n=_e.length;n--;)if((e=_e[n]+t)in Ue)return e}(e)||e)}var Qe=/^(none|table(?!-c[ea]).+)/,Ye=/^--/,Ge={position:"absolute",visibility:"hidden",display:"block"},Ke={letterSpacing:"0",fontWeight:"400"};function Je(e,t,n){var r=ne.exec(t);return r?Math.max(0,r[2]-(n||0))+(r[3]||"px"):t}function Ze(e,t,n,r,i,o){var a="width"===t?1:0,s=0,u=0;if(n===(r?"border":"content"))return 0;for(;a<4;a+=2)"margin"===n&&(u+=C.css(e,n+re[a],!0,i)),r?("content"===n&&(u-=C.css(e,"padding"+re[a],!0,i)),"margin"!==n&&(u-=C.css(e,"border"+re[a]+"Width",!0,i))):(u+=C.css(e,"padding"+re[a],!0,i),"padding"!==n?u+=C.css(e,"border"+re[a]+"Width",!0,i):s+=C.css(e,"border"+re[a]+"Width",!0,i));return!r&&o>=0&&(u+=Math.max(0,Math.ceil(e["offset"+t[0].toUpperCase()+t.slice(1)]-o-u-s-.5))||0),u}function et(e,t,n){var r=Me(e),i=(!h.boxSizingReliable()||n)&&"border-box"===C.css(e,"boxSizing",!1,r),o=i,a=$e(e,t,r),s="offset"+t[0].toUpperCase()+t.slice(1);if(Be.test(a)){if(!n)return a;a="auto"}return(!h.boxSizingReliable()&&i||!h.reliableTrDimensions()&&k(e,"tr")||"auto"===a||!parseFloat(a)&&"inline"===C.css(e,"display",!1,r))&&e.getClientRects().length&&(i="border-box"===C.css(e,"boxSizing",!1,r),(o=s in e)&&(a=e[s])),(a=parseFloat(a)||0)+Ze(e,t,n||(i?"border":"content"),o,r,a)+"px"}C.extend({cssHooks:{opacity:{get:function(e,t){if(t){var n=$e(e,"opacity");return""===n?"1":n}}}},cssNumber:{animationIterationCount:!0,columnCount:!0,fillOpacity:!0,flexGrow:!0,flexShrink:!0,fontWeight:!0,gridArea:!0,gridColumn:!0,gridColumnEnd:!0,gridColumnStart:!0,gridRow:!0,gridRowEnd:!0,gridRowStart:!0,lineHeight:!0,opacity:!0,order:!0,orphans:!0,widows:!0,zIndex:!0,zoom:!0},cssProps:{},style:function(e,t,n,r){if(e&&3!==e.nodeType&&8!==e.nodeType&&e.style){var i,o,a,s=X(t),u=Ye.test(t),l=e.style;if(u||(t=Xe(s)),a=C.cssHooks[t]||C.cssHooks[s],void 0===n)return a&&"get"in a&&void 0!==(i=a.get(e,!1,r))?i:l[t];"string"===(o=typeof n)&&(i=ne.exec(n))&&i[1]&&(n=function(e,t,n,r){var i,o,a=20,s=r?function(){return r.cur()}:function(){return C.css(e,t,"")},u=s(),l=n&&n[3]||(C.cssNumber[t]?"":"px"),c=e.nodeType&&(C.cssNumber[t]||"px"!==l&&+u)&&ne.exec(C.css(e,t));if(c&&c[3]!==l){for(u/=2,l=l||c[3],c=+u||1;a--;)C.style(e,t,c+l),(1-o)*(1-(o=s()/u||.5))<=0&&(a=0),c/=o;c*=2,C.style(e,t,c+l),n=n||[]}return n&&(c=+c||+u||0,i=n[1]?c+(n[1]+1)*n[2]:+n[2],r&&(r.unit=l,r.start=c,r.end=i)),i}(e,t,i),o="number"),null!=n&&n==n&&("number"!==o||u||(n+=i&&i[3]||(C.cssNumber[s]?"":"px")),h.clearCloneStyle||""!==n||0!==t.indexOf("background")||(l[t]="inherit"),a&&"set"in a&&void 0===(n=a.set(e,n,r))||(u?l.setProperty(t,n):l[t]=n))}},css:function(e,t,n,r){var i,o,a,s=X(t);return Ye.test(t)||(t=Xe(s)),(a=C.cssHooks[t]||C.cssHooks[s])&&"get"in a&&(i=a.get(e,!0,n)),void 0===i&&(i=$e(e,t,r)),"normal"===i&&t in Ke&&(i=Ke[t]),""===n||n?(o=parseFloat(i),!0===n||isFinite(o)?o||0:i):i}}),C.each(["height","width"],function(e,t){C.cssHooks[t]={get:function(e,n,r){if(n)return!Qe.test(C.css(e,"display"))||e.getClientRects().length&&e.getBoundingClientRect().width?et(e,t,r):We(e,Ge,function(){return et(e,t,r)})},set:function(e,n,r){var i,o=Me(e),a=!h.scrollboxSize()&&"absolute"===o.position,s=(a||r)&&"border-box"===C.css(e,"boxSizing",!1,o),u=r?Ze(e,t,r,s,o):0;return s&&a&&(u-=Math.ceil(e["offset"+t[0].toUpperCase()+t.slice(1)]-parseFloat(o[t])-Ze(e,t,"border",!1,o)-.5)),u&&(i=ne.exec(n))&&"px"!==(i[3]||"px")&&(e.style[t]=n,n=C.css(e,t)),Je(0,n,u)}}}),C.cssHooks.marginLeft=ze(h.reliableMarginLeft,function(e,t){if(t)return(parseFloat($e(e,"marginLeft"))||e.getBoundingClientRect().left-We(e,{marginLeft:0},function(){return e.getBoundingClientRect().left}))+"px"}),C.each({margin:"",padding:"",border:"Width"},function(e,t){C.cssHooks[e+t]={expand:function(n){for(var r=0,i={},o="string"==typeof n?n.split(" "):[n];r<4;r++)i[e+re[r]+t]=o[r]||o[r-2]||o[0];return i}},"margin"!==e&&(C.cssHooks[e+t].set=Je)}),C.fn.extend({css:function(e,t){return z(this,function(e,t,n){var r,i,o={},a=0;if(Array.isArray(t)){for(r=Me(e),i=t.length;a<i;a++)o[t[a]]=C.css(e,t[a],!1,r);return o}return void 0!==n?C.style(e,t,n):C.css(e,t)},e,t,arguments.length>1)}}),C.fn.delay=function(e,n){return e=C.fx&&C.fx.speeds[e]||e,n=n||"fx",this.queue(n,function(n,r){var i=t.setTimeout(n,e);r.stop=function(){t.clearTimeout(i)}})},function(){var e=m.createElement("input"),t=m.createElement("select").appendChild(m.createElement("option"));e.type="checkbox",h.checkOn=""!==e.value,h.optSelected=t.selected,(e=m.createElement("input")).value="t",e.type="radio",h.radioValue="t"===e.value}();var tt,nt=C.expr.attrHandle;C.fn.extend({attr:function(e,t){return z(this,C.attr,e,t,arguments.length>1)},removeAttr:function(e){return this.each(function(){C.removeAttr(this,e)})}}),C.extend({attr:function(e,t,n){var r,i,o=e.nodeType;if(3!==o&&8!==o&&2!==o)return void 0===e.getAttribute?C.prop(e,t,n):(1===o&&C.isXMLDoc(e)||(i=C.attrHooks[t.toLowerCase()]||(C.expr.match.bool.test(t)?tt:void 0)),void 0!==n?null===n?void C.removeAttr(e,t):i&&"set"in i&&void 0!==(r=i.set(e,n,t))?r:(e.setAttribute(t,n+""),n):i&&"get"in i&&null!==(r=i.get(e,t))?r:null==(r=C.find.attr(e,t))?void 0:r)},attrHooks:{type:{set:function(e,t){if(!h.radioValue&&"radio"===t&&k(e,"input")){var n=e.value;return e.setAttribute("type",t),n&&(e.value=n),t}}}},removeAttr:function(e,t){var n,r=0,i=t&&t.match(I);if(i&&1===e.nodeType)for(;n=i[r++];)e.removeAttribute(n)}}),tt={set:function(e,t,n){return!1===t?C.removeAttr(e,n):e.setAttribute(n,n),n}},C.each(C.expr.match.bool.source.match(/\w+/g),function(e,t){var n=nt[t]||C.find.attr;nt[t]=function(e,t,r){var i,o,a=t.toLowerCase();return r||(o=nt[a],nt[a]=i,i=null!=n(e,t,r)?a:null,nt[a]=o),i}});var rt=/^(?:input|select|textarea|button)$/i,it=/^(?:a|area)$/i;function ot(e){return(e.match(I)||[]).join(" ")}function at(e){return e.getAttribute&&e.getAttribute("class")||""}function st(e){return Array.isArray(e)?e:"string"==typeof e&&e.match(I)||[]}C.fn.extend({prop:function(e,t){return z(this,C.prop,e,t,arguments.length>1)},removeProp:function(e){return this.each(function(){delete this[C.propFix[e]||e]})}}),C.extend({prop:function(e,t,n){var r,i,o=e.nodeType;if(3!==o&&8!==o&&2!==o)return 1===o&&C.isXMLDoc(e)||(t=C.propFix[t]||t,i=C.propHooks[t]),void 0!==n?i&&"set"in i&&void 0!==(r=i.set(e,n,t))?r:e[t]=n:i&&"get"in i&&null!==(r=i.get(e,t))?r:e[t]},propHooks:{tabIndex:{get:function(e){var t=C.find.attr(e,"tabindex");return t?parseInt(t,10):rt.test(e.nodeName)||it.test(e.nodeName)&&e.href?0:-1}}},propFix:{for:"htmlFor",class:"className"}}),h.optSelected||(C.propHooks.selected={get:function(e){var t=e.parentNode;return t&&t.parentNode&&t.parentNode.selectedIndex,null},set:function(e){var t=e.parentNode;t&&(t.selectedIndex,t.parentNode&&t.parentNode.selectedIndex)}}),C.each(["tabIndex","readOnly","maxLength","cellSpacing","cellPadding","rowSpan","colSpan","useMap","frameBorder","contentEditable"],function(){C.propFix[this.toLowerCase()]=this}),C.fn.extend({addClass:function(e){var t,n,r,i,o,a,s,u=0;if(g(e))return this.each(function(t){C(this).addClass(e.call(this,t,at(this)))});if((t=st(e)).length)for(;n=this[u++];)if(i=at(n),r=1===n.nodeType&&" "+ot(i)+" "){for(a=0;o=t[a++];)r.indexOf(" "+o+" ")<0&&(r+=o+" ");i!==(s=ot(r))&&n.setAttribute("class",s)}return this},removeClass:function(e){var t,n,r,i,o,a,s,u=0;if(g(e))return this.each(function(t){C(this).removeClass(e.call(this,t,at(this)))});if(!arguments.length)return this.attr("class","");if((t=st(e)).length)for(;n=this[u++];)if(i=at(n),r=1===n.nodeType&&" "+ot(i)+" "){for(a=0;o=t[a++];)for(;r.indexOf(" "+o+" ")>-1;)r=r.replace(" "+o+" "," ");i!==(s=ot(r))&&n.setAttribute("class",s)}return this},toggleClass:function(e,t){var n=typeof e,r="string"===n||Array.isArray(e);return"boolean"==typeof t&&r?t?this.addClass(e):this.removeClass(e):g(e)?this.each(function(n){C(this).toggleClass(e.call(this,n,at(this),t),t)}):this.each(function(){var t,i,o,a;if(r)for(i=0,o=C(this),a=st(e);t=a[i++];)o.hasClass(t)?o.removeClass(t):o.addClass(t);else void 0!==e&&"boolean"!==n||((t=at(this))&&G.set(this,"__className__",t),this.setAttribute&&this.setAttribute("class",t||!1===e?"":G.get(this,"__className__")||""))})},hasClass:function(e){var t,n,r=0;for(t=" "+e+" ";n=this[r++];)if(1===n.nodeType&&(" "+ot(at(n))+" ").indexOf(t)>-1)return!0;return!1}});var ut=/\r/g;C.fn.extend({val:function(e){var t,n,r,i=this[0];return arguments.length?(r=g(e),this.each(function(n){var i;1===this.nodeType&&(null==(i=r?e.call(this,n,C(this).val()):e)?i="":"number"==typeof i?i+="":Array.isArray(i)&&(i=C.map(i,function(e){return null==e?"":e+""})),(t=C.valHooks[this.type]||C.valHooks[this.nodeName.toLowerCase()])&&"set"in t&&void 0!==t.set(this,i,"value")||(this.value=i))})):i?(t=C.valHooks[i.type]||C.valHooks[i.nodeName.toLowerCase()])&&"get"in t&&void 0!==(n=t.get(i,"value"))?n:"string"==typeof(n=i.value)?n.replace(ut,""):null==n?"":n:void 0}}),C.extend({valHooks:{option:{get:function(e){var t=C.find.attr(e,"value");return null!=t?t:ot(C.text(e))}},select:{get:function(e){var t,n,r,i=e.options,o=e.selectedIndex,a="select-one"===e.type,s=a?null:[],u=a?o+1:i.length;for(r=o<0?u:a?o:0;r<u;r++)if(((n=i[r]).selected||r===o)&&!n.disabled&&(!n.parentNode.disabled||!k(n.parentNode,"optgroup"))){if(t=C(n).val(),a)return t;s.push(t)}return s},set:function(e,t){for(var n,r,i=e.options,o=C.makeArray(t),a=i.length;a--;)((r=i[a]).selected=C.inArray(C.valHooks.option.get(r),o)>-1)&&(n=!0);return n||(e.selectedIndex=-1),o}}}}),C.each(["radio","checkbox"],function(){C.valHooks[this]={set:function(e,t){if(Array.isArray(t))return e.checked=C.inArray(C(e).val(),t)>-1}},h.checkOn||(C.valHooks[this].get=function(e){return null===e.getAttribute("value")?"on":e.value})}),h.focusin="onfocusin"in t;var lt=/^(?:focusinfocus|focusoutblur)$/,ct=function(e){e.stopPropagation()};C.extend(C.event,{trigger:function(e,n,r,i){var o,a,s,u,l,c,d,p,h=[r||m],y=f.call(e,"type")?e.type:e,b=f.call(e,"namespace")?e.namespace.split("."):[];if(a=p=s=r=r||m,3!==r.nodeType&&8!==r.nodeType&&!lt.test(y+C.event.triggered)&&(y.indexOf(".")>-1&&(b=y.split("."),y=b.shift(),b.sort()),l=y.indexOf(":")<0&&"on"+y,(e=e[C.expando]?e:new C.Event(y,"object"==typeof e&&e)).isTrigger=i?2:3,e.namespace=b.join("."),e.rnamespace=e.namespace?new RegExp("(^|\\.)"+b.join("\\.(?:.*\\.|)")+"(\\.|$)"):null,e.result=void 0,e.target||(e.target=r),n=null==n?[e]:C.makeArray(n,[e]),d=C.event.special[y]||{},i||!d.trigger||!1!==d.trigger.apply(r,n))){if(!i&&!d.noBubble&&!v(r)){for(u=d.delegateType||y,lt.test(u+y)||(a=a.parentNode);a;a=a.parentNode)h.push(a),s=a;s===(r.ownerDocument||m)&&h.push(s.defaultView||s.parentWindow||t)}for(o=0;(a=h[o++])&&!e.isPropagationStopped();)p=a,e.type=o>1?u:d.bindType||y,(c=(G.get(a,"events")||Object.create(null))[e.type]&&G.get(a,"handle"))&&c.apply(a,n),(c=l&&a[l])&&c.apply&&Q(a)&&(e.result=c.apply(a,n),!1===e.result&&e.preventDefault());return e.type=y,i||e.isDefaultPrevented()||d._default&&!1!==d._default.apply(h.pop(),n)||!Q(r)||l&&g(r[y])&&!v(r)&&((s=r[l])&&(r[l]=null),C.event.triggered=y,e.isPropagationStopped()&&p.addEventListener(y,ct),r[y](),e.isPropagationStopped()&&p.removeEventListener(y,ct),C.event.triggered=void 0,s&&(r[l]=s)),e.result}},simulate:function(e,t,n){var r=C.extend(new C.Event,n,{type:e,isSimulated:!0});C.event.trigger(r,null,t)}}),C.fn.extend({trigger:function(e,t){return this.each(function(){C.event.trigger(e,t,this)})},triggerHandler:function(e,t){var n=this[0];if(n)return C.event.trigger(e,t,n,!0)}}),h.focusin||C.each({focus:"focusin",blur:"focusout"},function(e,t){var n=function(e){C.event.simulate(t,e.target,C.event.fix(e))};C.event.special[t]={setup:function(){var r=this.ownerDocument||this.document||this,i=G.access(r,t);i||r.addEventListener(e,n,!0),G.access(r,t,(i||0)+1)},teardown:function(){var r=this.ownerDocument||this.document||this,i=G.access(r,t)-1;i?G.access(r,t,i):(r.removeEventListener(e,n,!0),G.remove(r,t))}}}),C.parseXML=function(e){var n;if(!e||"string"!=typeof e)return null;try{n=(new t.DOMParser).parseFromString(e,"text/xml")}catch(r){n=void 0}return n&&!n.getElementsByTagName("parsererror").length||C.error("Invalid XML: "+e),n};var ft,dt=/\[\]$/,pt=/\r?\n/g,ht=/^(?:submit|button|image|reset|file)$/i,gt=/^(?:input|select|textarea|keygen)/i;function vt(e,t,n,r){var i;if(Array.isArray(t))C.each(t,function(t,i){n||dt.test(e)?r(e,i):vt(e+"["+("object"==typeof i&&null!=i?t:"")+"]",i,n,r)});else if(n||"object"!==x(t))r(e,t);else for(i in t)vt(e+"["+i+"]",t[i],n,r)}C.param=function(e,t){var n,r=[],i=function(e,t){var n=g(t)?t():t;r[r.length]=encodeURIComponent(e)+"="+encodeURIComponent(null==n?"":n)};if(null==e)return"";if(Array.isArray(e)||e.jquery&&!C.isPlainObject(e))C.each(e,function(){i(this.name,this.value)});else for(n in e)vt(n,e[n],t,i);return r.join("&")},C.fn.extend({serialize:function(){return C.param(this.serializeArray())},serializeArray:function(){return this.map(function(){var e=C.prop(this,"elements");return e?C.makeArray(e):this}).filter(function(){var e=this.type;return this.name&&!C(this).is(":disabled")&&gt.test(this.nodeName)&&!ht.test(e)&&(this.checked||!pe.test(e))}).map(function(e,t){var n=C(this).val();return null==n?null:Array.isArray(n)?C.map(n,function(e){return{name:t.name,value:e.replace(pt,"\r\n")}}):{name:t.name,value:n.replace(pt,"\r\n")}}).get()}}),C.fn.extend({wrapAll:function(e){var t;return this[0]&&(g(e)&&(e=e.call(this[0])),t=C(e,this[0].ownerDocument).eq(0).clone(!0),this[0].parentNode&&t.insertBefore(this[0]),t.map(function(){for(var e=this;e.firstElementChild;)e=e.firstElementChild;return e}).append(this)),this},wrapInner:function(e){return g(e)?this.each(function(t){C(this).wrapInner(e.call(this,t))}):this.each(function(){var t=C(this),n=t.contents();n.length?n.wrapAll(e):t.append(e)})},wrap:function(e){var t=g(e);return this.each(function(n){C(this).wrapAll(t?e.call(this,n):e)})},unwrap:function(e){return this.parent(e).not("body").each(function(){C(this).replaceWith(this.childNodes)}),this}}),C.expr.pseudos.hidden=function(e){return!C.expr.pseudos.visible(e)},C.expr.pseudos.visible=function(e){return!!(e.offsetWidth||e.offsetHeight||e.getClientRects().length)},h.createHTMLDocument=((ft=m.implementation.createHTMLDocument("").body).innerHTML="<form></form><form></form>",2===ft.childNodes.length),C.parseHTML=function(e,t,n){return"string"!=typeof e?[]:("boolean"==typeof t&&(n=t,t=!1),t||(h.createHTMLDocument?((r=(t=m.implementation.createHTMLDocument("")).createElement("base")).href=m.location.href,t.head.appendChild(r)):t=m),o=!n&&[],(i=D.exec(e))?[t.createElement(i[1])]:(i=xe([e],t,o),o&&o.length&&C(o).remove(),C.merge([],i.childNodes)));var r,i,o},C.offset={setOffset:function(e,t,n){var r,i,o,a,s,u,l=C.css(e,"position"),c=C(e),f={};"static"===l&&(e.style.position="relative"),s=c.offset(),o=C.css(e,"top"),u=C.css(e,"left"),("absolute"===l||"fixed"===l)&&(o+u).indexOf("auto")>-1?(a=(r=c.position()).top,i=r.left):(a=parseFloat(o)||0,i=parseFloat(u)||0),g(t)&&(t=t.call(e,n,C.extend({},s))),null!=t.top&&(f.top=t.top-s.top+a),null!=t.left&&(f.left=t.left-s.left+i),"using"in t?t.using.call(e,f):("number"==typeof f.top&&(f.top+="px"),"number"==typeof f.left&&(f.left+="px"),c.css(f))}},C.fn.extend({offset:function(e){if(arguments.length)return void 0===e?this:this.each(function(t){C.offset.setOffset(this,e,t)});var t,n,r=this[0];return r?r.getClientRects().length?(t=r.getBoundingClientRect(),n=r.ownerDocument.defaultView,{top:t.top+n.pageYOffset,left:t.left+n.pageXOffset}):{top:0,left:0}:void 0},position:function(){if(this[0]){var e,t,n,r=this[0],i={top:0,left:0};if("fixed"===C.css(r,"position"))t=r.getBoundingClientRect();else{for(t=this.offset(),n=r.ownerDocument,e=r.offsetParent||n.documentElement;e&&(e===n.body||e===n.documentElement)&&"static"===C.css(e,"position");)e=e.parentNode;e&&e!==r&&1===e.nodeType&&((i=C(e).offset()).top+=C.css(e,"borderTopWidth",!0),i.left+=C.css(e,"borderLeftWidth",!0))}return{top:t.top-i.top-C.css(r,"marginTop",!0),left:t.left-i.left-C.css(r,"marginLeft",!0)}}},offsetParent:function(){return this.map(function(){for(var e=this.offsetParent;e&&"static"===C.css(e,"position");)e=e.offsetParent;return e||ie})}}),C.each({scrollLeft:"pageXOffset",scrollTop:"pageYOffset"},function(e,t){var n="pageYOffset"===t;C.fn[e]=function(r){return z(this,function(e,r,i){var o;if(v(e)?o=e:9===e.nodeType&&(o=e.defaultView),void 0===i)return o?o[t]:e[r];o?o.scrollTo(n?o.pageXOffset:i,n?i:o.pageYOffset):e[r]=i},e,r,arguments.length)}}),C.each(["top","left"],function(e,t){C.cssHooks[t]=ze(h.pixelPosition,function(e,n){if(n)return n=$e(e,t),Be.test(n)?C(e).position()[t]+"px":n})}),C.each({Height:"height",Width:"width"},function(e,t){C.each({padding:"inner"+e,content:t,"":"outer"+e},function(n,r){C.fn[r]=function(i,o){var a=arguments.length&&(n||"boolean"!=typeof i),s=n||(!0===i||!0===o?"margin":"border");return z(this,function(t,n,i){var o;return v(t)?0===r.indexOf("outer")?t["inner"+e]:t.document.documentElement["client"+e]:9===t.nodeType?(o=t.documentElement,Math.max(t.body["scroll"+e],o["scroll"+e],t.body["offset"+e],o["offset"+e],o["client"+e])):void 0===i?C.css(t,n,s):C.style(t,n,i,s)},t,a?i:void 0,a)}})}),C.fn.extend({bind:function(e,t,n){return this.on(e,null,t,n)},unbind:function(e,t){return this.off(e,null,t)},delegate:function(e,t,n,r){return this.on(t,e,n,r)},undelegate:function(e,t,n){return 1===arguments.length?this.off(e,"**"):this.off(t,e||"**",n)},hover:function(e,t){return this.mouseenter(e).mouseleave(t||e)}}),C.each("blur focus focusin focusout resize scroll click dblclick mousedown mouseup mousemove mouseover mouseout mouseenter mouseleave change select submit keydown keypress keyup contextmenu".split(" "),function(e,t){C.fn[t]=function(e,n){return arguments.length>0?this.on(t,null,e,n):this.trigger(t)}});var mt=/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g;C.proxy=function(e,t){var n,r,i;if("string"==typeof t&&(n=e[t],t=e,e=n),g(e))return r=o.call(arguments,2),(i=function(){return e.apply(t||this,r.concat(o.call(arguments)))}).guid=e.guid=e.guid||C.guid++,i},C.holdReady=function(e){e?C.readyWait++:C.ready(!0)},C.isArray=Array.isArray,C.parseJSON=JSON.parse,C.nodeName=k,C.isFunction=g,C.isWindow=v,C.camelCase=X,C.type=x,C.now=Date.now,C.isNumeric=function(e){var t=C.type(e);return("number"===t||"string"===t)&&!isNaN(e-parseFloat(e))},C.trim=function(e){return null==e?"":(e+"").replace(mt,"")},"function"==typeof e&&e.amd&&e("jquery",[],function(){return C});var yt=t.jQuery,bt=t.$;return C.noConflict=function(e){return t.$===C&&(t.$=bt),e&&t.jQuery===C&&(t.jQuery=yt),C},void 0===n&&(t.jQuery=t.$=C),C});
-},{"process":"II9K"}],"cEz3":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.modifierPhases=exports.afterWrite=exports.write=exports.beforeWrite=exports.afterMain=exports.main=exports.beforeMain=exports.afterRead=exports.read=exports.beforeRead=exports.placements=exports.variationPlacements=exports.reference=exports.popper=exports.viewport=exports.clippingParents=exports.end=exports.start=exports.basePlacements=exports.auto=exports.left=exports.right=exports.bottom=exports.top=void 0;var e="top";exports.top=e;var r="bottom";exports.bottom=r;var t="right";exports.right=t;var o="left";exports.left=o;var a="auto";exports.auto=a;var p=[e,r,t,o];exports.basePlacements=p;var s="start";exports.start=s;var x="end";exports.end=x;var i="clippingParents";exports.clippingParents=i;var n="viewport";exports.viewport=n;var v="popper";exports.popper=v;var f="reference";exports.reference=f;var c=p.reduce(function(e,r){return e.concat([r+"-"+s,r+"-"+x])},[]);exports.variationPlacements=c;var d=[].concat(p,[a]).reduce(function(e,r){return e.concat([r,r+"-"+s,r+"-"+x])},[]);exports.placements=d;var b="beforeRead";exports.beforeRead=b;var l="read";exports.read=l;var m="afterRead";exports.afterRead=m;var u="beforeMain";exports.beforeMain=u;var P="main";exports.main=P;var M="afterMain";exports.afterMain=M;var g="beforeWrite";exports.beforeWrite=g;var w="write";exports.write=w;var R="afterWrite";exports.afterWrite=R;var W=[b,l,m,u,P,M,g,w,R];exports.modifierPhases=W;
-},{}],"wFjk":[function(require,module,exports) {
-"use strict";function e(e){return e?(e.nodeName||"").toLowerCase():null}Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=e;
-},{}],"Mhix":[function(require,module,exports) {
-"use strict";function e(e){if("[object Window]"!==e.toString()){var t=e.ownerDocument;return t&&t.defaultView||window}return e}Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=e;
-},{}],"mzFZ":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.isElement=n,exports.isHTMLElement=o,exports.isShadowRoot=r;var e=t(require("./getWindow.js"));function t(e){return e&&e.__esModule?e:{default:e}}function n(t){return t instanceof(0,e.default)(t).Element||t instanceof Element}function o(t){return t instanceof(0,e.default)(t).HTMLElement||t instanceof HTMLElement}function r(t){return t instanceof(0,e.default)(t).ShadowRoot||t instanceof ShadowRoot}
-},{"./getWindow.js":"Mhix"}],"inKI":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var e=s(require("../dom-utils/getNodeName.js")),t=require("../dom-utils/instanceOf.js");function s(e){return e&&e.__esModule?e:{default:e}}function r(s){var r=s.state;Object.keys(r.elements).forEach(function(s){var n=r.styles[s]||{},o=r.attributes[s]||{},a=r.elements[s];(0,t.isHTMLElement)(a)&&(0,e.default)(a)&&(Object.assign(a.style,n),Object.keys(o).forEach(function(e){var t=o[e];!1===t?a.removeAttribute(e):a.setAttribute(e,!0===t?"":t)}))})}function n(s){var r=s.state,n={popper:{position:r.options.strategy,left:"0",top:"0",margin:"0"},arrow:{position:"absolute"},reference:{}};return Object.assign(r.elements.popper.style,n.popper),r.elements.arrow&&Object.assign(r.elements.arrow.style,n.arrow),function(){Object.keys(r.elements).forEach(function(s){var o=r.elements[s],a=r.attributes[s]||{},i=Object.keys(r.styles.hasOwnProperty(s)?r.styles[s]:n[s]).reduce(function(e,t){return e[t]="",e},{});(0,t.isHTMLElement)(o)&&(0,e.default)(o)&&(Object.assign(o.style,i),Object.keys(a).forEach(function(e){o.removeAttribute(e)}))})}}var o={name:"applyStyles",enabled:!0,phase:"write",fn:r,effect:n,requires:["computeStyles"]};exports.default=o;
-},{"../dom-utils/getNodeName.js":"wFjk","../dom-utils/instanceOf.js":"mzFZ"}],"Og5Z":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=r;var e=require("../enums.js");function r(e){return e.split("-")[0]}
-},{"../enums.js":"cEz3"}],"ZXa8":[function(require,module,exports) {
-"use strict";function e(e){return{x:e.offsetLeft,y:e.offsetTop,width:e.offsetWidth,height:e.offsetHeight}}Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=e;
-},{}],"Rusr":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=t;var e=require("./instanceOf.js");function t(t,o){var r=o.getRootNode&&o.getRootNode();if(t.contains(o))return!0;if(r&&(0,e.isShadowRoot)(r)){var i=o;do{if(i&&t.isSameNode(i))return!0;i=i.parentNode||i.host}while(i)}return!1}
-},{"./instanceOf.js":"mzFZ"}],"m22s":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=u;var e=t(require("./getWindow.js"));function t(e){return e&&e.__esModule?e:{default:e}}function u(t){return(0,e.default)(t).getComputedStyle(t)}
-},{"./getWindow.js":"Mhix"}],"mTZ7":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=r;var e=t(require("./getNodeName.js"));function t(e){return e&&e.__esModule?e:{default:e}}function r(t){return["table","td","th"].indexOf((0,e.default)(t))>=0}
-},{"./getNodeName.js":"wFjk"}],"LRhK":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=t;var e=require("./instanceOf.js");function t(t){return(((0,e.isElement)(t)?t.ownerDocument:t.document)||window.document).documentElement}
-},{"./instanceOf.js":"mzFZ"}],"UMLJ":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=u;var e=r(require("./getNodeName.js")),t=r(require("./getDocumentElement.js"));function r(e){return e&&e.__esModule?e:{default:e}}function u(r){return"html"===(0,e.default)(r)?r:r.assignedSlot||r.parentNode||r.host||(0,t.default)(r)}
-},{"./getNodeName.js":"wFjk","./getDocumentElement.js":"LRhK"}],"qRQD":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=s;var e=o(require("./getWindow.js")),t=o(require("./getNodeName.js")),r=o(require("./getComputedStyle.js")),n=require("./instanceOf.js"),u=o(require("./isTableElement.js")),i=o(require("./getParentNode.js")),a=o(require("./getDocumentElement.js"));function o(e){return e&&e.__esModule?e:{default:e}}function l(e){if(!(0,n.isHTMLElement)(e)||"fixed"===(0,r.default)(e).position)return null;var u=e.offsetParent;if(u){var i=(0,a.default)(u);if("body"===(0,t.default)(u)&&"static"===(0,r.default)(u).position&&"static"!==(0,r.default)(i).position)return i}return u}function f(e){for(var u=(0,i.default)(e);(0,n.isHTMLElement)(u)&&["html","body"].indexOf((0,t.default)(u))<0;){var a=(0,r.default)(u);if("none"!==a.transform||"none"!==a.perspective||a.willChange&&"auto"!==a.willChange)return u;u=u.parentNode}return null}function s(n){for(var i=(0,e.default)(n),a=l(n);a&&(0,u.default)(a)&&"static"===(0,r.default)(a).position;)a=l(a);return a&&"body"===(0,t.default)(a)&&"static"===(0,r.default)(a).position?i:a||f(n)||i}
-},{"./getWindow.js":"Mhix","./getNodeName.js":"wFjk","./getComputedStyle.js":"m22s","./instanceOf.js":"mzFZ","./isTableElement.js":"mTZ7","./getParentNode.js":"UMLJ","./getDocumentElement.js":"LRhK"}],"vCjm":[function(require,module,exports) {
-"use strict";function e(e){return["top","bottom"].indexOf(e)>=0?"x":"y"}Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=e;
-},{}],"D94x":[function(require,module,exports) {
-"use strict";function e(e,t,r){return Math.max(e,Math.min(t,r))}Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=e;
-},{}],"f3wM":[function(require,module,exports) {
-"use strict";function t(){return{top:0,right:0,bottom:0,left:0}}Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=t;
-},{}],"GKpq":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=r;var e=t(require("./getFreshSideObject.js"));function t(e){return e&&e.__esModule?e:{default:e}}function r(t){return Object.assign(Object.assign({},(0,e.default)()),t)}
-},{"./getFreshSideObject.js":"f3wM"}],"pYUm":[function(require,module,exports) {
-"use strict";function e(e,t){return t.reduce(function(t,r){return t[r]=e,t},{})}Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=e;
-},{}],"FALZ":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var e=l(require("../utils/getBasePlacement.js")),t=l(require("../dom-utils/getLayoutRect.js")),r=l(require("../dom-utils/contains.js")),s=l(require("../dom-utils/getOffsetParent.js")),i=l(require("../utils/getMainAxisFromPlacement.js")),a=l(require("../utils/within.js")),n=l(require("../utils/mergePaddingObject.js")),u=l(require("../utils/expandToHashMap.js")),o=require("../enums.js"),f=require("../dom-utils/instanceOf.js");function l(e){return e&&e.__esModule?e:{default:e}}function d(r){var n,u=r.state,f=r.name,l=u.elements.arrow,d=u.modifiersData.popperOffsets,p=(0,e.default)(u.placement),m=(0,i.default)(p),c=[o.left,o.right].indexOf(p)>=0?"height":"width";if(l&&d){var g=u.modifiersData[f+"#persistent"].padding,q=(0,t.default)(l),j="y"===m?o.top:o.left,v="y"===m?o.bottom:o.right,h=u.rects.reference[c]+u.rects.reference[m]-d[m]-u.rects.popper[c],O=d[m]-u.rects.reference[m],y=(0,s.default)(l),w=y?"y"===m?y.clientHeight||0:y.clientWidth||0:0,x=h/2-O/2,b=g[j],P=w-q[c]-g[v],D=w/2-q[c]/2+x,M=(0,a.default)(b,D,P),_=m;u.modifiersData[f]=((n={})[_]=M,n.centerOffset=M-D,n)}}function p(e){var t=e.state,s=e.options,i=e.name,a=s.element,f=void 0===a?"[data-popper-arrow]":a,l=s.padding,d=void 0===l?0:l;null!=f&&("string"!=typeof f||(f=t.elements.popper.querySelector(f)))&&(0,r.default)(t.elements.popper,f)&&(t.elements.arrow=f,t.modifiersData[i+"#persistent"]={padding:(0,n.default)("number"!=typeof d?d:(0,u.default)(d,o.basePlacements))})}var m={name:"arrow",enabled:!0,phase:"main",fn:d,effect:p,requires:["popperOffsets"],requiresIfExists:["preventOverflow"]};exports.default=m;
-},{"../utils/getBasePlacement.js":"Og5Z","../dom-utils/getLayoutRect.js":"ZXa8","../dom-utils/contains.js":"Rusr","../dom-utils/getOffsetParent.js":"qRQD","../utils/getMainAxisFromPlacement.js":"vCjm","../utils/within.js":"D94x","../utils/mergePaddingObject.js":"GKpq","../utils/expandToHashMap.js":"pYUm","../enums.js":"cEz3","../dom-utils/instanceOf.js":"mzFZ"}],"nkcy":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.mapToStyles=u,exports.default=void 0;var e=require("../enums.js"),t=i(require("../dom-utils/getOffsetParent.js")),s=i(require("../dom-utils/getWindow.js")),o=i(require("../dom-utils/getDocumentElement.js")),a=i(require("../dom-utils/getComputedStyle.js")),r=i(require("../utils/getBasePlacement.js"));function i(e){return e&&e.__esModule?e:{default:e}}var p={top:"auto",right:"auto",bottom:"auto",left:"auto"};function n(e){var t=e.x,s=e.y,o=window.devicePixelRatio||1;return{x:Math.round(t*o)/o||0,y:Math.round(s*o)/o||0}}function u(a){var r,i=a.popper,u=a.popperRect,l=a.placement,d=a.offsets,f=a.position,c=a.gpuAcceleration,g=a.adaptive,m=a.roundOffsets?n(d):d,O=m.x,b=void 0===O?0:O,j=m.y,v=void 0===j?0:j,x=d.hasOwnProperty("x"),y=d.hasOwnProperty("y"),h=e.left,w=e.top,P=window;if(g){var q=(0,t.default)(i);q===(0,s.default)(i)&&(q=(0,o.default)(i)),l===e.top&&(w=e.bottom,v-=q.clientHeight-u.height,v*=c?1:-1),l===e.left&&(h=e.right,b-=q.clientWidth-u.width,b*=c?1:-1)}var D,M=Object.assign({position:f},g&&p);return c?Object.assign(Object.assign({},M),{},((D={})[w]=y?"0":"",D[h]=x?"0":"",D.transform=(P.devicePixelRatio||1)<2?"translate("+b+"px, "+v+"px)":"translate3d("+b+"px, "+v+"px, 0)",D)):Object.assign(Object.assign({},M),{},((r={})[w]=y?v+"px":"",r[h]=x?b+"px":"",r.transform="",r))}function l(e){var t=e.state,s=e.options,o=s.gpuAcceleration,a=void 0===o||o,i=s.adaptive,p=void 0===i||i,n=s.roundOffsets,l=void 0===n||n,d={placement:(0,r.default)(t.placement),popper:t.elements.popper,popperRect:t.rects.popper,gpuAcceleration:a};null!=t.modifiersData.popperOffsets&&(t.styles.popper=Object.assign(Object.assign({},t.styles.popper),u(Object.assign(Object.assign({},d),{},{offsets:t.modifiersData.popperOffsets,position:t.options.strategy,adaptive:p,roundOffsets:l})))),null!=t.modifiersData.arrow&&(t.styles.arrow=Object.assign(Object.assign({},t.styles.arrow),u(Object.assign(Object.assign({},d),{},{offsets:t.modifiersData.arrow,position:"absolute",adaptive:!1,roundOffsets:l})))),t.attributes.popper=Object.assign(Object.assign({},t.attributes.popper),{},{"data-popper-placement":t.placement})}var d={name:"computeStyles",enabled:!0,phase:"beforeWrite",fn:l,data:{}};exports.default=d;
-},{"../enums.js":"cEz3","../dom-utils/getOffsetParent.js":"qRQD","../dom-utils/getWindow.js":"Mhix","../dom-utils/getDocumentElement.js":"LRhK","../dom-utils/getComputedStyle.js":"m22s","../utils/getBasePlacement.js":"Og5Z"}],"k5OC":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var e=t(require("../dom-utils/getWindow.js"));function t(e){return e&&e.__esModule?e:{default:e}}var r={passive:!0};function n(t){var n=t.state,s=t.instance,o=t.options,a=o.scroll,i=void 0===a||a,d=o.resize,u=void 0===d||d,c=(0,e.default)(n.elements.popper),l=[].concat(n.scrollParents.reference,n.scrollParents.popper);return i&&l.forEach(function(e){e.addEventListener("scroll",s.update,r)}),u&&c.addEventListener("resize",s.update,r),function(){i&&l.forEach(function(e){e.removeEventListener("scroll",s.update,r)}),u&&c.removeEventListener("resize",s.update,r)}}var s={name:"eventListeners",enabled:!0,phase:"write",fn:function(){},effect:n,data:{}};exports.default=s;
-},{"../dom-utils/getWindow.js":"Mhix"}],"PZEj":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=e;var t={left:"right",right:"left",bottom:"top",top:"bottom"};function e(e){return e.replace(/left|right|bottom|top/g,function(e){return t[e]})}
-},{}],"mXkm":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=t;var e={start:"end",end:"start"};function t(t){return t.replace(/start|end/g,function(t){return e[t]})}
-},{}],"xyzt":[function(require,module,exports) {
-"use strict";function t(t){var e=t.getBoundingClientRect();return{width:e.width,height:e.height,top:e.top,right:e.right,bottom:e.bottom,left:e.left,x:e.left,y:e.top}}Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=t;
-},{}],"j3kn":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=r;var e=t(require("./getWindow.js"));function t(e){return e&&e.__esModule?e:{default:e}}function r(t){var r=(0,e.default)(t);return{scrollLeft:r.pageXOffset,scrollTop:r.pageYOffset}}
-},{"./getWindow.js":"Mhix"}],"TeYH":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=l;var e=u(require("./getBoundingClientRect.js")),t=u(require("./getDocumentElement.js")),r=u(require("./getWindowScroll.js"));function u(e){return e&&e.__esModule?e:{default:e}}function l(u){return(0,e.default)((0,t.default)(u)).left+(0,r.default)(u).scrollLeft}
-},{"./getBoundingClientRect.js":"xyzt","./getDocumentElement.js":"LRhK","./getWindowScroll.js":"j3kn"}],"X1pJ":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=u;var e=i(require("./getWindow.js")),t=i(require("./getDocumentElement.js")),r=i(require("./getWindowScrollBarX.js"));function i(e){return e&&e.__esModule?e:{default:e}}function u(i){var u=(0,e.default)(i),o=(0,t.default)(i),n=u.visualViewport,a=o.clientWidth,d=o.clientHeight,s=0,f=0;return n&&(a=n.width,d=n.height,/^((?!chrome|android).)*safari/i.test(navigator.userAgent)||(s=n.offsetLeft,f=n.offsetTop)),{width:a,height:d,x:s+(0,r.default)(i),y:f}}
-},{"./getWindow.js":"Mhix","./getDocumentElement.js":"LRhK","./getWindowScrollBarX.js":"TeYH"}],"Eb6h":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=o;var e=i(require("./getDocumentElement.js")),t=i(require("./getComputedStyle.js")),l=i(require("./getWindowScrollBarX.js")),r=i(require("./getWindowScroll.js"));function i(e){return e&&e.__esModule?e:{default:e}}function o(i){var o=(0,e.default)(i),c=(0,r.default)(i),d=i.ownerDocument.body,u=Math.max(o.scrollWidth,o.clientWidth,d?d.scrollWidth:0,d?d.clientWidth:0),n=Math.max(o.scrollHeight,o.clientHeight,d?d.scrollHeight:0,d?d.clientHeight:0),a=-c.scrollLeft+(0,l.default)(i),h=-c.scrollTop;return"rtl"===(0,t.default)(d||o).direction&&(a+=Math.max(o.clientWidth,d?d.clientWidth:0)-u),{width:u,height:n,x:a,y:h}}
-},{"./getDocumentElement.js":"LRhK","./getComputedStyle.js":"m22s","./getWindowScrollBarX.js":"TeYH","./getWindowScroll.js":"j3kn"}],"Gcl6":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=r;var e=t(require("./getComputedStyle.js"));function t(e){return e&&e.__esModule?e:{default:e}}function r(t){var r=(0,e.default)(t),o=r.overflow,u=r.overflowX,l=r.overflowY;return/auto|scroll|overlay|hidden/.test(o+l+u)}
-},{"./getComputedStyle.js":"m22s"}],"rY3b":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=o;var e=n(require("./getParentNode.js")),t=n(require("./isScrollParent.js")),r=n(require("./getNodeName.js")),u=require("./instanceOf.js");function n(e){return e&&e.__esModule?e:{default:e}}function o(n){return["html","body","#document"].indexOf((0,r.default)(n))>=0?n.ownerDocument.body:(0,u.isHTMLElement)(n)&&(0,t.default)(n)?n:o((0,e.default)(n))}
-},{"./getParentNode.js":"UMLJ","./isScrollParent.js":"Gcl6","./getNodeName.js":"wFjk","./instanceOf.js":"mzFZ"}],"odmb":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=d;var e=o(require("./getScrollParent.js")),t=o(require("./getParentNode.js")),r=o(require("./getNodeName.js")),u=o(require("./getWindow.js")),a=o(require("./isScrollParent.js"));function o(e){return e&&e.__esModule?e:{default:e}}function d(o,l){void 0===l&&(l=[]);var i=(0,e.default)(o),n="body"===(0,r.default)(i),s=(0,u.default)(i),c=n?[s].concat(s.visualViewport||[],(0,a.default)(i)?i:[]):i,f=l.concat(c);return n?f:f.concat(d((0,t.default)(c)))}
-},{"./getScrollParent.js":"rY3b","./getParentNode.js":"UMLJ","./getNodeName.js":"wFjk","./getWindow.js":"Mhix","./isScrollParent.js":"Gcl6"}],"BAgT":[function(require,module,exports) {
-"use strict";function t(t){return Object.assign(Object.assign({},t),{},{left:t.x,top:t.y,right:t.x+t.width,bottom:t.y+t.height})}Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=t;
-},{}],"H9Ju":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=j;var e=require("../enums.js"),t=g(require("./getViewportRect.js")),r=g(require("./getDocumentRect.js")),i=g(require("./listScrollParents.js")),n=g(require("./getOffsetParent.js")),u=g(require("./getDocumentElement.js")),o=g(require("./getComputedStyle.js")),l=require("./instanceOf.js"),f=g(require("./getBoundingClientRect.js")),a=g(require("./getParentNode.js")),s=g(require("./contains.js")),c=g(require("./getNodeName.js")),d=g(require("../utils/rectToClientRect.js"));function g(e){return e&&e.__esModule?e:{default:e}}function h(e){var t=(0,f.default)(e);return t.top=t.top+e.clientTop,t.left=t.left+e.clientLeft,t.bottom=t.top+e.clientHeight,t.right=t.left+e.clientWidth,t.width=e.clientWidth,t.height=e.clientHeight,t.x=t.left,t.y=t.top,t}function m(i,n){return n===e.viewport?(0,d.default)((0,t.default)(i)):(0,l.isHTMLElement)(n)?h(n):(0,d.default)((0,r.default)((0,u.default)(i)))}function p(e){var t=(0,i.default)((0,a.default)(e)),r=["absolute","fixed"].indexOf((0,o.default)(e).position)>=0&&(0,l.isHTMLElement)(e)?(0,n.default)(e):e;return(0,l.isElement)(r)?t.filter(function(e){return(0,l.isElement)(e)&&(0,s.default)(e,r)&&"body"!==(0,c.default)(e)}):[]}function j(e,t,r){var i="clippingParents"===t?p(e):[].concat(t),n=[].concat(i,[r]),u=n[0],o=n.reduce(function(t,r){var i=m(e,r);return t.top=Math.max(i.top,t.top),t.right=Math.min(i.right,t.right),t.bottom=Math.min(i.bottom,t.bottom),t.left=Math.max(i.left,t.left),t},m(e,u));return o.width=o.right-o.left,o.height=o.bottom-o.top,o.x=o.left,o.y=o.top,o}
-},{"../enums.js":"cEz3","./getViewportRect.js":"X1pJ","./getDocumentRect.js":"Eb6h","./listScrollParents.js":"odmb","./getOffsetParent.js":"qRQD","./getDocumentElement.js":"LRhK","./getComputedStyle.js":"m22s","./instanceOf.js":"mzFZ","./getBoundingClientRect.js":"xyzt","./getParentNode.js":"UMLJ","./contains.js":"Rusr","./getNodeName.js":"wFjk","../utils/rectToClientRect.js":"BAgT"}],"wjdI":[function(require,module,exports) {
-"use strict";function e(e){return e.split("-")[1]}Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=e;
-},{}],"ZIs3":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=u;var e=i(require("./getBasePlacement.js")),t=i(require("./getVariation.js")),r=i(require("./getMainAxisFromPlacement.js")),a=require("../enums.js");function i(e){return e&&e.__esModule?e:{default:e}}function u(i){var u,l=i.reference,s=i.element,n=i.placement,h=n?(0,e.default)(n):null,c=n?(0,t.default)(n):null,d=l.x+l.width/2-s.width/2,f=l.y+l.height/2-s.height/2;switch(h){case a.top:u={x:d,y:l.y-s.height};break;case a.bottom:u={x:d,y:l.y+l.height};break;case a.right:u={x:l.x+l.width,y:f};break;case a.left:u={x:l.x-s.width,y:f};break;default:u={x:l.x,y:l.y}}var o=h?(0,r.default)(h):null;if(null!=o){var x="y"===o?"height":"width";switch(c){case a.start:u[o]=u[o]-(l[x]/2-s[x]/2);break;case a.end:u[o]=u[o]+(l[x]/2-s[x]/2)}}return u}
-},{"./getBasePlacement.js":"Og5Z","./getVariation.js":"wjdI","./getMainAxisFromPlacement.js":"vCjm","../enums.js":"cEz3"}],"ATnW":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=a;var e=l(require("../dom-utils/getBoundingClientRect.js")),t=l(require("../dom-utils/getClippingRect.js")),r=l(require("../dom-utils/getDocumentElement.js")),o=l(require("./computeOffsets.js")),i=l(require("./rectToClientRect.js")),n=require("../enums.js"),p=require("../dom-utils/instanceOf.js"),s=l(require("./mergePaddingObject.js")),u=l(require("./expandToHashMap.js"));function l(e){return e&&e.__esModule?e:{default:e}}function a(l,a){void 0===a&&(a={});var d=a,f=d.placement,m=void 0===f?l.placement:f,c=d.boundary,g=void 0===c?n.clippingParents:c,b=d.rootBoundary,j=void 0===b?n.viewport:b,v=d.elementContext,q=void 0===v?n.popper:v,O=d.altBoundary,x=void 0!==O&&O,y=d.padding,h=void 0===y?0:y,C=(0,s.default)("number"!=typeof h?h:(0,u.default)(h,n.basePlacements)),E=q===n.popper?n.reference:n.popper,P=l.elements.reference,_=l.rects.popper,B=l.elements[x?E:q],M=(0,t.default)((0,p.isElement)(B)?B:B.contextElement||(0,r.default)(l.elements.popper),g,j),R=(0,e.default)(P),D=(0,o.default)({reference:R,element:_,strategy:"absolute",placement:m}),T=(0,i.default)(Object.assign(Object.assign({},_),D)),k=q===n.popper?T:R,w={top:M.top-k.top+C.top,bottom:k.bottom-M.bottom+C.bottom,left:M.left-k.left+C.left,right:k.right-M.right+C.right},H=l.modifiersData.offset;if(q===n.popper&&H){var z=H[m];Object.keys(w).forEach(function(e){var t=[n.right,n.bottom].indexOf(e)>=0?1:-1,r=[n.top,n.bottom].indexOf(e)>=0?"y":"x";w[e]+=z[r]*t})}return w}
-},{"../dom-utils/getBoundingClientRect.js":"xyzt","../dom-utils/getClippingRect.js":"H9Ju","../dom-utils/getDocumentElement.js":"LRhK","./computeOffsets.js":"ZIs3","./rectToClientRect.js":"BAgT","../enums.js":"cEz3","../dom-utils/instanceOf.js":"mzFZ","./mergePaddingObject.js":"GKpq","./expandToHashMap.js":"pYUm"}],"SK6l":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=u;var e=a(require("./getVariation.js")),t=require("../enums.js"),r=a(require("./detectOverflow.js")),n=a(require("./getBasePlacement.js"));function a(e){return e&&e.__esModule?e:{default:e}}function u(a,u){void 0===u&&(u={});var o=u,i=o.placement,l=o.boundary,d=o.rootBoundary,s=o.padding,c=o.flipVariations,f=o.allowedAutoPlacements,m=void 0===f?t.placements:f,p=(0,e.default)(i),v=p?c?t.variationPlacements:t.variationPlacements.filter(function(t){return(0,e.default)(t)===p}):t.basePlacements,j=v.filter(function(e){return m.indexOf(e)>=0});0===j.length&&(j=v);var y=j.reduce(function(e,t){return e[t]=(0,r.default)(a,{placement:t,boundary:l,rootBoundary:d,padding:s})[(0,n.default)(t)],e},{});return Object.keys(y).sort(function(e,t){return y[e]-y[t]})}
-},{"./getVariation.js":"wjdI","../enums.js":"cEz3","./detectOverflow.js":"ATnW","./getBasePlacement.js":"Og5Z"}],"fbts":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var e=o(require("../utils/getOppositePlacement.js")),t=o(require("../utils/getBasePlacement.js")),a=o(require("../utils/getOppositeVariationPlacement.js")),r=o(require("../utils/detectOverflow.js")),i=o(require("../utils/computeAutoPlacement.js")),n=require("../enums.js"),u=o(require("../utils/getVariation.js"));function o(e){return e&&e.__esModule?e:{default:e}}function l(r){if((0,t.default)(r)===n.auto)return[];var i=(0,e.default)(r);return[(0,a.default)(r),i,(0,a.default)(i)]}function s(a){var o=a.state,s=a.options,f=a.name;if(!o.modifiersData[f]._skip){for(var d=s.mainAxis,c=void 0===d||d,p=s.altAxis,m=void 0===p||p,v=s.fallbackPlacements,b=s.padding,g=s.boundary,y=s.rootBoundary,h=s.altBoundary,j=s.flipVariations,k=void 0===j||j,q=s.allowedAutoPlacements,P=o.options.placement,x=(0,t.default)(P),_=v||(x===P||!k?[(0,e.default)(P)]:l(P)),B=[P].concat(_).reduce(function(e,a){return e.concat((0,t.default)(a)===n.auto?(0,i.default)(o,{placement:a,boundary:g,rootBoundary:y,padding:b,flipVariations:k,allowedAutoPlacements:q}):a)},[]),w=o.rects.reference,A=o.rects.popper,O=new Map,V=!0,M=B[0],D=0;D<B.length;D++){var E=B[D],I=(0,t.default)(E),z=(0,u.default)(E)===n.start,C=[n.top,n.bottom].indexOf(I)>=0,F=C?"width":"height",G=(0,r.default)(o,{placement:E,boundary:g,rootBoundary:y,altBoundary:h,padding:b}),H=C?z?n.right:n.left:z?n.bottom:n.top;w[F]>A[F]&&(H=(0,e.default)(H));var J=(0,e.default)(H),K=[];if(c&&K.push(G[I]<=0),m&&K.push(G[H]<=0,G[J]<=0),K.every(function(e){return e})){M=E,V=!1;break}O.set(E,K)}if(V)for(var L=function(e){var t=B.find(function(t){var a=O.get(t);if(a)return a.slice(0,e).every(function(e){return e})});if(t)return M=t,"break"},N=k?3:1;N>0;N--){if("break"===L(N))break}o.placement!==M&&(o.modifiersData[f]._skip=!0,o.placement=M,o.reset=!0)}}var f={name:"flip",enabled:!0,phase:"main",fn:s,requiresIfExists:["offset"],data:{_skip:!1}};exports.default=f;
-},{"../utils/getOppositePlacement.js":"PZEj","../utils/getBasePlacement.js":"Og5Z","../utils/getOppositeVariationPlacement.js":"mXkm","../utils/detectOverflow.js":"ATnW","../utils/computeAutoPlacement.js":"SK6l","../enums.js":"cEz3","../utils/getVariation.js":"wjdI"}],"Rvjg":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var e=require("../enums.js"),t=r(require("../utils/detectOverflow.js"));function r(e){return e&&e.__esModule?e:{default:e}}function o(e,t,r){return void 0===r&&(r={x:0,y:0}),{top:e.top-t.height-r.y,right:e.right-t.width+r.x,bottom:e.bottom-t.height+r.y,left:e.left-t.width-r.x}}function i(t){return[e.top,e.right,e.bottom,e.left].some(function(e){return t[e]>=0})}function n(e){var r=e.state,n=e.name,s=r.rects.reference,p=r.rects.popper,a=r.modifiersData.preventOverflow,f=(0,t.default)(r,{elementContext:"reference"}),d=(0,t.default)(r,{altBoundary:!0}),u=o(f,s),c=o(d,p,a),l=i(u),h=i(c);r.modifiersData[n]={referenceClippingOffsets:u,popperEscapeOffsets:c,isReferenceHidden:l,hasPopperEscaped:h},r.attributes.popper=Object.assign(Object.assign({},r.attributes.popper),{},{"data-popper-reference-hidden":l,"data-popper-escaped":h})}var s={name:"hide",enabled:!0,phase:"main",requiresIfExists:["preventOverflow"],fn:n};exports.default=s;
-},{"../enums.js":"cEz3","../utils/detectOverflow.js":"ATnW"}],"F9Vi":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.distanceAndSkiddingToXY=r,exports.default=void 0;var e=s(require("../utils/getBasePlacement.js")),t=require("../enums.js");function s(e){return e&&e.__esModule?e:{default:e}}function r(s,r,n){var f=(0,e.default)(s),a=[t.left,t.top].indexOf(f)>=0?-1:1,i="function"==typeof n?n(Object.assign(Object.assign({},r),{},{placement:s})):n,o=i[0],p=i[1];return o=o||0,p=(p||0)*a,[t.left,t.right].indexOf(f)>=0?{x:p,y:o}:{x:o,y:p}}function n(e){var s=e.state,n=e.options,f=e.name,a=n.offset,i=void 0===a?[0,0]:a,o=t.placements.reduce(function(e,t){return e[t]=r(t,s.rects,i),e},{}),p=o[s.placement],u=p.x,d=p.y;null!=s.modifiersData.popperOffsets&&(s.modifiersData.popperOffsets.x+=u,s.modifiersData.popperOffsets.y+=d),s.modifiersData[f]=o}var f={name:"offset",enabled:!0,phase:"main",requires:["popperOffsets"],fn:n};exports.default=f;
-},{"../utils/getBasePlacement.js":"Og5Z","../enums.js":"cEz3"}],"Umkk":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var e=t(require("../utils/computeOffsets.js"));function t(e){return e&&e.__esModule?e:{default:e}}function r(t){var r=t.state,a=t.name;r.modifiersData[a]=(0,e.default)({reference:r.rects.reference,element:r.rects.popper,strategy:"absolute",placement:r.placement})}var a={name:"popperOffsets",enabled:!0,phase:"read",fn:r,data:{}};exports.default=a;
-},{"../utils/computeOffsets.js":"ZIs3"}],"mQr6":[function(require,module,exports) {
-"use strict";function e(e){return"x"===e?"y":"x"}Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=e;
-},{}],"Yh4Q":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var e=require("../enums.js"),t=d(require("../utils/getBasePlacement.js")),r=d(require("../utils/getMainAxisFromPlacement.js")),a=d(require("../utils/getAltAxis.js")),i=d(require("../utils/within.js")),s=d(require("../dom-utils/getLayoutRect.js")),o=d(require("../dom-utils/getOffsetParent.js")),u=d(require("../utils/detectOverflow.js")),f=d(require("../utils/getVariation.js")),n=d(require("../utils/getFreshSideObject.js"));function d(e){return e&&e.__esModule?e:{default:e}}function l(d){var l=d.state,m=d.options,p=d.name,c=m.mainAxis,g=void 0===c||c,h=m.altAxis,j=void 0!==h&&h,v=m.boundary,y=m.rootBoundary,x=m.altBoundary,q=m.padding,w=m.tether,b=void 0===w||w,O=m.tetherOffset,D=void 0===O?0:O,A=(0,u.default)(l,{boundary:v,rootBoundary:y,padding:q,altBoundary:x}),B=(0,t.default)(l.placement),M=(0,f.default)(l.placement),P=!M,_=(0,r.default)(B),F=(0,a.default)(_),L=l.modifiersData.popperOffsets,E=l.rects.reference,I=l.rects.popper,R="function"==typeof D?D(Object.assign(Object.assign({},l.rects),{},{placement:l.placement})):D,S={x:0,y:0};if(L){if(g){var T="y"===_?e.top:e.left,V="y"===_?e.bottom:e.right,k="y"===_?"height":"width",z=L[_],C=L[_]+A[T],G=L[_]-A[V],H=b?-I[k]/2:0,J=M===e.start?E[k]:I[k],K=M===e.start?-I[k]:-E[k],N=l.elements.arrow,Q=b&&N?(0,s.default)(N):{width:0,height:0},U=l.modifiersData["arrow#persistent"]?l.modifiersData["arrow#persistent"].padding:(0,n.default)(),W=U[T],X=U[V],Y=(0,i.default)(0,E[k],Q[k]),Z=P?E[k]/2-H-Y-W-R:J-Y-W-R,$=P?-E[k]/2+H+Y+X+R:K+Y+X+R,ee=l.elements.arrow&&(0,o.default)(l.elements.arrow),te=ee?"y"===_?ee.clientTop||0:ee.clientLeft||0:0,re=l.modifiersData.offset?l.modifiersData.offset[l.placement][_]:0,ae=L[_]+Z-re-te,ie=L[_]+$-re,se=(0,i.default)(b?Math.min(C,ae):C,z,b?Math.max(G,ie):G);L[_]=se,S[_]=se-z}if(j){var oe="x"===_?e.top:e.left,ue="x"===_?e.bottom:e.right,fe=L[F],ne=fe+A[oe],de=fe-A[ue],le=(0,i.default)(ne,fe,de);L[F]=le,S[F]=le-fe}l.modifiersData[p]=S}}var m={name:"preventOverflow",enabled:!0,phase:"main",fn:l,requiresIfExists:["offset"]};exports.default=m;
-},{"../enums.js":"cEz3","../utils/getBasePlacement.js":"Og5Z","../utils/getMainAxisFromPlacement.js":"vCjm","../utils/getAltAxis.js":"mQr6","../utils/within.js":"D94x","../dom-utils/getLayoutRect.js":"ZXa8","../dom-utils/getOffsetParent.js":"qRQD","../utils/detectOverflow.js":"ATnW","../utils/getVariation.js":"wjdI","../utils/getFreshSideObject.js":"f3wM"}],"UcPM":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),Object.defineProperty(exports,"applyStyles",{enumerable:!0,get:function(){return e.default}}),Object.defineProperty(exports,"arrow",{enumerable:!0,get:function(){return r.default}}),Object.defineProperty(exports,"computeStyles",{enumerable:!0,get:function(){return t.default}}),Object.defineProperty(exports,"eventListeners",{enumerable:!0,get:function(){return n.default}}),Object.defineProperty(exports,"flip",{enumerable:!0,get:function(){return u.default}}),Object.defineProperty(exports,"hide",{enumerable:!0,get:function(){return f.default}}),Object.defineProperty(exports,"offset",{enumerable:!0,get:function(){return o.default}}),Object.defineProperty(exports,"popperOffsets",{enumerable:!0,get:function(){return s.default}}),Object.defineProperty(exports,"preventOverflow",{enumerable:!0,get:function(){return i.default}});var e=p(require("./applyStyles.js")),r=p(require("./arrow.js")),t=p(require("./computeStyles.js")),n=p(require("./eventListeners.js")),u=p(require("./flip.js")),f=p(require("./hide.js")),o=p(require("./offset.js")),s=p(require("./popperOffsets.js")),i=p(require("./preventOverflow.js"));function p(e){return e&&e.__esModule?e:{default:e}}
-},{"./applyStyles.js":"inKI","./arrow.js":"FALZ","./computeStyles.js":"nkcy","./eventListeners.js":"k5OC","./flip.js":"fbts","./hide.js":"Rvjg","./offset.js":"F9Vi","./popperOffsets.js":"Umkk","./preventOverflow.js":"Yh4Q"}],"LTOQ":[function(require,module,exports) {
-"use strict";function e(e){return{scrollLeft:e.scrollLeft,scrollTop:e.scrollTop}}Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=e;
-},{}],"g1i1":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=n;var e=l(require("./getWindowScroll.js")),t=l(require("./getWindow.js")),r=require("./instanceOf.js"),u=l(require("./getHTMLElementScroll.js"));function l(e){return e&&e.__esModule?e:{default:e}}function n(l){return l!==(0,t.default)(l)&&(0,r.isHTMLElement)(l)?(0,u.default)(l):(0,e.default)(l)}
-},{"./getWindowScroll.js":"j3kn","./getWindow.js":"Mhix","./instanceOf.js":"mzFZ","./getHTMLElementScroll.js":"LTOQ"}],"DX0n":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=d;var e=s(require("./getBoundingClientRect.js")),t=s(require("./getNodeScroll.js")),r=s(require("./getNodeName.js")),l=require("./instanceOf.js"),u=s(require("./getWindowScrollBarX.js")),i=s(require("./getDocumentElement.js")),o=s(require("./isScrollParent.js"));function s(e){return e&&e.__esModule?e:{default:e}}function d(s,d,n){void 0===n&&(n=!1);var f=(0,i.default)(d),a=(0,e.default)(s),c=(0,l.isHTMLElement)(d),g={scrollLeft:0,scrollTop:0},j={x:0,y:0};return(c||!c&&!n)&&(("body"!==(0,r.default)(d)||(0,o.default)(f))&&(g=(0,t.default)(d)),(0,l.isHTMLElement)(d)?((j=(0,e.default)(d)).x+=d.clientLeft,j.y+=d.clientTop):f&&(j.x=(0,u.default)(f))),{x:a.left+g.scrollLeft-j.x,y:a.top+g.scrollTop-j.y,width:a.width,height:a.height}}
-},{"./getBoundingClientRect.js":"xyzt","./getNodeScroll.js":"g1i1","./getNodeName.js":"wFjk","./instanceOf.js":"mzFZ","./getWindowScrollBarX.js":"TeYH","./getDocumentElement.js":"LRhK","./isScrollParent.js":"Gcl6"}],"Sa9b":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=r;var e=require("../enums.js");function n(e){var n=new Map,r=new Set,t=[];return e.forEach(function(e){n.set(e.name,e)}),e.forEach(function(e){r.has(e.name)||function e(u){r.add(u.name),[].concat(u.requires||[],u.requiresIfExists||[]).forEach(function(t){if(!r.has(t)){var u=n.get(t);u&&e(u)}}),t.push(u)}(e)}),t}function r(r){var t=n(r);return e.modifierPhases.reduce(function(e,n){return e.concat(t.filter(function(e){return e.phase===n}))},[])}
-},{"../enums.js":"cEz3"}],"gpXp":[function(require,module,exports) {
-"use strict";function e(e){var t;return function(){return t||(t=new Promise(function(n){Promise.resolve().then(function(){t=void 0,n(e())})})),t}}Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=e;
-},{}],"YzPW":[function(require,module,exports) {
-"use strict";function e(e){for(var r=arguments.length,t=new Array(r>1?r-1:0),n=1;n<r;n++)t[n-1]=arguments[n];return[].concat(t).reduce(function(e,r){return e.replace(/%s/,r)},e)}Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=e;
-},{}],"qyXp":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=s;var e=n(require("./format.js")),r=require("../enums.js");function n(e){return e&&e.__esModule?e:{default:e}}var a='Popper: modifier "%s" provided an invalid %s property, expected %s but got %s',o='Popper: modifier "%s" requires "%s", but "%s" modifier is not available',i=["name","enabled","phase","fn","effect","requires","options"];function s(n){n.forEach(function(s){Object.keys(s).forEach(function(t){switch(t){case"name":"string"!=typeof s.name&&console.error((0,e.default)(a,String(s.name),'"name"','"string"','"'+String(s.name)+'"'));break;case"enabled":"boolean"!=typeof s.enabled&&console.error((0,e.default)(a,s.name,'"enabled"','"boolean"','"'+String(s.enabled)+'"'));case"phase":r.modifierPhases.indexOf(s.phase)<0&&console.error((0,e.default)(a,s.name,'"phase"',"either "+r.modifierPhases.join(", "),'"'+String(s.phase)+'"'));break;case"fn":"function"!=typeof s.fn&&console.error((0,e.default)(a,s.name,'"fn"','"function"','"'+String(s.fn)+'"'));break;case"effect":"function"!=typeof s.effect&&console.error((0,e.default)(a,s.name,'"effect"','"function"','"'+String(s.fn)+'"'));break;case"requires":Array.isArray(s.requires)||console.error((0,e.default)(a,s.name,'"requires"','"array"','"'+String(s.requires)+'"'));break;case"requiresIfExists":Array.isArray(s.requiresIfExists)||console.error((0,e.default)(a,s.name,'"requiresIfExists"','"array"','"'+String(s.requiresIfExists)+'"'));break;case"options":case"data":break;default:console.error('PopperJS: an invalid property has been provided to the "'+s.name+'" modifier, valid properties are '+i.map(function(e){return'"'+e+'"'}).join(", ")+'; but "'+t+'" was provided.')}s.requires&&s.requires.forEach(function(r){null==n.find(function(e){return e.name===r})&&console.error((0,e.default)(o,String(s.name),r,r))})})})}
-},{"./format.js":"YzPW","../enums.js":"cEz3"}],"fRu5":[function(require,module,exports) {
-"use strict";function e(e,t){var r=new Set;return e.filter(function(e){var n=t(e);if(!r.has(n))return r.add(n),!0})}Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=e;
-},{}],"dudY":[function(require,module,exports) {
-"use strict";function e(e){var t=e.reduce(function(e,t){var s=e[t.name];return e[t.name]=s?Object.assign(Object.assign(Object.assign({},s),t),{},{options:Object.assign(Object.assign({},s.options),t.options),data:Object.assign(Object.assign({},s.data),t.data)}):t,e},{});return Object.keys(t).map(function(e){return t[e]})}Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=e;
-},{}],"jHJ3":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.popperGenerator=y,Object.defineProperty(exports,"detectOverflow",{enumerable:!0,get:function(){return c.default}}),exports.createPopper=void 0;var e=m(require("./dom-utils/getCompositeRect.js")),t=m(require("./dom-utils/getLayoutRect.js")),r=m(require("./dom-utils/listScrollParents.js")),o=m(require("./dom-utils/getOffsetParent.js")),n=m(require("./dom-utils/getComputedStyle.js")),i=m(require("./utils/orderModifiers.js")),s=m(require("./utils/debounce.js")),u=m(require("./utils/validateModifiers.js")),a=m(require("./utils/uniqueBy.js")),f=m(require("./utils/getBasePlacement.js")),d=m(require("./utils/mergeByName.js")),c=m(require("./utils/detectOverflow.js")),p=require("./dom-utils/instanceOf.js"),l=require("./enums.js");function m(e){return e&&e.__esModule?e:{default:e}}var v="Popper: Invalid reference or popper argument provided. They must be either a DOM element or virtual element.",j="Popper: An infinite loop in the modifiers cycle has been detected! The cycle has been interrupted to prevent a browser crash.",g={placement:"bottom",modifiers:[],strategy:"absolute"};function b(){for(var e=arguments.length,t=new Array(e),r=0;r<e;r++)t[r]=arguments[r];return!t.some(function(e){return!(e&&"function"==typeof e.getBoundingClientRect)})}function y(n){void 0===n&&(n={});var u=n,a=u.defaultModifiers,f=void 0===a?[]:a,c=u.defaultOptions,l=void 0===c?g:c;return function(n,u,a){void 0===a&&(a=l);var c={placement:"bottom",orderedModifiers:[],options:Object.assign(Object.assign({},g),l),modifiersData:{},elements:{reference:n,popper:u},attributes:{},styles:{}},m=[],v=!1,j={state:c,setOptions:function(e){y(),c.options=Object.assign(Object.assign(Object.assign({},l),c.options),e),c.scrollParents={reference:(0,p.isElement)(n)?(0,r.default)(n):n.contextElement?(0,r.default)(n.contextElement):[],popper:(0,r.default)(u)};var t=(0,i.default)((0,d.default)([].concat(f,c.options.modifiers)));return c.orderedModifiers=t.filter(function(e){return e.enabled}),c.orderedModifiers.forEach(function(e){var t=e.name,r=e.options,o=void 0===r?{}:r,n=e.effect;if("function"==typeof n){var i=n({state:c,name:t,instance:j,options:o});m.push(i||function(){})}}),j.update()},forceUpdate:function(){if(!v){var r=c.elements,n=r.reference,i=r.popper;if(b(n,i)){c.rects={reference:(0,e.default)(n,(0,o.default)(i),"fixed"===c.options.strategy),popper:(0,t.default)(i)},c.reset=!1,c.placement=c.options.placement,c.orderedModifiers.forEach(function(e){return c.modifiersData[e.name]=Object.assign({},e.data)});for(var s=0;s<c.orderedModifiers.length;s++)if(!0!==c.reset){var u=c.orderedModifiers[s],a=u.fn,f=u.options,d=void 0===f?{}:f,p=u.name;"function"==typeof a&&(c=a({state:c,options:d,name:p,instance:j})||c)}else c.reset=!1,s=-1}}},update:(0,s.default)(function(){return new Promise(function(e){j.forceUpdate(),e(c)})}),destroy:function(){y(),v=!0}};if(!b(n,u))return j;function y(){m.forEach(function(e){return e()}),m=[]}return j.setOptions(a).then(function(e){!v&&a.onFirstUpdate&&a.onFirstUpdate(e)}),j}}var O=y();exports.createPopper=O;
-},{"./dom-utils/getCompositeRect.js":"DX0n","./dom-utils/getLayoutRect.js":"ZXa8","./dom-utils/listScrollParents.js":"odmb","./dom-utils/getOffsetParent.js":"qRQD","./dom-utils/getComputedStyle.js":"m22s","./utils/orderModifiers.js":"Sa9b","./utils/debounce.js":"gpXp","./utils/validateModifiers.js":"qyXp","./utils/uniqueBy.js":"fRu5","./utils/getBasePlacement.js":"Og5Z","./utils/mergeByName.js":"dudY","./utils/detectOverflow.js":"ATnW","./dom-utils/instanceOf.js":"mzFZ","./enums.js":"cEz3"}],"RVEs":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),Object.defineProperty(exports,"popperGenerator",{enumerable:!0,get:function(){return e.popperGenerator}}),Object.defineProperty(exports,"detectOverflow",{enumerable:!0,get:function(){return e.detectOverflow}}),exports.defaultModifiers=exports.createPopper=void 0;var e=require("./createPopper.js"),r=s(require("./modifiers/eventListeners.js")),t=s(require("./modifiers/popperOffsets.js")),o=s(require("./modifiers/computeStyles.js")),p=s(require("./modifiers/applyStyles.js"));function s(e){return e&&e.__esModule?e:{default:e}}var i=[r.default,t.default,o.default,p.default];exports.defaultModifiers=i;var u=(0,e.popperGenerator)({defaultModifiers:i});exports.createPopper=u;
-},{"./createPopper.js":"jHJ3","./modifiers/eventListeners.js":"k5OC","./modifiers/popperOffsets.js":"Umkk","./modifiers/computeStyles.js":"nkcy","./modifiers/applyStyles.js":"inKI"}],"WlDK":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0});var e={createPopper:!0,defaultModifiers:!0,popperGenerator:!0,detectOverflow:!0,createPopperLite:!0};Object.defineProperty(exports,"popperGenerator",{enumerable:!0,get:function(){return r.popperGenerator}}),Object.defineProperty(exports,"detectOverflow",{enumerable:!0,get:function(){return r.detectOverflow}}),Object.defineProperty(exports,"createPopperLite",{enumerable:!0,get:function(){return n.createPopper}}),exports.defaultModifiers=exports.createPopper=void 0;var r=require("./createPopper.js"),t=c(require("./modifiers/eventListeners.js")),o=c(require("./modifiers/popperOffsets.js")),i=c(require("./modifiers/computeStyles.js")),p=c(require("./modifiers/applyStyles.js")),s=c(require("./modifiers/offset.js")),f=c(require("./modifiers/flip.js")),u=c(require("./modifiers/preventOverflow.js")),d=c(require("./modifiers/arrow.js")),a=c(require("./modifiers/hide.js")),n=require("./popper-lite.js"),l=require("./modifiers/index.js");function c(e){return e&&e.__esModule?e:{default:e}}Object.keys(l).forEach(function(r){"default"!==r&&"__esModule"!==r&&(Object.prototype.hasOwnProperty.call(e,r)||r in exports&&exports[r]===l[r]||Object.defineProperty(exports,r,{enumerable:!0,get:function(){return l[r]}}))});var j=[t.default,o.default,i.default,p.default,s.default,f.default,u.default,d.default,a.default];exports.defaultModifiers=j;var m=(0,r.popperGenerator)({defaultModifiers:j});exports.createPopper=m;
-},{"./createPopper.js":"jHJ3","./modifiers/eventListeners.js":"k5OC","./modifiers/popperOffsets.js":"Umkk","./modifiers/computeStyles.js":"nkcy","./modifiers/applyStyles.js":"inKI","./modifiers/offset.js":"F9Vi","./modifiers/flip.js":"fbts","./modifiers/preventOverflow.js":"Yh4Q","./modifiers/arrow.js":"FALZ","./modifiers/hide.js":"Rvjg","./popper-lite.js":"RVEs","./modifiers/index.js":"UcPM"}],"RfHO":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0});var e={popperGenerator:!0,detectOverflow:!0,createPopperBase:!0,createPopper:!0,createPopperLite:!0};Object.defineProperty(exports,"popperGenerator",{enumerable:!0,get:function(){return o.popperGenerator}}),Object.defineProperty(exports,"detectOverflow",{enumerable:!0,get:function(){return o.detectOverflow}}),Object.defineProperty(exports,"createPopperBase",{enumerable:!0,get:function(){return o.createPopper}}),Object.defineProperty(exports,"createPopper",{enumerable:!0,get:function(){return p.createPopper}}),Object.defineProperty(exports,"createPopperLite",{enumerable:!0,get:function(){return n.createPopper}});var r=require("./enums.js");Object.keys(r).forEach(function(t){"default"!==t&&"__esModule"!==t&&(Object.prototype.hasOwnProperty.call(e,t)||t in exports&&exports[t]===r[t]||Object.defineProperty(exports,t,{enumerable:!0,get:function(){return r[t]}}))});var t=require("./modifiers/index.js");Object.keys(t).forEach(function(r){"default"!==r&&"__esModule"!==r&&(Object.prototype.hasOwnProperty.call(e,r)||r in exports&&exports[r]===t[r]||Object.defineProperty(exports,r,{enumerable:!0,get:function(){return t[r]}}))});var o=require("./createPopper.js"),p=require("./popper.js"),n=require("./popper-lite.js");
-},{"./enums.js":"cEz3","./modifiers/index.js":"UcPM","./createPopper.js":"jHJ3","./popper.js":"WlDK","./popper-lite.js":"RVEs"}],"ulnp":[function(require,module,exports) {
+var global = arguments[3];
+/*!
+  * Bootstrap v5.0.0-beta1 (https://getbootstrap.com/)
+  * Copyright 2011-2020 The Bootstrap Authors (https://github.com/twbs/bootstrap/graphs/contributors)
+  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+  */
+(function (global, factory) {
+  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('@popperjs/core')) :
+  typeof define === 'function' && define.amd ? define(['@popperjs/core'], factory) :
+  (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.bootstrap = factory(global.Popper));
+}(this, (function (Popper) { 'use strict';
+
+  function _interopNamespace(e) {
+    if (e && e.__esModule) return e;
+    var n = Object.create(null);
+    if (e) {
+      Object.keys(e).forEach(function (k) {
+        if (k !== 'default') {
+          var d = Object.getOwnPropertyDescriptor(e, k);
+          Object.defineProperty(n, k, d.get ? d : {
+            enumerable: true,
+            get: function () {
+              return e[k];
+            }
+          });
+        }
+      });
+    }
+    n['default'] = e;
+    return Object.freeze(n);
+  }
+
+  var Popper__namespace = /*#__PURE__*/_interopNamespace(Popper);
+
+  function _defineProperties(target, props) {
+    for (var i = 0; i < props.length; i++) {
+      var descriptor = props[i];
+      descriptor.enumerable = descriptor.enumerable || false;
+      descriptor.configurable = true;
+      if ("value" in descriptor) descriptor.writable = true;
+      Object.defineProperty(target, descriptor.key, descriptor);
+    }
+  }
+
+  function _createClass(Constructor, protoProps, staticProps) {
+    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+    if (staticProps) _defineProperties(Constructor, staticProps);
+    return Constructor;
+  }
+
+  function _extends() {
+    _extends = Object.assign || function (target) {
+      for (var i = 1; i < arguments.length; i++) {
+        var source = arguments[i];
+
+        for (var key in source) {
+          if (Object.prototype.hasOwnProperty.call(source, key)) {
+            target[key] = source[key];
+          }
+        }
+      }
+
+      return target;
+    };
+
+    return _extends.apply(this, arguments);
+  }
+
+  function _inheritsLoose(subClass, superClass) {
+    subClass.prototype = Object.create(superClass.prototype);
+    subClass.prototype.constructor = subClass;
+    subClass.__proto__ = superClass;
+  }
+
+  /**
+   * --------------------------------------------------------------------------
+   * Bootstrap (v5.0.0-beta1): util/index.js
+   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+   * --------------------------------------------------------------------------
+   */
+  var MAX_UID = 1000000;
+  var MILLISECONDS_MULTIPLIER = 1000;
+  var TRANSITION_END = 'transitionend'; // Shoutout AngusCroll (https://goo.gl/pxwQGp)
+
+  var toType = function toType(obj) {
+    if (obj === null || obj === undefined) {
+      return "" + obj;
+    }
+
+    return {}.toString.call(obj).match(/\s([a-z]+)/i)[1].toLowerCase();
+  };
+  /**
+   * --------------------------------------------------------------------------
+   * Public Util Api
+   * --------------------------------------------------------------------------
+   */
+
+
+  var getUID = function getUID(prefix) {
+    do {
+      prefix += Math.floor(Math.random() * MAX_UID);
+    } while (document.getElementById(prefix));
+
+    return prefix;
+  };
+
+  var getSelector = function getSelector(element) {
+    var selector = element.getAttribute('data-bs-target');
+
+    if (!selector || selector === '#') {
+      var hrefAttr = element.getAttribute('href');
+      selector = hrefAttr && hrefAttr !== '#' ? hrefAttr.trim() : null;
+    }
+
+    return selector;
+  };
+
+  var getSelectorFromElement = function getSelectorFromElement(element) {
+    var selector = getSelector(element);
+
+    if (selector) {
+      return document.querySelector(selector) ? selector : null;
+    }
+
+    return null;
+  };
+
+  var getElementFromSelector = function getElementFromSelector(element) {
+    var selector = getSelector(element);
+    return selector ? document.querySelector(selector) : null;
+  };
+
+  var getTransitionDurationFromElement = function getTransitionDurationFromElement(element) {
+    if (!element) {
+      return 0;
+    } // Get transition-duration of the element
+
+
+    var _window$getComputedSt = window.getComputedStyle(element),
+        transitionDuration = _window$getComputedSt.transitionDuration,
+        transitionDelay = _window$getComputedSt.transitionDelay;
+
+    var floatTransitionDuration = Number.parseFloat(transitionDuration);
+    var floatTransitionDelay = Number.parseFloat(transitionDelay); // Return 0 if element or transition duration is not found
+
+    if (!floatTransitionDuration && !floatTransitionDelay) {
+      return 0;
+    } // If multiple durations are defined, take the first
+
+
+    transitionDuration = transitionDuration.split(',')[0];
+    transitionDelay = transitionDelay.split(',')[0];
+    return (Number.parseFloat(transitionDuration) + Number.parseFloat(transitionDelay)) * MILLISECONDS_MULTIPLIER;
+  };
+
+  var triggerTransitionEnd = function triggerTransitionEnd(element) {
+    element.dispatchEvent(new Event(TRANSITION_END));
+  };
+
+  var isElement = function isElement(obj) {
+    return (obj[0] || obj).nodeType;
+  };
+
+  var emulateTransitionEnd = function emulateTransitionEnd(element, duration) {
+    var called = false;
+    var durationPadding = 5;
+    var emulatedDuration = duration + durationPadding;
+
+    function listener() {
+      called = true;
+      element.removeEventListener(TRANSITION_END, listener);
+    }
+
+    element.addEventListener(TRANSITION_END, listener);
+    setTimeout(function () {
+      if (!called) {
+        triggerTransitionEnd(element);
+      }
+    }, emulatedDuration);
+  };
+
+  var typeCheckConfig = function typeCheckConfig(componentName, config, configTypes) {
+    Object.keys(configTypes).forEach(function (property) {
+      var expectedTypes = configTypes[property];
+      var value = config[property];
+      var valueType = value && isElement(value) ? 'element' : toType(value);
+
+      if (!new RegExp(expectedTypes).test(valueType)) {
+        throw new Error(componentName.toUpperCase() + ": " + ("Option \"" + property + "\" provided type \"" + valueType + "\" ") + ("but expected type \"" + expectedTypes + "\"."));
+      }
+    });
+  };
+
+  var isVisible = function isVisible(element) {
+    if (!element) {
+      return false;
+    }
+
+    if (element.style && element.parentNode && element.parentNode.style) {
+      var elementStyle = getComputedStyle(element);
+      var parentNodeStyle = getComputedStyle(element.parentNode);
+      return elementStyle.display !== 'none' && parentNodeStyle.display !== 'none' && elementStyle.visibility !== 'hidden';
+    }
+
+    return false;
+  };
+
+  var findShadowRoot = function findShadowRoot(element) {
+    if (!document.documentElement.attachShadow) {
+      return null;
+    } // Can find the shadow root otherwise it'll return the document
+
+
+    if (typeof element.getRootNode === 'function') {
+      var root = element.getRootNode();
+      return root instanceof ShadowRoot ? root : null;
+    }
+
+    if (element instanceof ShadowRoot) {
+      return element;
+    } // when we don't find a shadow root
+
+
+    if (!element.parentNode) {
+      return null;
+    }
+
+    return findShadowRoot(element.parentNode);
+  };
+
+  var noop = function noop() {
+    return function () {};
+  };
+
+  var reflow = function reflow(element) {
+    return element.offsetHeight;
+  };
+
+  var getjQuery = function getjQuery() {
+    var _window = window,
+        jQuery = _window.jQuery;
+
+    if (jQuery && !document.body.hasAttribute('data-bs-no-jquery')) {
+      return jQuery;
+    }
+
+    return null;
+  };
+
+  var onDOMContentLoaded = function onDOMContentLoaded(callback) {
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', callback);
+    } else {
+      callback();
+    }
+  };
+
+  var isRTL = document.documentElement.dir === 'rtl';
+
+  /**
+   * --------------------------------------------------------------------------
+   * Bootstrap (v5.0.0-beta1): dom/data.js
+   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+   * --------------------------------------------------------------------------
+   */
+
+  /**
+   * ------------------------------------------------------------------------
+   * Constants
+   * ------------------------------------------------------------------------
+   */
+  var mapData = function () {
+    var storeData = {};
+    var id = 1;
+    return {
+      set: function set(element, key, data) {
+        if (typeof element.bsKey === 'undefined') {
+          element.bsKey = {
+            key: key,
+            id: id
+          };
+          id++;
+        }
+
+        storeData[element.bsKey.id] = data;
+      },
+      get: function get(element, key) {
+        if (!element || typeof element.bsKey === 'undefined') {
+          return null;
+        }
+
+        var keyProperties = element.bsKey;
+
+        if (keyProperties.key === key) {
+          return storeData[keyProperties.id];
+        }
+
+        return null;
+      },
+      delete: function _delete(element, key) {
+        if (typeof element.bsKey === 'undefined') {
+          return;
+        }
+
+        var keyProperties = element.bsKey;
+
+        if (keyProperties.key === key) {
+          delete storeData[keyProperties.id];
+          delete element.bsKey;
+        }
+      }
+    };
+  }();
+
+  var Data = {
+    setData: function setData(instance, key, data) {
+      mapData.set(instance, key, data);
+    },
+    getData: function getData(instance, key) {
+      return mapData.get(instance, key);
+    },
+    removeData: function removeData(instance, key) {
+      mapData.delete(instance, key);
+    }
+  };
+
+  /**
+   * --------------------------------------------------------------------------
+   * Bootstrap (v5.0.0-beta1): dom/event-handler.js
+   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+   * --------------------------------------------------------------------------
+   */
+  /**
+   * ------------------------------------------------------------------------
+   * Constants
+   * ------------------------------------------------------------------------
+   */
+
+  var namespaceRegex = /[^.]*(?=\..*)\.|.*/;
+  var stripNameRegex = /\..*/;
+  var stripUidRegex = /::\d+$/;
+  var eventRegistry = {}; // Events storage
+
+  var uidEvent = 1;
+  var customEvents = {
+    mouseenter: 'mouseover',
+    mouseleave: 'mouseout'
+  };
+  var nativeEvents = new Set(['click', 'dblclick', 'mouseup', 'mousedown', 'contextmenu', 'mousewheel', 'DOMMouseScroll', 'mouseover', 'mouseout', 'mousemove', 'selectstart', 'selectend', 'keydown', 'keypress', 'keyup', 'orientationchange', 'touchstart', 'touchmove', 'touchend', 'touchcancel', 'pointerdown', 'pointermove', 'pointerup', 'pointerleave', 'pointercancel', 'gesturestart', 'gesturechange', 'gestureend', 'focus', 'blur', 'change', 'reset', 'select', 'submit', 'focusin', 'focusout', 'load', 'unload', 'beforeunload', 'resize', 'move', 'DOMContentLoaded', 'readystatechange', 'error', 'abort', 'scroll']);
+  /**
+   * ------------------------------------------------------------------------
+   * Private methods
+   * ------------------------------------------------------------------------
+   */
+
+  function getUidEvent(element, uid) {
+    return uid && uid + "::" + uidEvent++ || element.uidEvent || uidEvent++;
+  }
+
+  function getEvent(element) {
+    var uid = getUidEvent(element);
+    element.uidEvent = uid;
+    eventRegistry[uid] = eventRegistry[uid] || {};
+    return eventRegistry[uid];
+  }
+
+  function bootstrapHandler(element, fn) {
+    return function handler(event) {
+      event.delegateTarget = element;
+
+      if (handler.oneOff) {
+        EventHandler.off(element, event.type, fn);
+      }
+
+      return fn.apply(element, [event]);
+    };
+  }
+
+  function bootstrapDelegationHandler(element, selector, fn) {
+    return function handler(event) {
+      var domElements = element.querySelectorAll(selector);
+
+      for (var target = event.target; target && target !== this; target = target.parentNode) {
+        for (var i = domElements.length; i--;) {
+          if (domElements[i] === target) {
+            event.delegateTarget = target;
+
+            if (handler.oneOff) {
+              EventHandler.off(element, event.type, fn);
+            }
+
+            return fn.apply(target, [event]);
+          }
+        }
+      } // To please ESLint
+
+
+      return null;
+    };
+  }
+
+  function findHandler(events, handler, delegationSelector) {
+    if (delegationSelector === void 0) {
+      delegationSelector = null;
+    }
+
+    var uidEventList = Object.keys(events);
+
+    for (var i = 0, len = uidEventList.length; i < len; i++) {
+      var event = events[uidEventList[i]];
+
+      if (event.originalHandler === handler && event.delegationSelector === delegationSelector) {
+        return event;
+      }
+    }
+
+    return null;
+  }
+
+  function normalizeParams(originalTypeEvent, handler, delegationFn) {
+    var delegation = typeof handler === 'string';
+    var originalHandler = delegation ? delegationFn : handler; // allow to get the native events from namespaced events ('click.bs.button' --> 'click')
+
+    var typeEvent = originalTypeEvent.replace(stripNameRegex, '');
+    var custom = customEvents[typeEvent];
+
+    if (custom) {
+      typeEvent = custom;
+    }
+
+    var isNative = nativeEvents.has(typeEvent);
+
+    if (!isNative) {
+      typeEvent = originalTypeEvent;
+    }
+
+    return [delegation, originalHandler, typeEvent];
+  }
+
+  function addHandler(element, originalTypeEvent, handler, delegationFn, oneOff) {
+    if (typeof originalTypeEvent !== 'string' || !element) {
+      return;
+    }
+
+    if (!handler) {
+      handler = delegationFn;
+      delegationFn = null;
+    }
+
+    var _normalizeParams = normalizeParams(originalTypeEvent, handler, delegationFn),
+        delegation = _normalizeParams[0],
+        originalHandler = _normalizeParams[1],
+        typeEvent = _normalizeParams[2];
+
+    var events = getEvent(element);
+    var handlers = events[typeEvent] || (events[typeEvent] = {});
+    var previousFn = findHandler(handlers, originalHandler, delegation ? handler : null);
+
+    if (previousFn) {
+      previousFn.oneOff = previousFn.oneOff && oneOff;
+      return;
+    }
+
+    var uid = getUidEvent(originalHandler, originalTypeEvent.replace(namespaceRegex, ''));
+    var fn = delegation ? bootstrapDelegationHandler(element, handler, delegationFn) : bootstrapHandler(element, handler);
+    fn.delegationSelector = delegation ? handler : null;
+    fn.originalHandler = originalHandler;
+    fn.oneOff = oneOff;
+    fn.uidEvent = uid;
+    handlers[uid] = fn;
+    element.addEventListener(typeEvent, fn, delegation);
+  }
+
+  function removeHandler(element, events, typeEvent, handler, delegationSelector) {
+    var fn = findHandler(events[typeEvent], handler, delegationSelector);
+
+    if (!fn) {
+      return;
+    }
+
+    element.removeEventListener(typeEvent, fn, Boolean(delegationSelector));
+    delete events[typeEvent][fn.uidEvent];
+  }
+
+  function removeNamespacedHandlers(element, events, typeEvent, namespace) {
+    var storeElementEvent = events[typeEvent] || {};
+    Object.keys(storeElementEvent).forEach(function (handlerKey) {
+      if (handlerKey.includes(namespace)) {
+        var event = storeElementEvent[handlerKey];
+        removeHandler(element, events, typeEvent, event.originalHandler, event.delegationSelector);
+      }
+    });
+  }
+
+  var EventHandler = {
+    on: function on(element, event, handler, delegationFn) {
+      addHandler(element, event, handler, delegationFn, false);
+    },
+    one: function one(element, event, handler, delegationFn) {
+      addHandler(element, event, handler, delegationFn, true);
+    },
+    off: function off(element, originalTypeEvent, handler, delegationFn) {
+      if (typeof originalTypeEvent !== 'string' || !element) {
+        return;
+      }
+
+      var _normalizeParams2 = normalizeParams(originalTypeEvent, handler, delegationFn),
+          delegation = _normalizeParams2[0],
+          originalHandler = _normalizeParams2[1],
+          typeEvent = _normalizeParams2[2];
+
+      var inNamespace = typeEvent !== originalTypeEvent;
+      var events = getEvent(element);
+      var isNamespace = originalTypeEvent.startsWith('.');
+
+      if (typeof originalHandler !== 'undefined') {
+        // Simplest case: handler is passed, remove that listener ONLY.
+        if (!events || !events[typeEvent]) {
+          return;
+        }
+
+        removeHandler(element, events, typeEvent, originalHandler, delegation ? handler : null);
+        return;
+      }
+
+      if (isNamespace) {
+        Object.keys(events).forEach(function (elementEvent) {
+          removeNamespacedHandlers(element, events, elementEvent, originalTypeEvent.slice(1));
+        });
+      }
+
+      var storeElementEvent = events[typeEvent] || {};
+      Object.keys(storeElementEvent).forEach(function (keyHandlers) {
+        var handlerKey = keyHandlers.replace(stripUidRegex, '');
+
+        if (!inNamespace || originalTypeEvent.includes(handlerKey)) {
+          var event = storeElementEvent[keyHandlers];
+          removeHandler(element, events, typeEvent, event.originalHandler, event.delegationSelector);
+        }
+      });
+    },
+    trigger: function trigger(element, event, args) {
+      if (typeof event !== 'string' || !element) {
+        return null;
+      }
+
+      var $ = getjQuery();
+      var typeEvent = event.replace(stripNameRegex, '');
+      var inNamespace = event !== typeEvent;
+      var isNative = nativeEvents.has(typeEvent);
+      var jQueryEvent;
+      var bubbles = true;
+      var nativeDispatch = true;
+      var defaultPrevented = false;
+      var evt = null;
+
+      if (inNamespace && $) {
+        jQueryEvent = $.Event(event, args);
+        $(element).trigger(jQueryEvent);
+        bubbles = !jQueryEvent.isPropagationStopped();
+        nativeDispatch = !jQueryEvent.isImmediatePropagationStopped();
+        defaultPrevented = jQueryEvent.isDefaultPrevented();
+      }
+
+      if (isNative) {
+        evt = document.createEvent('HTMLEvents');
+        evt.initEvent(typeEvent, bubbles, true);
+      } else {
+        evt = new CustomEvent(event, {
+          bubbles: bubbles,
+          cancelable: true
+        });
+      } // merge custom information in our event
+
+
+      if (typeof args !== 'undefined') {
+        Object.keys(args).forEach(function (key) {
+          Object.defineProperty(evt, key, {
+            get: function get() {
+              return args[key];
+            }
+          });
+        });
+      }
+
+      if (defaultPrevented) {
+        evt.preventDefault();
+      }
+
+      if (nativeDispatch) {
+        element.dispatchEvent(evt);
+      }
+
+      if (evt.defaultPrevented && typeof jQueryEvent !== 'undefined') {
+        jQueryEvent.preventDefault();
+      }
+
+      return evt;
+    }
+  };
+
+  /**
+   * ------------------------------------------------------------------------
+   * Constants
+   * ------------------------------------------------------------------------
+   */
+
+  var VERSION = '5.0.0-beta1';
+
+  var BaseComponent = /*#__PURE__*/function () {
+    function BaseComponent(element) {
+      if (!element) {
+        return;
+      }
+
+      this._element = element;
+      Data.setData(element, this.constructor.DATA_KEY, this);
+    }
+
+    var _proto = BaseComponent.prototype;
+
+    _proto.dispose = function dispose() {
+      Data.removeData(this._element, this.constructor.DATA_KEY);
+      this._element = null;
+    }
+    /** Static */
+    ;
+
+    BaseComponent.getInstance = function getInstance(element) {
+      return Data.getData(element, this.DATA_KEY);
+    };
+
+    _createClass(BaseComponent, null, [{
+      key: "VERSION",
+      get: function get() {
+        return VERSION;
+      }
+    }]);
+
+    return BaseComponent;
+  }();
+
+  /**
+   * ------------------------------------------------------------------------
+   * Constants
+   * ------------------------------------------------------------------------
+   */
+
+  var NAME = 'alert';
+  var DATA_KEY = 'bs.alert';
+  var EVENT_KEY = "." + DATA_KEY;
+  var DATA_API_KEY = '.data-api';
+  var SELECTOR_DISMISS = '[data-bs-dismiss="alert"]';
+  var EVENT_CLOSE = "close" + EVENT_KEY;
+  var EVENT_CLOSED = "closed" + EVENT_KEY;
+  var EVENT_CLICK_DATA_API = "click" + EVENT_KEY + DATA_API_KEY;
+  var CLASSNAME_ALERT = 'alert';
+  var CLASSNAME_FADE = 'fade';
+  var CLASSNAME_SHOW = 'show';
+  /**
+   * ------------------------------------------------------------------------
+   * Class Definition
+   * ------------------------------------------------------------------------
+   */
+
+  var Alert = /*#__PURE__*/function (_BaseComponent) {
+    _inheritsLoose(Alert, _BaseComponent);
+
+    function Alert() {
+      return _BaseComponent.apply(this, arguments) || this;
+    }
+
+    var _proto = Alert.prototype;
+
+    // Public
+    _proto.close = function close(element) {
+      var rootElement = element ? this._getRootElement(element) : this._element;
+
+      var customEvent = this._triggerCloseEvent(rootElement);
+
+      if (customEvent === null || customEvent.defaultPrevented) {
+        return;
+      }
+
+      this._removeElement(rootElement);
+    } // Private
+    ;
+
+    _proto._getRootElement = function _getRootElement(element) {
+      return getElementFromSelector(element) || element.closest("." + CLASSNAME_ALERT);
+    };
+
+    _proto._triggerCloseEvent = function _triggerCloseEvent(element) {
+      return EventHandler.trigger(element, EVENT_CLOSE);
+    };
+
+    _proto._removeElement = function _removeElement(element) {
+      var _this = this;
+
+      element.classList.remove(CLASSNAME_SHOW);
+
+      if (!element.classList.contains(CLASSNAME_FADE)) {
+        this._destroyElement(element);
+
+        return;
+      }
+
+      var transitionDuration = getTransitionDurationFromElement(element);
+      EventHandler.one(element, TRANSITION_END, function () {
+        return _this._destroyElement(element);
+      });
+      emulateTransitionEnd(element, transitionDuration);
+    };
+
+    _proto._destroyElement = function _destroyElement(element) {
+      if (element.parentNode) {
+        element.parentNode.removeChild(element);
+      }
+
+      EventHandler.trigger(element, EVENT_CLOSED);
+    } // Static
+    ;
+
+    Alert.jQueryInterface = function jQueryInterface(config) {
+      return this.each(function () {
+        var data = Data.getData(this, DATA_KEY);
+
+        if (!data) {
+          data = new Alert(this);
+        }
+
+        if (config === 'close') {
+          data[config](this);
+        }
+      });
+    };
+
+    Alert.handleDismiss = function handleDismiss(alertInstance) {
+      return function (event) {
+        if (event) {
+          event.preventDefault();
+        }
+
+        alertInstance.close(this);
+      };
+    };
+
+    _createClass(Alert, null, [{
+      key: "DATA_KEY",
+      // Getters
+      get: function get() {
+        return DATA_KEY;
+      }
+    }]);
+
+    return Alert;
+  }(BaseComponent);
+  /**
+   * ------------------------------------------------------------------------
+   * Data Api implementation
+   * ------------------------------------------------------------------------
+   */
+
+
+  EventHandler.on(document, EVENT_CLICK_DATA_API, SELECTOR_DISMISS, Alert.handleDismiss(new Alert()));
+  /**
+   * ------------------------------------------------------------------------
+   * jQuery
+   * ------------------------------------------------------------------------
+   * add .Alert to jQuery only if jQuery is present
+   */
+
+  onDOMContentLoaded(function () {
+    var $ = getjQuery();
+    /* istanbul ignore if */
+
+    if ($) {
+      var JQUERY_NO_CONFLICT = $.fn[NAME];
+      $.fn[NAME] = Alert.jQueryInterface;
+      $.fn[NAME].Constructor = Alert;
+
+      $.fn[NAME].noConflict = function () {
+        $.fn[NAME] = JQUERY_NO_CONFLICT;
+        return Alert.jQueryInterface;
+      };
+    }
+  });
+
+  /**
+   * ------------------------------------------------------------------------
+   * Constants
+   * ------------------------------------------------------------------------
+   */
+
+  var NAME$1 = 'button';
+  var DATA_KEY$1 = 'bs.button';
+  var EVENT_KEY$1 = "." + DATA_KEY$1;
+  var DATA_API_KEY$1 = '.data-api';
+  var CLASS_NAME_ACTIVE = 'active';
+  var SELECTOR_DATA_TOGGLE = '[data-bs-toggle="button"]';
+  var EVENT_CLICK_DATA_API$1 = "click" + EVENT_KEY$1 + DATA_API_KEY$1;
+  /**
+   * ------------------------------------------------------------------------
+   * Class Definition
+   * ------------------------------------------------------------------------
+   */
+
+  var Button = /*#__PURE__*/function (_BaseComponent) {
+    _inheritsLoose(Button, _BaseComponent);
+
+    function Button() {
+      return _BaseComponent.apply(this, arguments) || this;
+    }
+
+    var _proto = Button.prototype;
+
+    // Public
+    _proto.toggle = function toggle() {
+      // Toggle class and sync the `aria-pressed` attribute with the return value of the `.toggle()` method
+      this._element.setAttribute('aria-pressed', this._element.classList.toggle(CLASS_NAME_ACTIVE));
+    } // Static
+    ;
+
+    Button.jQueryInterface = function jQueryInterface(config) {
+      return this.each(function () {
+        var data = Data.getData(this, DATA_KEY$1);
+
+        if (!data) {
+          data = new Button(this);
+        }
+
+        if (config === 'toggle') {
+          data[config]();
+        }
+      });
+    };
+
+    _createClass(Button, null, [{
+      key: "DATA_KEY",
+      // Getters
+      get: function get() {
+        return DATA_KEY$1;
+      }
+    }]);
+
+    return Button;
+  }(BaseComponent);
+  /**
+   * ------------------------------------------------------------------------
+   * Data Api implementation
+   * ------------------------------------------------------------------------
+   */
+
+
+  EventHandler.on(document, EVENT_CLICK_DATA_API$1, SELECTOR_DATA_TOGGLE, function (event) {
+    event.preventDefault();
+    var button = event.target.closest(SELECTOR_DATA_TOGGLE);
+    var data = Data.getData(button, DATA_KEY$1);
+
+    if (!data) {
+      data = new Button(button);
+    }
+
+    data.toggle();
+  });
+  /**
+   * ------------------------------------------------------------------------
+   * jQuery
+   * ------------------------------------------------------------------------
+   * add .Button to jQuery only if jQuery is present
+   */
+
+  onDOMContentLoaded(function () {
+    var $ = getjQuery();
+    /* istanbul ignore if */
+
+    if ($) {
+      var JQUERY_NO_CONFLICT = $.fn[NAME$1];
+      $.fn[NAME$1] = Button.jQueryInterface;
+      $.fn[NAME$1].Constructor = Button;
+
+      $.fn[NAME$1].noConflict = function () {
+        $.fn[NAME$1] = JQUERY_NO_CONFLICT;
+        return Button.jQueryInterface;
+      };
+    }
+  });
+
+  /**
+   * --------------------------------------------------------------------------
+   * Bootstrap (v5.0.0-beta1): dom/manipulator.js
+   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+   * --------------------------------------------------------------------------
+   */
+  function normalizeData(val) {
+    if (val === 'true') {
+      return true;
+    }
+
+    if (val === 'false') {
+      return false;
+    }
+
+    if (val === Number(val).toString()) {
+      return Number(val);
+    }
+
+    if (val === '' || val === 'null') {
+      return null;
+    }
+
+    return val;
+  }
+
+  function normalizeDataKey(key) {
+    return key.replace(/[A-Z]/g, function (chr) {
+      return "-" + chr.toLowerCase();
+    });
+  }
+
+  var Manipulator = {
+    setDataAttribute: function setDataAttribute(element, key, value) {
+      element.setAttribute("data-bs-" + normalizeDataKey(key), value);
+    },
+    removeDataAttribute: function removeDataAttribute(element, key) {
+      element.removeAttribute("data-bs-" + normalizeDataKey(key));
+    },
+    getDataAttributes: function getDataAttributes(element) {
+      if (!element) {
+        return {};
+      }
+
+      var attributes = {};
+      Object.keys(element.dataset).filter(function (key) {
+        return key.startsWith('bs');
+      }).forEach(function (key) {
+        var pureKey = key.replace(/^bs/, '');
+        pureKey = pureKey.charAt(0).toLowerCase() + pureKey.slice(1, pureKey.length);
+        attributes[pureKey] = normalizeData(element.dataset[key]);
+      });
+      return attributes;
+    },
+    getDataAttribute: function getDataAttribute(element, key) {
+      return normalizeData(element.getAttribute("data-bs-" + normalizeDataKey(key)));
+    },
+    offset: function offset(element) {
+      var rect = element.getBoundingClientRect();
+      return {
+        top: rect.top + document.body.scrollTop,
+        left: rect.left + document.body.scrollLeft
+      };
+    },
+    position: function position(element) {
+      return {
+        top: element.offsetTop,
+        left: element.offsetLeft
+      };
+    }
+  };
+
+  /**
+   * --------------------------------------------------------------------------
+   * Bootstrap (v5.0.0-beta1): dom/selector-engine.js
+   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+   * --------------------------------------------------------------------------
+   */
+
+  /**
+   * ------------------------------------------------------------------------
+   * Constants
+   * ------------------------------------------------------------------------
+   */
+  var NODE_TEXT = 3;
+  var SelectorEngine = {
+    matches: function matches(element, selector) {
+      return element.matches(selector);
+    },
+    find: function find(selector, element) {
+      var _ref;
+
+      if (element === void 0) {
+        element = document.documentElement;
+      }
+
+      return (_ref = []).concat.apply(_ref, Element.prototype.querySelectorAll.call(element, selector));
+    },
+    findOne: function findOne(selector, element) {
+      if (element === void 0) {
+        element = document.documentElement;
+      }
+
+      return Element.prototype.querySelector.call(element, selector);
+    },
+    children: function children(element, selector) {
+      var _ref2;
+
+      var children = (_ref2 = []).concat.apply(_ref2, element.children);
+
+      return children.filter(function (child) {
+        return child.matches(selector);
+      });
+    },
+    parents: function parents(element, selector) {
+      var parents = [];
+      var ancestor = element.parentNode;
+
+      while (ancestor && ancestor.nodeType === Node.ELEMENT_NODE && ancestor.nodeType !== NODE_TEXT) {
+        if (this.matches(ancestor, selector)) {
+          parents.push(ancestor);
+        }
+
+        ancestor = ancestor.parentNode;
+      }
+
+      return parents;
+    },
+    prev: function prev(element, selector) {
+      var previous = element.previousElementSibling;
+
+      while (previous) {
+        if (previous.matches(selector)) {
+          return [previous];
+        }
+
+        previous = previous.previousElementSibling;
+      }
+
+      return [];
+    },
+    next: function next(element, selector) {
+      var next = element.nextElementSibling;
+
+      while (next) {
+        if (this.matches(next, selector)) {
+          return [next];
+        }
+
+        next = next.nextElementSibling;
+      }
+
+      return [];
+    }
+  };
+
+  /**
+   * ------------------------------------------------------------------------
+   * Constants
+   * ------------------------------------------------------------------------
+   */
+
+  var NAME$2 = 'carousel';
+  var DATA_KEY$2 = 'bs.carousel';
+  var EVENT_KEY$2 = "." + DATA_KEY$2;
+  var DATA_API_KEY$2 = '.data-api';
+  var ARROW_LEFT_KEY = 'ArrowLeft';
+  var ARROW_RIGHT_KEY = 'ArrowRight';
+  var TOUCHEVENT_COMPAT_WAIT = 500; // Time for mouse compat events to fire after touch
+
+  var SWIPE_THRESHOLD = 40;
+  var Default = {
+    interval: 5000,
+    keyboard: true,
+    slide: false,
+    pause: 'hover',
+    wrap: true,
+    touch: true
+  };
+  var DefaultType = {
+    interval: '(number|boolean)',
+    keyboard: 'boolean',
+    slide: '(boolean|string)',
+    pause: '(string|boolean)',
+    wrap: 'boolean',
+    touch: 'boolean'
+  };
+  var DIRECTION_NEXT = 'next';
+  var DIRECTION_PREV = 'prev';
+  var DIRECTION_LEFT = 'left';
+  var DIRECTION_RIGHT = 'right';
+  var EVENT_SLIDE = "slide" + EVENT_KEY$2;
+  var EVENT_SLID = "slid" + EVENT_KEY$2;
+  var EVENT_KEYDOWN = "keydown" + EVENT_KEY$2;
+  var EVENT_MOUSEENTER = "mouseenter" + EVENT_KEY$2;
+  var EVENT_MOUSELEAVE = "mouseleave" + EVENT_KEY$2;
+  var EVENT_TOUCHSTART = "touchstart" + EVENT_KEY$2;
+  var EVENT_TOUCHMOVE = "touchmove" + EVENT_KEY$2;
+  var EVENT_TOUCHEND = "touchend" + EVENT_KEY$2;
+  var EVENT_POINTERDOWN = "pointerdown" + EVENT_KEY$2;
+  var EVENT_POINTERUP = "pointerup" + EVENT_KEY$2;
+  var EVENT_DRAG_START = "dragstart" + EVENT_KEY$2;
+  var EVENT_LOAD_DATA_API = "load" + EVENT_KEY$2 + DATA_API_KEY$2;
+  var EVENT_CLICK_DATA_API$2 = "click" + EVENT_KEY$2 + DATA_API_KEY$2;
+  var CLASS_NAME_CAROUSEL = 'carousel';
+  var CLASS_NAME_ACTIVE$1 = 'active';
+  var CLASS_NAME_SLIDE = 'slide';
+  var CLASS_NAME_END = 'carousel-item-end';
+  var CLASS_NAME_START = 'carousel-item-start';
+  var CLASS_NAME_NEXT = 'carousel-item-next';
+  var CLASS_NAME_PREV = 'carousel-item-prev';
+  var CLASS_NAME_POINTER_EVENT = 'pointer-event';
+  var SELECTOR_ACTIVE = '.active';
+  var SELECTOR_ACTIVE_ITEM = '.active.carousel-item';
+  var SELECTOR_ITEM = '.carousel-item';
+  var SELECTOR_ITEM_IMG = '.carousel-item img';
+  var SELECTOR_NEXT_PREV = '.carousel-item-next, .carousel-item-prev';
+  var SELECTOR_INDICATORS = '.carousel-indicators';
+  var SELECTOR_DATA_SLIDE = '[data-bs-slide], [data-bs-slide-to]';
+  var SELECTOR_DATA_RIDE = '[data-bs-ride="carousel"]';
+  var PointerType = {
+    TOUCH: 'touch',
+    PEN: 'pen'
+  };
+  /**
+   * ------------------------------------------------------------------------
+   * Class Definition
+   * ------------------------------------------------------------------------
+   */
+
+  var Carousel = /*#__PURE__*/function (_BaseComponent) {
+    _inheritsLoose(Carousel, _BaseComponent);
+
+    function Carousel(element, config) {
+      var _this;
+
+      _this = _BaseComponent.call(this, element) || this;
+      _this._items = null;
+      _this._interval = null;
+      _this._activeElement = null;
+      _this._isPaused = false;
+      _this._isSliding = false;
+      _this.touchTimeout = null;
+      _this.touchStartX = 0;
+      _this.touchDeltaX = 0;
+      _this._config = _this._getConfig(config);
+      _this._indicatorsElement = SelectorEngine.findOne(SELECTOR_INDICATORS, _this._element);
+      _this._touchSupported = 'ontouchstart' in document.documentElement || navigator.maxTouchPoints > 0;
+      _this._pointerEvent = Boolean(window.PointerEvent);
+
+      _this._addEventListeners();
+
+      return _this;
+    } // Getters
+
+
+    var _proto = Carousel.prototype;
+
+    // Public
+    _proto.next = function next() {
+      if (!this._isSliding) {
+        this._slide(DIRECTION_NEXT);
+      }
+    };
+
+    _proto.nextWhenVisible = function nextWhenVisible() {
+      // Don't call next when the page isn't visible
+      // or the carousel or its parent isn't visible
+      if (!document.hidden && isVisible(this._element)) {
+        this.next();
+      }
+    };
+
+    _proto.prev = function prev() {
+      if (!this._isSliding) {
+        this._slide(DIRECTION_PREV);
+      }
+    };
+
+    _proto.pause = function pause(event) {
+      if (!event) {
+        this._isPaused = true;
+      }
+
+      if (SelectorEngine.findOne(SELECTOR_NEXT_PREV, this._element)) {
+        triggerTransitionEnd(this._element);
+        this.cycle(true);
+      }
+
+      clearInterval(this._interval);
+      this._interval = null;
+    };
+
+    _proto.cycle = function cycle(event) {
+      if (!event) {
+        this._isPaused = false;
+      }
+
+      if (this._interval) {
+        clearInterval(this._interval);
+        this._interval = null;
+      }
+
+      if (this._config && this._config.interval && !this._isPaused) {
+        this._updateInterval();
+
+        this._interval = setInterval((document.visibilityState ? this.nextWhenVisible : this.next).bind(this), this._config.interval);
+      }
+    };
+
+    _proto.to = function to(index) {
+      var _this2 = this;
+
+      this._activeElement = SelectorEngine.findOne(SELECTOR_ACTIVE_ITEM, this._element);
+
+      var activeIndex = this._getItemIndex(this._activeElement);
+
+      if (index > this._items.length - 1 || index < 0) {
+        return;
+      }
+
+      if (this._isSliding) {
+        EventHandler.one(this._element, EVENT_SLID, function () {
+          return _this2.to(index);
+        });
+        return;
+      }
+
+      if (activeIndex === index) {
+        this.pause();
+        this.cycle();
+        return;
+      }
+
+      var direction = index > activeIndex ? DIRECTION_NEXT : DIRECTION_PREV;
+
+      this._slide(direction, this._items[index]);
+    };
+
+    _proto.dispose = function dispose() {
+      _BaseComponent.prototype.dispose.call(this);
+
+      EventHandler.off(this._element, EVENT_KEY$2);
+      this._items = null;
+      this._config = null;
+      this._interval = null;
+      this._isPaused = null;
+      this._isSliding = null;
+      this._activeElement = null;
+      this._indicatorsElement = null;
+    } // Private
+    ;
+
+    _proto._getConfig = function _getConfig(config) {
+      config = _extends({}, Default, config);
+      typeCheckConfig(NAME$2, config, DefaultType);
+      return config;
+    };
+
+    _proto._handleSwipe = function _handleSwipe() {
+      var absDeltax = Math.abs(this.touchDeltaX);
+
+      if (absDeltax <= SWIPE_THRESHOLD) {
+        return;
+      }
+
+      var direction = absDeltax / this.touchDeltaX;
+      this.touchDeltaX = 0; // swipe left
+
+      if (direction > 0) {
+        this.prev();
+      } // swipe right
+
+
+      if (direction < 0) {
+        this.next();
+      }
+    };
+
+    _proto._addEventListeners = function _addEventListeners() {
+      var _this3 = this;
+
+      if (this._config.keyboard) {
+        EventHandler.on(this._element, EVENT_KEYDOWN, function (event) {
+          return _this3._keydown(event);
+        });
+      }
+
+      if (this._config.pause === 'hover') {
+        EventHandler.on(this._element, EVENT_MOUSEENTER, function (event) {
+          return _this3.pause(event);
+        });
+        EventHandler.on(this._element, EVENT_MOUSELEAVE, function (event) {
+          return _this3.cycle(event);
+        });
+      }
+
+      if (this._config.touch && this._touchSupported) {
+        this._addTouchEventListeners();
+      }
+    };
+
+    _proto._addTouchEventListeners = function _addTouchEventListeners() {
+      var _this4 = this;
+
+      var start = function start(event) {
+        if (_this4._pointerEvent && PointerType[event.pointerType.toUpperCase()]) {
+          _this4.touchStartX = event.clientX;
+        } else if (!_this4._pointerEvent) {
+          _this4.touchStartX = event.touches[0].clientX;
+        }
+      };
+
+      var move = function move(event) {
+        // ensure swiping with one touch and not pinching
+        if (event.touches && event.touches.length > 1) {
+          _this4.touchDeltaX = 0;
+        } else {
+          _this4.touchDeltaX = event.touches[0].clientX - _this4.touchStartX;
+        }
+      };
+
+      var end = function end(event) {
+        if (_this4._pointerEvent && PointerType[event.pointerType.toUpperCase()]) {
+          _this4.touchDeltaX = event.clientX - _this4.touchStartX;
+        }
+
+        _this4._handleSwipe();
+
+        if (_this4._config.pause === 'hover') {
+          // If it's a touch-enabled device, mouseenter/leave are fired as
+          // part of the mouse compatibility events on first tap - the carousel
+          // would stop cycling until user tapped out of it;
+          // here, we listen for touchend, explicitly pause the carousel
+          // (as if it's the second time we tap on it, mouseenter compat event
+          // is NOT fired) and after a timeout (to allow for mouse compatibility
+          // events to fire) we explicitly restart cycling
+          _this4.pause();
+
+          if (_this4.touchTimeout) {
+            clearTimeout(_this4.touchTimeout);
+          }
+
+          _this4.touchTimeout = setTimeout(function (event) {
+            return _this4.cycle(event);
+          }, TOUCHEVENT_COMPAT_WAIT + _this4._config.interval);
+        }
+      };
+
+      SelectorEngine.find(SELECTOR_ITEM_IMG, this._element).forEach(function (itemImg) {
+        EventHandler.on(itemImg, EVENT_DRAG_START, function (e) {
+          return e.preventDefault();
+        });
+      });
+
+      if (this._pointerEvent) {
+        EventHandler.on(this._element, EVENT_POINTERDOWN, function (event) {
+          return start(event);
+        });
+        EventHandler.on(this._element, EVENT_POINTERUP, function (event) {
+          return end(event);
+        });
+
+        this._element.classList.add(CLASS_NAME_POINTER_EVENT);
+      } else {
+        EventHandler.on(this._element, EVENT_TOUCHSTART, function (event) {
+          return start(event);
+        });
+        EventHandler.on(this._element, EVENT_TOUCHMOVE, function (event) {
+          return move(event);
+        });
+        EventHandler.on(this._element, EVENT_TOUCHEND, function (event) {
+          return end(event);
+        });
+      }
+    };
+
+    _proto._keydown = function _keydown(event) {
+      if (/input|textarea/i.test(event.target.tagName)) {
+        return;
+      }
+
+      switch (event.key) {
+        case ARROW_LEFT_KEY:
+          event.preventDefault();
+          this.prev();
+          break;
+
+        case ARROW_RIGHT_KEY:
+          event.preventDefault();
+          this.next();
+          break;
+      }
+    };
+
+    _proto._getItemIndex = function _getItemIndex(element) {
+      this._items = element && element.parentNode ? SelectorEngine.find(SELECTOR_ITEM, element.parentNode) : [];
+      return this._items.indexOf(element);
+    };
+
+    _proto._getItemByDirection = function _getItemByDirection(direction, activeElement) {
+      var isNextDirection = direction === DIRECTION_NEXT;
+      var isPrevDirection = direction === DIRECTION_PREV;
+
+      var activeIndex = this._getItemIndex(activeElement);
+
+      var lastItemIndex = this._items.length - 1;
+      var isGoingToWrap = isPrevDirection && activeIndex === 0 || isNextDirection && activeIndex === lastItemIndex;
+
+      if (isGoingToWrap && !this._config.wrap) {
+        return activeElement;
+      }
+
+      var delta = direction === DIRECTION_PREV ? -1 : 1;
+      var itemIndex = (activeIndex + delta) % this._items.length;
+      return itemIndex === -1 ? this._items[this._items.length - 1] : this._items[itemIndex];
+    };
+
+    _proto._triggerSlideEvent = function _triggerSlideEvent(relatedTarget, eventDirectionName) {
+      var targetIndex = this._getItemIndex(relatedTarget);
+
+      var fromIndex = this._getItemIndex(SelectorEngine.findOne(SELECTOR_ACTIVE_ITEM, this._element));
+
+      return EventHandler.trigger(this._element, EVENT_SLIDE, {
+        relatedTarget: relatedTarget,
+        direction: eventDirectionName,
+        from: fromIndex,
+        to: targetIndex
+      });
+    };
+
+    _proto._setActiveIndicatorElement = function _setActiveIndicatorElement(element) {
+      if (this._indicatorsElement) {
+        var indicators = SelectorEngine.find(SELECTOR_ACTIVE, this._indicatorsElement);
+
+        for (var i = 0; i < indicators.length; i++) {
+          indicators[i].classList.remove(CLASS_NAME_ACTIVE$1);
+        }
+
+        var nextIndicator = this._indicatorsElement.children[this._getItemIndex(element)];
+
+        if (nextIndicator) {
+          nextIndicator.classList.add(CLASS_NAME_ACTIVE$1);
+        }
+      }
+    };
+
+    _proto._updateInterval = function _updateInterval() {
+      var element = this._activeElement || SelectorEngine.findOne(SELECTOR_ACTIVE_ITEM, this._element);
+
+      if (!element) {
+        return;
+      }
+
+      var elementInterval = Number.parseInt(element.getAttribute('data-bs-interval'), 10);
+
+      if (elementInterval) {
+        this._config.defaultInterval = this._config.defaultInterval || this._config.interval;
+        this._config.interval = elementInterval;
+      } else {
+        this._config.interval = this._config.defaultInterval || this._config.interval;
+      }
+    };
+
+    _proto._slide = function _slide(direction, element) {
+      var _this5 = this;
+
+      var activeElement = SelectorEngine.findOne(SELECTOR_ACTIVE_ITEM, this._element);
+
+      var activeElementIndex = this._getItemIndex(activeElement);
+
+      var nextElement = element || activeElement && this._getItemByDirection(direction, activeElement);
+
+      var nextElementIndex = this._getItemIndex(nextElement);
+
+      var isCycling = Boolean(this._interval);
+      var directionalClassName;
+      var orderClassName;
+      var eventDirectionName;
+
+      if (direction === DIRECTION_NEXT) {
+        directionalClassName = CLASS_NAME_START;
+        orderClassName = CLASS_NAME_NEXT;
+        eventDirectionName = DIRECTION_LEFT;
+      } else {
+        directionalClassName = CLASS_NAME_END;
+        orderClassName = CLASS_NAME_PREV;
+        eventDirectionName = DIRECTION_RIGHT;
+      }
+
+      if (nextElement && nextElement.classList.contains(CLASS_NAME_ACTIVE$1)) {
+        this._isSliding = false;
+        return;
+      }
+
+      var slideEvent = this._triggerSlideEvent(nextElement, eventDirectionName);
+
+      if (slideEvent.defaultPrevented) {
+        return;
+      }
+
+      if (!activeElement || !nextElement) {
+        // Some weirdness is happening, so we bail
+        return;
+      }
+
+      this._isSliding = true;
+
+      if (isCycling) {
+        this.pause();
+      }
+
+      this._setActiveIndicatorElement(nextElement);
+
+      this._activeElement = nextElement;
+
+      if (this._element.classList.contains(CLASS_NAME_SLIDE)) {
+        nextElement.classList.add(orderClassName);
+        reflow(nextElement);
+        activeElement.classList.add(directionalClassName);
+        nextElement.classList.add(directionalClassName);
+        var transitionDuration = getTransitionDurationFromElement(activeElement);
+        EventHandler.one(activeElement, TRANSITION_END, function () {
+          nextElement.classList.remove(directionalClassName, orderClassName);
+          nextElement.classList.add(CLASS_NAME_ACTIVE$1);
+          activeElement.classList.remove(CLASS_NAME_ACTIVE$1, orderClassName, directionalClassName);
+          _this5._isSliding = false;
+          setTimeout(function () {
+            EventHandler.trigger(_this5._element, EVENT_SLID, {
+              relatedTarget: nextElement,
+              direction: eventDirectionName,
+              from: activeElementIndex,
+              to: nextElementIndex
+            });
+          }, 0);
+        });
+        emulateTransitionEnd(activeElement, transitionDuration);
+      } else {
+        activeElement.classList.remove(CLASS_NAME_ACTIVE$1);
+        nextElement.classList.add(CLASS_NAME_ACTIVE$1);
+        this._isSliding = false;
+        EventHandler.trigger(this._element, EVENT_SLID, {
+          relatedTarget: nextElement,
+          direction: eventDirectionName,
+          from: activeElementIndex,
+          to: nextElementIndex
+        });
+      }
+
+      if (isCycling) {
+        this.cycle();
+      }
+    } // Static
+    ;
+
+    Carousel.carouselInterface = function carouselInterface(element, config) {
+      var data = Data.getData(element, DATA_KEY$2);
+
+      var _config = _extends({}, Default, Manipulator.getDataAttributes(element));
+
+      if (typeof config === 'object') {
+        _config = _extends({}, _config, config);
+      }
+
+      var action = typeof config === 'string' ? config : _config.slide;
+
+      if (!data) {
+        data = new Carousel(element, _config);
+      }
+
+      if (typeof config === 'number') {
+        data.to(config);
+      } else if (typeof action === 'string') {
+        if (typeof data[action] === 'undefined') {
+          throw new TypeError("No method named \"" + action + "\"");
+        }
+
+        data[action]();
+      } else if (_config.interval && _config.ride) {
+        data.pause();
+        data.cycle();
+      }
+    };
+
+    Carousel.jQueryInterface = function jQueryInterface(config) {
+      return this.each(function () {
+        Carousel.carouselInterface(this, config);
+      });
+    };
+
+    Carousel.dataApiClickHandler = function dataApiClickHandler(event) {
+      var target = getElementFromSelector(this);
+
+      if (!target || !target.classList.contains(CLASS_NAME_CAROUSEL)) {
+        return;
+      }
+
+      var config = _extends({}, Manipulator.getDataAttributes(target), Manipulator.getDataAttributes(this));
+
+      var slideIndex = this.getAttribute('data-bs-slide-to');
+
+      if (slideIndex) {
+        config.interval = false;
+      }
+
+      Carousel.carouselInterface(target, config);
+
+      if (slideIndex) {
+        Data.getData(target, DATA_KEY$2).to(slideIndex);
+      }
+
+      event.preventDefault();
+    };
+
+    _createClass(Carousel, null, [{
+      key: "Default",
+      get: function get() {
+        return Default;
+      }
+    }, {
+      key: "DATA_KEY",
+      get: function get() {
+        return DATA_KEY$2;
+      }
+    }]);
+
+    return Carousel;
+  }(BaseComponent);
+  /**
+   * ------------------------------------------------------------------------
+   * Data Api implementation
+   * ------------------------------------------------------------------------
+   */
+
+
+  EventHandler.on(document, EVENT_CLICK_DATA_API$2, SELECTOR_DATA_SLIDE, Carousel.dataApiClickHandler);
+  EventHandler.on(window, EVENT_LOAD_DATA_API, function () {
+    var carousels = SelectorEngine.find(SELECTOR_DATA_RIDE);
+
+    for (var i = 0, len = carousels.length; i < len; i++) {
+      Carousel.carouselInterface(carousels[i], Data.getData(carousels[i], DATA_KEY$2));
+    }
+  });
+  /**
+   * ------------------------------------------------------------------------
+   * jQuery
+   * ------------------------------------------------------------------------
+   * add .Carousel to jQuery only if jQuery is present
+   */
+
+  onDOMContentLoaded(function () {
+    var $ = getjQuery();
+    /* istanbul ignore if */
+
+    if ($) {
+      var JQUERY_NO_CONFLICT = $.fn[NAME$2];
+      $.fn[NAME$2] = Carousel.jQueryInterface;
+      $.fn[NAME$2].Constructor = Carousel;
+
+      $.fn[NAME$2].noConflict = function () {
+        $.fn[NAME$2] = JQUERY_NO_CONFLICT;
+        return Carousel.jQueryInterface;
+      };
+    }
+  });
+
+  /**
+   * ------------------------------------------------------------------------
+   * Constants
+   * ------------------------------------------------------------------------
+   */
+
+  var NAME$3 = 'collapse';
+  var DATA_KEY$3 = 'bs.collapse';
+  var EVENT_KEY$3 = "." + DATA_KEY$3;
+  var DATA_API_KEY$3 = '.data-api';
+  var Default$1 = {
+    toggle: true,
+    parent: ''
+  };
+  var DefaultType$1 = {
+    toggle: 'boolean',
+    parent: '(string|element)'
+  };
+  var EVENT_SHOW = "show" + EVENT_KEY$3;
+  var EVENT_SHOWN = "shown" + EVENT_KEY$3;
+  var EVENT_HIDE = "hide" + EVENT_KEY$3;
+  var EVENT_HIDDEN = "hidden" + EVENT_KEY$3;
+  var EVENT_CLICK_DATA_API$3 = "click" + EVENT_KEY$3 + DATA_API_KEY$3;
+  var CLASS_NAME_SHOW = 'show';
+  var CLASS_NAME_COLLAPSE = 'collapse';
+  var CLASS_NAME_COLLAPSING = 'collapsing';
+  var CLASS_NAME_COLLAPSED = 'collapsed';
+  var WIDTH = 'width';
+  var HEIGHT = 'height';
+  var SELECTOR_ACTIVES = '.show, .collapsing';
+  var SELECTOR_DATA_TOGGLE$1 = '[data-bs-toggle="collapse"]';
+  /**
+   * ------------------------------------------------------------------------
+   * Class Definition
+   * ------------------------------------------------------------------------
+   */
+
+  var Collapse = /*#__PURE__*/function (_BaseComponent) {
+    _inheritsLoose(Collapse, _BaseComponent);
+
+    function Collapse(element, config) {
+      var _this;
+
+      _this = _BaseComponent.call(this, element) || this;
+      _this._isTransitioning = false;
+      _this._config = _this._getConfig(config);
+      _this._triggerArray = SelectorEngine.find(SELECTOR_DATA_TOGGLE$1 + "[href=\"#" + element.id + "\"]," + (SELECTOR_DATA_TOGGLE$1 + "[data-bs-target=\"#" + element.id + "\"]"));
+      var toggleList = SelectorEngine.find(SELECTOR_DATA_TOGGLE$1);
+
+      for (var i = 0, len = toggleList.length; i < len; i++) {
+        var elem = toggleList[i];
+        var selector = getSelectorFromElement(elem);
+        var filterElement = SelectorEngine.find(selector).filter(function (foundElem) {
+          return foundElem === element;
+        });
+
+        if (selector !== null && filterElement.length) {
+          _this._selector = selector;
+
+          _this._triggerArray.push(elem);
+        }
+      }
+
+      _this._parent = _this._config.parent ? _this._getParent() : null;
+
+      if (!_this._config.parent) {
+        _this._addAriaAndCollapsedClass(_this._element, _this._triggerArray);
+      }
+
+      if (_this._config.toggle) {
+        _this.toggle();
+      }
+
+      return _this;
+    } // Getters
+
+
+    var _proto = Collapse.prototype;
+
+    // Public
+    _proto.toggle = function toggle() {
+      if (this._element.classList.contains(CLASS_NAME_SHOW)) {
+        this.hide();
+      } else {
+        this.show();
+      }
+    };
+
+    _proto.show = function show() {
+      var _this2 = this;
+
+      if (this._isTransitioning || this._element.classList.contains(CLASS_NAME_SHOW)) {
+        return;
+      }
+
+      var actives;
+      var activesData;
+
+      if (this._parent) {
+        actives = SelectorEngine.find(SELECTOR_ACTIVES, this._parent).filter(function (elem) {
+          if (typeof _this2._config.parent === 'string') {
+            return elem.getAttribute('data-bs-parent') === _this2._config.parent;
+          }
+
+          return elem.classList.contains(CLASS_NAME_COLLAPSE);
+        });
+
+        if (actives.length === 0) {
+          actives = null;
+        }
+      }
+
+      var container = SelectorEngine.findOne(this._selector);
+
+      if (actives) {
+        var tempActiveData = actives.find(function (elem) {
+          return container !== elem;
+        });
+        activesData = tempActiveData ? Data.getData(tempActiveData, DATA_KEY$3) : null;
+
+        if (activesData && activesData._isTransitioning) {
+          return;
+        }
+      }
+
+      var startEvent = EventHandler.trigger(this._element, EVENT_SHOW);
+
+      if (startEvent.defaultPrevented) {
+        return;
+      }
+
+      if (actives) {
+        actives.forEach(function (elemActive) {
+          if (container !== elemActive) {
+            Collapse.collapseInterface(elemActive, 'hide');
+          }
+
+          if (!activesData) {
+            Data.setData(elemActive, DATA_KEY$3, null);
+          }
+        });
+      }
+
+      var dimension = this._getDimension();
+
+      this._element.classList.remove(CLASS_NAME_COLLAPSE);
+
+      this._element.classList.add(CLASS_NAME_COLLAPSING);
+
+      this._element.style[dimension] = 0;
+
+      if (this._triggerArray.length) {
+        this._triggerArray.forEach(function (element) {
+          element.classList.remove(CLASS_NAME_COLLAPSED);
+          element.setAttribute('aria-expanded', true);
+        });
+      }
+
+      this.setTransitioning(true);
+
+      var complete = function complete() {
+        _this2._element.classList.remove(CLASS_NAME_COLLAPSING);
+
+        _this2._element.classList.add(CLASS_NAME_COLLAPSE, CLASS_NAME_SHOW);
+
+        _this2._element.style[dimension] = '';
+
+        _this2.setTransitioning(false);
+
+        EventHandler.trigger(_this2._element, EVENT_SHOWN);
+      };
+
+      var capitalizedDimension = dimension[0].toUpperCase() + dimension.slice(1);
+      var scrollSize = "scroll" + capitalizedDimension;
+      var transitionDuration = getTransitionDurationFromElement(this._element);
+      EventHandler.one(this._element, TRANSITION_END, complete);
+      emulateTransitionEnd(this._element, transitionDuration);
+      this._element.style[dimension] = this._element[scrollSize] + "px";
+    };
+
+    _proto.hide = function hide() {
+      var _this3 = this;
+
+      if (this._isTransitioning || !this._element.classList.contains(CLASS_NAME_SHOW)) {
+        return;
+      }
+
+      var startEvent = EventHandler.trigger(this._element, EVENT_HIDE);
+
+      if (startEvent.defaultPrevented) {
+        return;
+      }
+
+      var dimension = this._getDimension();
+
+      this._element.style[dimension] = this._element.getBoundingClientRect()[dimension] + "px";
+      reflow(this._element);
+
+      this._element.classList.add(CLASS_NAME_COLLAPSING);
+
+      this._element.classList.remove(CLASS_NAME_COLLAPSE, CLASS_NAME_SHOW);
+
+      var triggerArrayLength = this._triggerArray.length;
+
+      if (triggerArrayLength > 0) {
+        for (var i = 0; i < triggerArrayLength; i++) {
+          var trigger = this._triggerArray[i];
+          var elem = getElementFromSelector(trigger);
+
+          if (elem && !elem.classList.contains(CLASS_NAME_SHOW)) {
+            trigger.classList.add(CLASS_NAME_COLLAPSED);
+            trigger.setAttribute('aria-expanded', false);
+          }
+        }
+      }
+
+      this.setTransitioning(true);
+
+      var complete = function complete() {
+        _this3.setTransitioning(false);
+
+        _this3._element.classList.remove(CLASS_NAME_COLLAPSING);
+
+        _this3._element.classList.add(CLASS_NAME_COLLAPSE);
+
+        EventHandler.trigger(_this3._element, EVENT_HIDDEN);
+      };
+
+      this._element.style[dimension] = '';
+      var transitionDuration = getTransitionDurationFromElement(this._element);
+      EventHandler.one(this._element, TRANSITION_END, complete);
+      emulateTransitionEnd(this._element, transitionDuration);
+    };
+
+    _proto.setTransitioning = function setTransitioning(isTransitioning) {
+      this._isTransitioning = isTransitioning;
+    };
+
+    _proto.dispose = function dispose() {
+      _BaseComponent.prototype.dispose.call(this);
+
+      this._config = null;
+      this._parent = null;
+      this._triggerArray = null;
+      this._isTransitioning = null;
+    } // Private
+    ;
+
+    _proto._getConfig = function _getConfig(config) {
+      config = _extends({}, Default$1, config);
+      config.toggle = Boolean(config.toggle); // Coerce string values
+
+      typeCheckConfig(NAME$3, config, DefaultType$1);
+      return config;
+    };
+
+    _proto._getDimension = function _getDimension() {
+      return this._element.classList.contains(WIDTH) ? WIDTH : HEIGHT;
+    };
+
+    _proto._getParent = function _getParent() {
+      var _this4 = this;
+
+      var parent = this._config.parent;
+
+      if (isElement(parent)) {
+        // it's a jQuery object
+        if (typeof parent.jquery !== 'undefined' || typeof parent[0] !== 'undefined') {
+          parent = parent[0];
+        }
+      } else {
+        parent = SelectorEngine.findOne(parent);
+      }
+
+      var selector = SELECTOR_DATA_TOGGLE$1 + "[data-bs-parent=\"" + parent + "\"]";
+      SelectorEngine.find(selector, parent).forEach(function (element) {
+        var selected = getElementFromSelector(element);
+
+        _this4._addAriaAndCollapsedClass(selected, [element]);
+      });
+      return parent;
+    };
+
+    _proto._addAriaAndCollapsedClass = function _addAriaAndCollapsedClass(element, triggerArray) {
+      if (!element || !triggerArray.length) {
+        return;
+      }
+
+      var isOpen = element.classList.contains(CLASS_NAME_SHOW);
+      triggerArray.forEach(function (elem) {
+        if (isOpen) {
+          elem.classList.remove(CLASS_NAME_COLLAPSED);
+        } else {
+          elem.classList.add(CLASS_NAME_COLLAPSED);
+        }
+
+        elem.setAttribute('aria-expanded', isOpen);
+      });
+    } // Static
+    ;
+
+    Collapse.collapseInterface = function collapseInterface(element, config) {
+      var data = Data.getData(element, DATA_KEY$3);
+
+      var _config = _extends({}, Default$1, Manipulator.getDataAttributes(element), typeof config === 'object' && config ? config : {});
+
+      if (!data && _config.toggle && typeof config === 'string' && /show|hide/.test(config)) {
+        _config.toggle = false;
+      }
+
+      if (!data) {
+        data = new Collapse(element, _config);
+      }
+
+      if (typeof config === 'string') {
+        if (typeof data[config] === 'undefined') {
+          throw new TypeError("No method named \"" + config + "\"");
+        }
+
+        data[config]();
+      }
+    };
+
+    Collapse.jQueryInterface = function jQueryInterface(config) {
+      return this.each(function () {
+        Collapse.collapseInterface(this, config);
+      });
+    };
+
+    _createClass(Collapse, null, [{
+      key: "Default",
+      get: function get() {
+        return Default$1;
+      }
+    }, {
+      key: "DATA_KEY",
+      get: function get() {
+        return DATA_KEY$3;
+      }
+    }]);
+
+    return Collapse;
+  }(BaseComponent);
+  /**
+   * ------------------------------------------------------------------------
+   * Data Api implementation
+   * ------------------------------------------------------------------------
+   */
+
+
+  EventHandler.on(document, EVENT_CLICK_DATA_API$3, SELECTOR_DATA_TOGGLE$1, function (event) {
+    // preventDefault only for <a> elements (which change the URL) not inside the collapsible element
+    if (event.target.tagName === 'A') {
+      event.preventDefault();
+    }
+
+    var triggerData = Manipulator.getDataAttributes(this);
+    var selector = getSelectorFromElement(this);
+    var selectorElements = SelectorEngine.find(selector);
+    selectorElements.forEach(function (element) {
+      var data = Data.getData(element, DATA_KEY$3);
+      var config;
+
+      if (data) {
+        // update parent attribute
+        if (data._parent === null && typeof triggerData.parent === 'string') {
+          data._config.parent = triggerData.parent;
+          data._parent = data._getParent();
+        }
+
+        config = 'toggle';
+      } else {
+        config = triggerData;
+      }
+
+      Collapse.collapseInterface(element, config);
+    });
+  });
+  /**
+   * ------------------------------------------------------------------------
+   * jQuery
+   * ------------------------------------------------------------------------
+   * add .Collapse to jQuery only if jQuery is present
+   */
+
+  onDOMContentLoaded(function () {
+    var $ = getjQuery();
+    /* istanbul ignore if */
+
+    if ($) {
+      var JQUERY_NO_CONFLICT = $.fn[NAME$3];
+      $.fn[NAME$3] = Collapse.jQueryInterface;
+      $.fn[NAME$3].Constructor = Collapse;
+
+      $.fn[NAME$3].noConflict = function () {
+        $.fn[NAME$3] = JQUERY_NO_CONFLICT;
+        return Collapse.jQueryInterface;
+      };
+    }
+  });
+
+  /**
+   * ------------------------------------------------------------------------
+   * Constants
+   * ------------------------------------------------------------------------
+   */
+
+  var NAME$4 = 'dropdown';
+  var DATA_KEY$4 = 'bs.dropdown';
+  var EVENT_KEY$4 = "." + DATA_KEY$4;
+  var DATA_API_KEY$4 = '.data-api';
+  var ESCAPE_KEY = 'Escape';
+  var SPACE_KEY = 'Space';
+  var TAB_KEY = 'Tab';
+  var ARROW_UP_KEY = 'ArrowUp';
+  var ARROW_DOWN_KEY = 'ArrowDown';
+  var RIGHT_MOUSE_BUTTON = 2; // MouseEvent.button value for the secondary button, usually the right button
+
+  var REGEXP_KEYDOWN = new RegExp(ARROW_UP_KEY + "|" + ARROW_DOWN_KEY + "|" + ESCAPE_KEY);
+  var EVENT_HIDE$1 = "hide" + EVENT_KEY$4;
+  var EVENT_HIDDEN$1 = "hidden" + EVENT_KEY$4;
+  var EVENT_SHOW$1 = "show" + EVENT_KEY$4;
+  var EVENT_SHOWN$1 = "shown" + EVENT_KEY$4;
+  var EVENT_CLICK = "click" + EVENT_KEY$4;
+  var EVENT_CLICK_DATA_API$4 = "click" + EVENT_KEY$4 + DATA_API_KEY$4;
+  var EVENT_KEYDOWN_DATA_API = "keydown" + EVENT_KEY$4 + DATA_API_KEY$4;
+  var EVENT_KEYUP_DATA_API = "keyup" + EVENT_KEY$4 + DATA_API_KEY$4;
+  var CLASS_NAME_DISABLED = 'disabled';
+  var CLASS_NAME_SHOW$1 = 'show';
+  var CLASS_NAME_DROPUP = 'dropup';
+  var CLASS_NAME_DROPEND = 'dropend';
+  var CLASS_NAME_DROPSTART = 'dropstart';
+  var CLASS_NAME_NAVBAR = 'navbar';
+  var SELECTOR_DATA_TOGGLE$2 = '[data-bs-toggle="dropdown"]';
+  var SELECTOR_FORM_CHILD = '.dropdown form';
+  var SELECTOR_MENU = '.dropdown-menu';
+  var SELECTOR_NAVBAR_NAV = '.navbar-nav';
+  var SELECTOR_VISIBLE_ITEMS = '.dropdown-menu .dropdown-item:not(.disabled):not(:disabled)';
+  var PLACEMENT_TOP = isRTL ? 'top-end' : 'top-start';
+  var PLACEMENT_TOPEND = isRTL ? 'top-start' : 'top-end';
+  var PLACEMENT_BOTTOM = isRTL ? 'bottom-end' : 'bottom-start';
+  var PLACEMENT_BOTTOMEND = isRTL ? 'bottom-start' : 'bottom-end';
+  var PLACEMENT_RIGHT = isRTL ? 'left-start' : 'right-start';
+  var PLACEMENT_LEFT = isRTL ? 'right-start' : 'left-start';
+  var Default$2 = {
+    offset: 0,
+    flip: true,
+    boundary: 'clippingParents',
+    reference: 'toggle',
+    display: 'dynamic',
+    popperConfig: null
+  };
+  var DefaultType$2 = {
+    offset: '(number|string|function)',
+    flip: 'boolean',
+    boundary: '(string|element)',
+    reference: '(string|element)',
+    display: 'string',
+    popperConfig: '(null|object)'
+  };
+  /**
+   * ------------------------------------------------------------------------
+   * Class Definition
+   * ------------------------------------------------------------------------
+   */
+
+  var Dropdown = /*#__PURE__*/function (_BaseComponent) {
+    _inheritsLoose(Dropdown, _BaseComponent);
+
+    function Dropdown(element, config) {
+      var _this;
+
+      _this = _BaseComponent.call(this, element) || this;
+      _this._popper = null;
+      _this._config = _this._getConfig(config);
+      _this._menu = _this._getMenuElement();
+      _this._inNavbar = _this._detectNavbar();
+
+      _this._addEventListeners();
+
+      return _this;
+    } // Getters
+
+
+    var _proto = Dropdown.prototype;
+
+    // Public
+    _proto.toggle = function toggle() {
+      if (this._element.disabled || this._element.classList.contains(CLASS_NAME_DISABLED)) {
+        return;
+      }
+
+      var isActive = this._element.classList.contains(CLASS_NAME_SHOW$1);
+
+      Dropdown.clearMenus();
+
+      if (isActive) {
+        return;
+      }
+
+      this.show();
+    };
+
+    _proto.show = function show() {
+      if (this._element.disabled || this._element.classList.contains(CLASS_NAME_DISABLED) || this._menu.classList.contains(CLASS_NAME_SHOW$1)) {
+        return;
+      }
+
+      var parent = Dropdown.getParentFromElement(this._element);
+      var relatedTarget = {
+        relatedTarget: this._element
+      };
+      var showEvent = EventHandler.trigger(this._element, EVENT_SHOW$1, relatedTarget);
+
+      if (showEvent.defaultPrevented) {
+        return;
+      } // Totally disable Popper for Dropdowns in Navbar
+
+
+      if (!this._inNavbar) {
+        if (typeof Popper__namespace === 'undefined') {
+          throw new TypeError('Bootstrap\'s dropdowns require Popper (https://popper.js.org)');
+        }
+
+        var referenceElement = this._element;
+
+        if (this._config.reference === 'parent') {
+          referenceElement = parent;
+        } else if (isElement(this._config.reference)) {
+          referenceElement = this._config.reference; // Check if it's jQuery element
+
+          if (typeof this._config.reference.jquery !== 'undefined') {
+            referenceElement = this._config.reference[0];
+          }
+        }
+
+        this._popper = Popper.createPopper(referenceElement, this._menu, this._getPopperConfig());
+      } // If this is a touch-enabled device we add extra
+      // empty mouseover listeners to the body's immediate children;
+      // only needed because of broken event delegation on iOS
+      // https://www.quirksmode.org/blog/archives/2014/02/mouse_event_bub.html
+
+
+      if ('ontouchstart' in document.documentElement && !parent.closest(SELECTOR_NAVBAR_NAV)) {
+        var _ref;
+
+        (_ref = []).concat.apply(_ref, document.body.children).forEach(function (elem) {
+          return EventHandler.on(elem, 'mouseover', null, noop());
+        });
+      }
+
+      this._element.focus();
+
+      this._element.setAttribute('aria-expanded', true);
+
+      this._menu.classList.toggle(CLASS_NAME_SHOW$1);
+
+      this._element.classList.toggle(CLASS_NAME_SHOW$1);
+
+      EventHandler.trigger(parent, EVENT_SHOWN$1, relatedTarget);
+    };
+
+    _proto.hide = function hide() {
+      if (this._element.disabled || this._element.classList.contains(CLASS_NAME_DISABLED) || !this._menu.classList.contains(CLASS_NAME_SHOW$1)) {
+        return;
+      }
+
+      var parent = Dropdown.getParentFromElement(this._element);
+      var relatedTarget = {
+        relatedTarget: this._element
+      };
+      var hideEvent = EventHandler.trigger(parent, EVENT_HIDE$1, relatedTarget);
+
+      if (hideEvent.defaultPrevented) {
+        return;
+      }
+
+      if (this._popper) {
+        this._popper.destroy();
+      }
+
+      this._menu.classList.toggle(CLASS_NAME_SHOW$1);
+
+      this._element.classList.toggle(CLASS_NAME_SHOW$1);
+
+      EventHandler.trigger(parent, EVENT_HIDDEN$1, relatedTarget);
+    };
+
+    _proto.dispose = function dispose() {
+      _BaseComponent.prototype.dispose.call(this);
+
+      EventHandler.off(this._element, EVENT_KEY$4);
+      this._menu = null;
+
+      if (this._popper) {
+        this._popper.destroy();
+
+        this._popper = null;
+      }
+    };
+
+    _proto.update = function update() {
+      this._inNavbar = this._detectNavbar();
+
+      if (this._popper) {
+        this._popper.update();
+      }
+    } // Private
+    ;
+
+    _proto._addEventListeners = function _addEventListeners() {
+      var _this2 = this;
+
+      EventHandler.on(this._element, EVENT_CLICK, function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        _this2.toggle();
+      });
+    };
+
+    _proto._getConfig = function _getConfig(config) {
+      config = _extends({}, this.constructor.Default, Manipulator.getDataAttributes(this._element), config);
+      typeCheckConfig(NAME$4, config, this.constructor.DefaultType);
+      return config;
+    };
+
+    _proto._getMenuElement = function _getMenuElement() {
+      return SelectorEngine.next(this._element, SELECTOR_MENU)[0];
+    };
+
+    _proto._getPlacement = function _getPlacement() {
+      var parentDropdown = this._element.parentNode;
+
+      if (parentDropdown.classList.contains(CLASS_NAME_DROPEND)) {
+        return PLACEMENT_RIGHT;
+      }
+
+      if (parentDropdown.classList.contains(CLASS_NAME_DROPSTART)) {
+        return PLACEMENT_LEFT;
+      } // We need to trim the value because custom properties can also include spaces
+
+
+      var isEnd = getComputedStyle(this._menu).getPropertyValue('--bs-position').trim() === 'end';
+
+      if (parentDropdown.classList.contains(CLASS_NAME_DROPUP)) {
+        return isEnd ? PLACEMENT_TOPEND : PLACEMENT_TOP;
+      }
+
+      return isEnd ? PLACEMENT_BOTTOMEND : PLACEMENT_BOTTOM;
+    };
+
+    _proto._detectNavbar = function _detectNavbar() {
+      return this._element.closest("." + CLASS_NAME_NAVBAR) !== null;
+    };
+
+    _proto._getPopperConfig = function _getPopperConfig() {
+      var popperConfig = {
+        placement: this._getPlacement(),
+        modifiers: [{
+          name: 'preventOverflow',
+          options: {
+            altBoundary: this._config.flip,
+            rootBoundary: this._config.boundary
+          }
+        }]
+      }; // Disable Popper if we have a static display
+
+      if (this._config.display === 'static') {
+        popperConfig.modifiers = [{
+          name: 'applyStyles',
+          enabled: false
+        }];
+      }
+
+      return _extends({}, popperConfig, this._config.popperConfig);
+    } // Static
+    ;
+
+    Dropdown.dropdownInterface = function dropdownInterface(element, config) {
+      var data = Data.getData(element, DATA_KEY$4);
+
+      var _config = typeof config === 'object' ? config : null;
+
+      if (!data) {
+        data = new Dropdown(element, _config);
+      }
+
+      if (typeof config === 'string') {
+        if (typeof data[config] === 'undefined') {
+          throw new TypeError("No method named \"" + config + "\"");
+        }
+
+        data[config]();
+      }
+    };
+
+    Dropdown.jQueryInterface = function jQueryInterface(config) {
+      return this.each(function () {
+        Dropdown.dropdownInterface(this, config);
+      });
+    };
+
+    Dropdown.clearMenus = function clearMenus(event) {
+      if (event && (event.button === RIGHT_MOUSE_BUTTON || event.type === 'keyup' && event.key !== TAB_KEY)) {
+        return;
+      }
+
+      var toggles = SelectorEngine.find(SELECTOR_DATA_TOGGLE$2);
+
+      for (var i = 0, len = toggles.length; i < len; i++) {
+        var parent = Dropdown.getParentFromElement(toggles[i]);
+        var context = Data.getData(toggles[i], DATA_KEY$4);
+        var relatedTarget = {
+          relatedTarget: toggles[i]
+        };
+
+        if (event && event.type === 'click') {
+          relatedTarget.clickEvent = event;
+        }
+
+        if (!context) {
+          continue;
+        }
+
+        var dropdownMenu = context._menu;
+
+        if (!toggles[i].classList.contains(CLASS_NAME_SHOW$1)) {
+          continue;
+        }
+
+        if (event && (event.type === 'click' && /input|textarea/i.test(event.target.tagName) || event.type === 'keyup' && event.key === TAB_KEY) && dropdownMenu.contains(event.target)) {
+          continue;
+        }
+
+        var hideEvent = EventHandler.trigger(parent, EVENT_HIDE$1, relatedTarget);
+
+        if (hideEvent.defaultPrevented) {
+          continue;
+        } // If this is a touch-enabled device we remove the extra
+        // empty mouseover listeners we added for iOS support
+
+
+        if ('ontouchstart' in document.documentElement) {
+          var _ref2;
+
+          (_ref2 = []).concat.apply(_ref2, document.body.children).forEach(function (elem) {
+            return EventHandler.off(elem, 'mouseover', null, noop());
+          });
+        }
+
+        toggles[i].setAttribute('aria-expanded', 'false');
+
+        if (context._popper) {
+          context._popper.destroy();
+        }
+
+        dropdownMenu.classList.remove(CLASS_NAME_SHOW$1);
+        toggles[i].classList.remove(CLASS_NAME_SHOW$1);
+        EventHandler.trigger(parent, EVENT_HIDDEN$1, relatedTarget);
+      }
+    };
+
+    Dropdown.getParentFromElement = function getParentFromElement(element) {
+      return getElementFromSelector(element) || element.parentNode;
+    };
+
+    Dropdown.dataApiKeydownHandler = function dataApiKeydownHandler(event) {
+      // If not input/textarea:
+      //  - And not a key in REGEXP_KEYDOWN => not a dropdown command
+      // If input/textarea:
+      //  - If space key => not a dropdown command
+      //  - If key is other than escape
+      //    - If key is not up or down => not a dropdown command
+      //    - If trigger inside the menu => not a dropdown command
+      if (/input|textarea/i.test(event.target.tagName) ? event.key === SPACE_KEY || event.key !== ESCAPE_KEY && (event.key !== ARROW_DOWN_KEY && event.key !== ARROW_UP_KEY || event.target.closest(SELECTOR_MENU)) : !REGEXP_KEYDOWN.test(event.key)) {
+        return;
+      }
+
+      event.preventDefault();
+      event.stopPropagation();
+
+      if (this.disabled || this.classList.contains(CLASS_NAME_DISABLED)) {
+        return;
+      }
+
+      var parent = Dropdown.getParentFromElement(this);
+      var isActive = this.classList.contains(CLASS_NAME_SHOW$1);
+
+      if (event.key === ESCAPE_KEY) {
+        var button = this.matches(SELECTOR_DATA_TOGGLE$2) ? this : SelectorEngine.prev(this, SELECTOR_DATA_TOGGLE$2)[0];
+        button.focus();
+        Dropdown.clearMenus();
+        return;
+      }
+
+      if (!isActive || event.key === SPACE_KEY) {
+        Dropdown.clearMenus();
+        return;
+      }
+
+      var items = SelectorEngine.find(SELECTOR_VISIBLE_ITEMS, parent).filter(isVisible);
+
+      if (!items.length) {
+        return;
+      }
+
+      var index = items.indexOf(event.target); // Up
+
+      if (event.key === ARROW_UP_KEY && index > 0) {
+        index--;
+      } // Down
+
+
+      if (event.key === ARROW_DOWN_KEY && index < items.length - 1) {
+        index++;
+      } // index is -1 if the first keydown is an ArrowUp
+
+
+      index = index === -1 ? 0 : index;
+      items[index].focus();
+    };
+
+    _createClass(Dropdown, null, [{
+      key: "Default",
+      get: function get() {
+        return Default$2;
+      }
+    }, {
+      key: "DefaultType",
+      get: function get() {
+        return DefaultType$2;
+      }
+    }, {
+      key: "DATA_KEY",
+      get: function get() {
+        return DATA_KEY$4;
+      }
+    }]);
+
+    return Dropdown;
+  }(BaseComponent);
+  /**
+   * ------------------------------------------------------------------------
+   * Data Api implementation
+   * ------------------------------------------------------------------------
+   */
+
+
+  EventHandler.on(document, EVENT_KEYDOWN_DATA_API, SELECTOR_DATA_TOGGLE$2, Dropdown.dataApiKeydownHandler);
+  EventHandler.on(document, EVENT_KEYDOWN_DATA_API, SELECTOR_MENU, Dropdown.dataApiKeydownHandler);
+  EventHandler.on(document, EVENT_CLICK_DATA_API$4, Dropdown.clearMenus);
+  EventHandler.on(document, EVENT_KEYUP_DATA_API, Dropdown.clearMenus);
+  EventHandler.on(document, EVENT_CLICK_DATA_API$4, SELECTOR_DATA_TOGGLE$2, function (event) {
+    event.preventDefault();
+    event.stopPropagation();
+    Dropdown.dropdownInterface(this, 'toggle');
+  });
+  EventHandler.on(document, EVENT_CLICK_DATA_API$4, SELECTOR_FORM_CHILD, function (e) {
+    return e.stopPropagation();
+  });
+  /**
+   * ------------------------------------------------------------------------
+   * jQuery
+   * ------------------------------------------------------------------------
+   * add .Dropdown to jQuery only if jQuery is present
+   */
+
+  onDOMContentLoaded(function () {
+    var $ = getjQuery();
+    /* istanbul ignore if */
+
+    if ($) {
+      var JQUERY_NO_CONFLICT = $.fn[NAME$4];
+      $.fn[NAME$4] = Dropdown.jQueryInterface;
+      $.fn[NAME$4].Constructor = Dropdown;
+
+      $.fn[NAME$4].noConflict = function () {
+        $.fn[NAME$4] = JQUERY_NO_CONFLICT;
+        return Dropdown.jQueryInterface;
+      };
+    }
+  });
+
+  /**
+   * ------------------------------------------------------------------------
+   * Constants
+   * ------------------------------------------------------------------------
+   */
+
+  var NAME$5 = 'modal';
+  var DATA_KEY$5 = 'bs.modal';
+  var EVENT_KEY$5 = "." + DATA_KEY$5;
+  var DATA_API_KEY$5 = '.data-api';
+  var ESCAPE_KEY$1 = 'Escape';
+  var Default$3 = {
+    backdrop: true,
+    keyboard: true,
+    focus: true
+  };
+  var DefaultType$3 = {
+    backdrop: '(boolean|string)',
+    keyboard: 'boolean',
+    focus: 'boolean'
+  };
+  var EVENT_HIDE$2 = "hide" + EVENT_KEY$5;
+  var EVENT_HIDE_PREVENTED = "hidePrevented" + EVENT_KEY$5;
+  var EVENT_HIDDEN$2 = "hidden" + EVENT_KEY$5;
+  var EVENT_SHOW$2 = "show" + EVENT_KEY$5;
+  var EVENT_SHOWN$2 = "shown" + EVENT_KEY$5;
+  var EVENT_FOCUSIN = "focusin" + EVENT_KEY$5;
+  var EVENT_RESIZE = "resize" + EVENT_KEY$5;
+  var EVENT_CLICK_DISMISS = "click.dismiss" + EVENT_KEY$5;
+  var EVENT_KEYDOWN_DISMISS = "keydown.dismiss" + EVENT_KEY$5;
+  var EVENT_MOUSEUP_DISMISS = "mouseup.dismiss" + EVENT_KEY$5;
+  var EVENT_MOUSEDOWN_DISMISS = "mousedown.dismiss" + EVENT_KEY$5;
+  var EVENT_CLICK_DATA_API$5 = "click" + EVENT_KEY$5 + DATA_API_KEY$5;
+  var CLASS_NAME_SCROLLBAR_MEASURER = 'modal-scrollbar-measure';
+  var CLASS_NAME_BACKDROP = 'modal-backdrop';
+  var CLASS_NAME_OPEN = 'modal-open';
+  var CLASS_NAME_FADE = 'fade';
+  var CLASS_NAME_SHOW$2 = 'show';
+  var CLASS_NAME_STATIC = 'modal-static';
+  var SELECTOR_DIALOG = '.modal-dialog';
+  var SELECTOR_MODAL_BODY = '.modal-body';
+  var SELECTOR_DATA_TOGGLE$3 = '[data-bs-toggle="modal"]';
+  var SELECTOR_DATA_DISMISS = '[data-bs-dismiss="modal"]';
+  var SELECTOR_FIXED_CONTENT = '.fixed-top, .fixed-bottom, .is-fixed, .sticky-top';
+  var SELECTOR_STICKY_CONTENT = '.sticky-top';
+  /**
+   * ------------------------------------------------------------------------
+   * Class Definition
+   * ------------------------------------------------------------------------
+   */
+
+  var Modal = /*#__PURE__*/function (_BaseComponent) {
+    _inheritsLoose(Modal, _BaseComponent);
+
+    function Modal(element, config) {
+      var _this;
+
+      _this = _BaseComponent.call(this, element) || this;
+      _this._config = _this._getConfig(config);
+      _this._dialog = SelectorEngine.findOne(SELECTOR_DIALOG, element);
+      _this._backdrop = null;
+      _this._isShown = false;
+      _this._isBodyOverflowing = false;
+      _this._ignoreBackdropClick = false;
+      _this._isTransitioning = false;
+      _this._scrollbarWidth = 0;
+      return _this;
+    } // Getters
+
+
+    var _proto = Modal.prototype;
+
+    // Public
+    _proto.toggle = function toggle(relatedTarget) {
+      return this._isShown ? this.hide() : this.show(relatedTarget);
+    };
+
+    _proto.show = function show(relatedTarget) {
+      var _this2 = this;
+
+      if (this._isShown || this._isTransitioning) {
+        return;
+      }
+
+      if (this._element.classList.contains(CLASS_NAME_FADE)) {
+        this._isTransitioning = true;
+      }
+
+      var showEvent = EventHandler.trigger(this._element, EVENT_SHOW$2, {
+        relatedTarget: relatedTarget
+      });
+
+      if (this._isShown || showEvent.defaultPrevented) {
+        return;
+      }
+
+      this._isShown = true;
+
+      this._checkScrollbar();
+
+      this._setScrollbar();
+
+      this._adjustDialog();
+
+      this._setEscapeEvent();
+
+      this._setResizeEvent();
+
+      EventHandler.on(this._element, EVENT_CLICK_DISMISS, SELECTOR_DATA_DISMISS, function (event) {
+        return _this2.hide(event);
+      });
+      EventHandler.on(this._dialog, EVENT_MOUSEDOWN_DISMISS, function () {
+        EventHandler.one(_this2._element, EVENT_MOUSEUP_DISMISS, function (event) {
+          if (event.target === _this2._element) {
+            _this2._ignoreBackdropClick = true;
+          }
+        });
+      });
+
+      this._showBackdrop(function () {
+        return _this2._showElement(relatedTarget);
+      });
+    };
+
+    _proto.hide = function hide(event) {
+      var _this3 = this;
+
+      if (event) {
+        event.preventDefault();
+      }
+
+      if (!this._isShown || this._isTransitioning) {
+        return;
+      }
+
+      var hideEvent = EventHandler.trigger(this._element, EVENT_HIDE$2);
+
+      if (hideEvent.defaultPrevented) {
+        return;
+      }
+
+      this._isShown = false;
+
+      var transition = this._element.classList.contains(CLASS_NAME_FADE);
+
+      if (transition) {
+        this._isTransitioning = true;
+      }
+
+      this._setEscapeEvent();
+
+      this._setResizeEvent();
+
+      EventHandler.off(document, EVENT_FOCUSIN);
+
+      this._element.classList.remove(CLASS_NAME_SHOW$2);
+
+      EventHandler.off(this._element, EVENT_CLICK_DISMISS);
+      EventHandler.off(this._dialog, EVENT_MOUSEDOWN_DISMISS);
+
+      if (transition) {
+        var transitionDuration = getTransitionDurationFromElement(this._element);
+        EventHandler.one(this._element, TRANSITION_END, function (event) {
+          return _this3._hideModal(event);
+        });
+        emulateTransitionEnd(this._element, transitionDuration);
+      } else {
+        this._hideModal();
+      }
+    };
+
+    _proto.dispose = function dispose() {
+      [window, this._element, this._dialog].forEach(function (htmlElement) {
+        return EventHandler.off(htmlElement, EVENT_KEY$5);
+      });
+
+      _BaseComponent.prototype.dispose.call(this);
+      /**
+       * `document` has 2 events `EVENT_FOCUSIN` and `EVENT_CLICK_DATA_API`
+       * Do not move `document` in `htmlElements` array
+       * It will remove `EVENT_CLICK_DATA_API` event that should remain
+       */
+
+
+      EventHandler.off(document, EVENT_FOCUSIN);
+      this._config = null;
+      this._dialog = null;
+      this._backdrop = null;
+      this._isShown = null;
+      this._isBodyOverflowing = null;
+      this._ignoreBackdropClick = null;
+      this._isTransitioning = null;
+      this._scrollbarWidth = null;
+    };
+
+    _proto.handleUpdate = function handleUpdate() {
+      this._adjustDialog();
+    } // Private
+    ;
+
+    _proto._getConfig = function _getConfig(config) {
+      config = _extends({}, Default$3, config);
+      typeCheckConfig(NAME$5, config, DefaultType$3);
+      return config;
+    };
+
+    _proto._showElement = function _showElement(relatedTarget) {
+      var _this4 = this;
+
+      var transition = this._element.classList.contains(CLASS_NAME_FADE);
+
+      var modalBody = SelectorEngine.findOne(SELECTOR_MODAL_BODY, this._dialog);
+
+      if (!this._element.parentNode || this._element.parentNode.nodeType !== Node.ELEMENT_NODE) {
+        // Don't move modal's DOM position
+        document.body.appendChild(this._element);
+      }
+
+      this._element.style.display = 'block';
+
+      this._element.removeAttribute('aria-hidden');
+
+      this._element.setAttribute('aria-modal', true);
+
+      this._element.setAttribute('role', 'dialog');
+
+      this._element.scrollTop = 0;
+
+      if (modalBody) {
+        modalBody.scrollTop = 0;
+      }
+
+      if (transition) {
+        reflow(this._element);
+      }
+
+      this._element.classList.add(CLASS_NAME_SHOW$2);
+
+      if (this._config.focus) {
+        this._enforceFocus();
+      }
+
+      var transitionComplete = function transitionComplete() {
+        if (_this4._config.focus) {
+          _this4._element.focus();
+        }
+
+        _this4._isTransitioning = false;
+        EventHandler.trigger(_this4._element, EVENT_SHOWN$2, {
+          relatedTarget: relatedTarget
+        });
+      };
+
+      if (transition) {
+        var transitionDuration = getTransitionDurationFromElement(this._dialog);
+        EventHandler.one(this._dialog, TRANSITION_END, transitionComplete);
+        emulateTransitionEnd(this._dialog, transitionDuration);
+      } else {
+        transitionComplete();
+      }
+    };
+
+    _proto._enforceFocus = function _enforceFocus() {
+      var _this5 = this;
+
+      EventHandler.off(document, EVENT_FOCUSIN); // guard against infinite focus loop
+
+      EventHandler.on(document, EVENT_FOCUSIN, function (event) {
+        if (document !== event.target && _this5._element !== event.target && !_this5._element.contains(event.target)) {
+          _this5._element.focus();
+        }
+      });
+    };
+
+    _proto._setEscapeEvent = function _setEscapeEvent() {
+      var _this6 = this;
+
+      if (this._isShown) {
+        EventHandler.on(this._element, EVENT_KEYDOWN_DISMISS, function (event) {
+          if (_this6._config.keyboard && event.key === ESCAPE_KEY$1) {
+            event.preventDefault();
+
+            _this6.hide();
+          } else if (!_this6._config.keyboard && event.key === ESCAPE_KEY$1) {
+            _this6._triggerBackdropTransition();
+          }
+        });
+      } else {
+        EventHandler.off(this._element, EVENT_KEYDOWN_DISMISS);
+      }
+    };
+
+    _proto._setResizeEvent = function _setResizeEvent() {
+      var _this7 = this;
+
+      if (this._isShown) {
+        EventHandler.on(window, EVENT_RESIZE, function () {
+          return _this7._adjustDialog();
+        });
+      } else {
+        EventHandler.off(window, EVENT_RESIZE);
+      }
+    };
+
+    _proto._hideModal = function _hideModal() {
+      var _this8 = this;
+
+      this._element.style.display = 'none';
+
+      this._element.setAttribute('aria-hidden', true);
+
+      this._element.removeAttribute('aria-modal');
+
+      this._element.removeAttribute('role');
+
+      this._isTransitioning = false;
+
+      this._showBackdrop(function () {
+        document.body.classList.remove(CLASS_NAME_OPEN);
+
+        _this8._resetAdjustments();
+
+        _this8._resetScrollbar();
+
+        EventHandler.trigger(_this8._element, EVENT_HIDDEN$2);
+      });
+    };
+
+    _proto._removeBackdrop = function _removeBackdrop() {
+      this._backdrop.parentNode.removeChild(this._backdrop);
+
+      this._backdrop = null;
+    };
+
+    _proto._showBackdrop = function _showBackdrop(callback) {
+      var _this9 = this;
+
+      var animate = this._element.classList.contains(CLASS_NAME_FADE) ? CLASS_NAME_FADE : '';
+
+      if (this._isShown && this._config.backdrop) {
+        this._backdrop = document.createElement('div');
+        this._backdrop.className = CLASS_NAME_BACKDROP;
+
+        if (animate) {
+          this._backdrop.classList.add(animate);
+        }
+
+        document.body.appendChild(this._backdrop);
+        EventHandler.on(this._element, EVENT_CLICK_DISMISS, function (event) {
+          if (_this9._ignoreBackdropClick) {
+            _this9._ignoreBackdropClick = false;
+            return;
+          }
+
+          if (event.target !== event.currentTarget) {
+            return;
+          }
+
+          if (_this9._config.backdrop === 'static') {
+            _this9._triggerBackdropTransition();
+          } else {
+            _this9.hide();
+          }
+        });
+
+        if (animate) {
+          reflow(this._backdrop);
+        }
+
+        this._backdrop.classList.add(CLASS_NAME_SHOW$2);
+
+        if (!animate) {
+          callback();
+          return;
+        }
+
+        var backdropTransitionDuration = getTransitionDurationFromElement(this._backdrop);
+        EventHandler.one(this._backdrop, TRANSITION_END, callback);
+        emulateTransitionEnd(this._backdrop, backdropTransitionDuration);
+      } else if (!this._isShown && this._backdrop) {
+        this._backdrop.classList.remove(CLASS_NAME_SHOW$2);
+
+        var callbackRemove = function callbackRemove() {
+          _this9._removeBackdrop();
+
+          callback();
+        };
+
+        if (this._element.classList.contains(CLASS_NAME_FADE)) {
+          var _backdropTransitionDuration = getTransitionDurationFromElement(this._backdrop);
+
+          EventHandler.one(this._backdrop, TRANSITION_END, callbackRemove);
+          emulateTransitionEnd(this._backdrop, _backdropTransitionDuration);
+        } else {
+          callbackRemove();
+        }
+      } else {
+        callback();
+      }
+    };
+
+    _proto._triggerBackdropTransition = function _triggerBackdropTransition() {
+      var _this10 = this;
+
+      var hideEvent = EventHandler.trigger(this._element, EVENT_HIDE_PREVENTED);
+
+      if (hideEvent.defaultPrevented) {
+        return;
+      }
+
+      var isModalOverflowing = this._element.scrollHeight > document.documentElement.clientHeight;
+
+      if (!isModalOverflowing) {
+        this._element.style.overflowY = 'hidden';
+      }
+
+      this._element.classList.add(CLASS_NAME_STATIC);
+
+      var modalTransitionDuration = getTransitionDurationFromElement(this._dialog);
+      EventHandler.off(this._element, TRANSITION_END);
+      EventHandler.one(this._element, TRANSITION_END, function () {
+        _this10._element.classList.remove(CLASS_NAME_STATIC);
+
+        if (!isModalOverflowing) {
+          EventHandler.one(_this10._element, TRANSITION_END, function () {
+            _this10._element.style.overflowY = '';
+          });
+          emulateTransitionEnd(_this10._element, modalTransitionDuration);
+        }
+      });
+      emulateTransitionEnd(this._element, modalTransitionDuration);
+
+      this._element.focus();
+    } // ----------------------------------------------------------------------
+    // the following methods are used to handle overflowing modals
+    // ----------------------------------------------------------------------
+    ;
+
+    _proto._adjustDialog = function _adjustDialog() {
+      var isModalOverflowing = this._element.scrollHeight > document.documentElement.clientHeight;
+
+      if (!this._isBodyOverflowing && isModalOverflowing && !isRTL || this._isBodyOverflowing && !isModalOverflowing && isRTL) {
+        this._element.style.paddingLeft = this._scrollbarWidth + "px";
+      }
+
+      if (this._isBodyOverflowing && !isModalOverflowing && !isRTL || !this._isBodyOverflowing && isModalOverflowing && isRTL) {
+        this._element.style.paddingRight = this._scrollbarWidth + "px";
+      }
+    };
+
+    _proto._resetAdjustments = function _resetAdjustments() {
+      this._element.style.paddingLeft = '';
+      this._element.style.paddingRight = '';
+    };
+
+    _proto._checkScrollbar = function _checkScrollbar() {
+      var rect = document.body.getBoundingClientRect();
+      this._isBodyOverflowing = Math.round(rect.left + rect.right) < window.innerWidth;
+      this._scrollbarWidth = this._getScrollbarWidth();
+    };
+
+    _proto._setScrollbar = function _setScrollbar() {
+      var _this11 = this;
+
+      if (this._isBodyOverflowing) {
+        // Note: DOMNode.style.paddingRight returns the actual value or '' if not set
+        //   while $(DOMNode).css('padding-right') returns the calculated value or 0 if not set
+        // Adjust fixed content padding
+        SelectorEngine.find(SELECTOR_FIXED_CONTENT).forEach(function (element) {
+          var actualPadding = element.style.paddingRight;
+          var calculatedPadding = window.getComputedStyle(element)['padding-right'];
+          Manipulator.setDataAttribute(element, 'padding-right', actualPadding);
+          element.style.paddingRight = Number.parseFloat(calculatedPadding) + _this11._scrollbarWidth + "px";
+        }); // Adjust sticky content margin
+
+        SelectorEngine.find(SELECTOR_STICKY_CONTENT).forEach(function (element) {
+          var actualMargin = element.style.marginRight;
+          var calculatedMargin = window.getComputedStyle(element)['margin-right'];
+          Manipulator.setDataAttribute(element, 'margin-right', actualMargin);
+          element.style.marginRight = Number.parseFloat(calculatedMargin) - _this11._scrollbarWidth + "px";
+        }); // Adjust body padding
+
+        var actualPadding = document.body.style.paddingRight;
+        var calculatedPadding = window.getComputedStyle(document.body)['padding-right'];
+        Manipulator.setDataAttribute(document.body, 'padding-right', actualPadding);
+        document.body.style.paddingRight = Number.parseFloat(calculatedPadding) + this._scrollbarWidth + "px";
+      }
+
+      document.body.classList.add(CLASS_NAME_OPEN);
+    };
+
+    _proto._resetScrollbar = function _resetScrollbar() {
+      // Restore fixed content padding
+      SelectorEngine.find(SELECTOR_FIXED_CONTENT).forEach(function (element) {
+        var padding = Manipulator.getDataAttribute(element, 'padding-right');
+
+        if (typeof padding !== 'undefined') {
+          Manipulator.removeDataAttribute(element, 'padding-right');
+          element.style.paddingRight = padding;
+        }
+      }); // Restore sticky content and navbar-toggler margin
+
+      SelectorEngine.find("" + SELECTOR_STICKY_CONTENT).forEach(function (element) {
+        var margin = Manipulator.getDataAttribute(element, 'margin-right');
+
+        if (typeof margin !== 'undefined') {
+          Manipulator.removeDataAttribute(element, 'margin-right');
+          element.style.marginRight = margin;
+        }
+      }); // Restore body padding
+
+      var padding = Manipulator.getDataAttribute(document.body, 'padding-right');
+
+      if (typeof padding === 'undefined') {
+        document.body.style.paddingRight = '';
+      } else {
+        Manipulator.removeDataAttribute(document.body, 'padding-right');
+        document.body.style.paddingRight = padding;
+      }
+    };
+
+    _proto._getScrollbarWidth = function _getScrollbarWidth() {
+      // thx d.walsh
+      var scrollDiv = document.createElement('div');
+      scrollDiv.className = CLASS_NAME_SCROLLBAR_MEASURER;
+      document.body.appendChild(scrollDiv);
+      var scrollbarWidth = scrollDiv.getBoundingClientRect().width - scrollDiv.clientWidth;
+      document.body.removeChild(scrollDiv);
+      return scrollbarWidth;
+    } // Static
+    ;
+
+    Modal.jQueryInterface = function jQueryInterface(config, relatedTarget) {
+      return this.each(function () {
+        var data = Data.getData(this, DATA_KEY$5);
+
+        var _config = _extends({}, Default$3, Manipulator.getDataAttributes(this), typeof config === 'object' && config ? config : {});
+
+        if (!data) {
+          data = new Modal(this, _config);
+        }
+
+        if (typeof config === 'string') {
+          if (typeof data[config] === 'undefined') {
+            throw new TypeError("No method named \"" + config + "\"");
+          }
+
+          data[config](relatedTarget);
+        }
+      });
+    };
+
+    _createClass(Modal, null, [{
+      key: "Default",
+      get: function get() {
+        return Default$3;
+      }
+    }, {
+      key: "DATA_KEY",
+      get: function get() {
+        return DATA_KEY$5;
+      }
+    }]);
+
+    return Modal;
+  }(BaseComponent);
+  /**
+   * ------------------------------------------------------------------------
+   * Data Api implementation
+   * ------------------------------------------------------------------------
+   */
+
+
+  EventHandler.on(document, EVENT_CLICK_DATA_API$5, SELECTOR_DATA_TOGGLE$3, function (event) {
+    var _this12 = this;
+
+    var target = getElementFromSelector(this);
+
+    if (this.tagName === 'A' || this.tagName === 'AREA') {
+      event.preventDefault();
+    }
+
+    EventHandler.one(target, EVENT_SHOW$2, function (showEvent) {
+      if (showEvent.defaultPrevented) {
+        // only register focus restorer if modal will actually get shown
+        return;
+      }
+
+      EventHandler.one(target, EVENT_HIDDEN$2, function () {
+        if (isVisible(_this12)) {
+          _this12.focus();
+        }
+      });
+    });
+    var data = Data.getData(target, DATA_KEY$5);
+
+    if (!data) {
+      var config = _extends({}, Manipulator.getDataAttributes(target), Manipulator.getDataAttributes(this));
+
+      data = new Modal(target, config);
+    }
+
+    data.show(this);
+  });
+  /**
+   * ------------------------------------------------------------------------
+   * jQuery
+   * ------------------------------------------------------------------------
+   * add .Modal to jQuery only if jQuery is present
+   */
+
+  onDOMContentLoaded(function () {
+    var $ = getjQuery();
+    /* istanbul ignore if */
+
+    if ($) {
+      var JQUERY_NO_CONFLICT = $.fn[NAME$5];
+      $.fn[NAME$5] = Modal.jQueryInterface;
+      $.fn[NAME$5].Constructor = Modal;
+
+      $.fn[NAME$5].noConflict = function () {
+        $.fn[NAME$5] = JQUERY_NO_CONFLICT;
+        return Modal.jQueryInterface;
+      };
+    }
+  });
+
+  /**
+   * --------------------------------------------------------------------------
+   * Bootstrap (v5.0.0-beta1): util/sanitizer.js
+   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+   * --------------------------------------------------------------------------
+   */
+  var uriAttrs = new Set(['background', 'cite', 'href', 'itemtype', 'longdesc', 'poster', 'src', 'xlink:href']);
+  var ARIA_ATTRIBUTE_PATTERN = /^aria-[\w-]*$/i;
+  /**
+   * A pattern that recognizes a commonly useful subset of URLs that are safe.
+   *
+   * Shoutout to Angular 7 https://github.com/angular/angular/blob/7.2.4/packages/core/src/sanitization/url_sanitizer.ts
+   */
+
+  var SAFE_URL_PATTERN = /^(?:(?:https?|mailto|ftp|tel|file):|[^#&/:?]*(?:[#/?]|$))/gi;
+  /**
+   * A pattern that matches safe data URLs. Only matches image, video and audio types.
+   *
+   * Shoutout to Angular 7 https://github.com/angular/angular/blob/7.2.4/packages/core/src/sanitization/url_sanitizer.ts
+   */
+
+  var DATA_URL_PATTERN = /^data:(?:image\/(?:bmp|gif|jpeg|jpg|png|tiff|webp)|video\/(?:mpeg|mp4|ogg|webm)|audio\/(?:mp3|oga|ogg|opus));base64,[\d+/a-z]+=*$/i;
+
+  var allowedAttribute = function allowedAttribute(attr, allowedAttributeList) {
+    var attrName = attr.nodeName.toLowerCase();
+
+    if (allowedAttributeList.includes(attrName)) {
+      if (uriAttrs.has(attrName)) {
+        return Boolean(attr.nodeValue.match(SAFE_URL_PATTERN) || attr.nodeValue.match(DATA_URL_PATTERN));
+      }
+
+      return true;
+    }
+
+    var regExp = allowedAttributeList.filter(function (attrRegex) {
+      return attrRegex instanceof RegExp;
+    }); // Check if a regular expression validates the attribute.
+
+    for (var i = 0, len = regExp.length; i < len; i++) {
+      if (attrName.match(regExp[i])) {
+        return true;
+      }
+    }
+
+    return false;
+  };
+
+  var DefaultAllowlist = {
+    // Global attributes allowed on any supplied element below.
+    '*': ['class', 'dir', 'id', 'lang', 'role', ARIA_ATTRIBUTE_PATTERN],
+    a: ['target', 'href', 'title', 'rel'],
+    area: [],
+    b: [],
+    br: [],
+    col: [],
+    code: [],
+    div: [],
+    em: [],
+    hr: [],
+    h1: [],
+    h2: [],
+    h3: [],
+    h4: [],
+    h5: [],
+    h6: [],
+    i: [],
+    img: ['src', 'srcset', 'alt', 'title', 'width', 'height'],
+    li: [],
+    ol: [],
+    p: [],
+    pre: [],
+    s: [],
+    small: [],
+    span: [],
+    sub: [],
+    sup: [],
+    strong: [],
+    u: [],
+    ul: []
+  };
+  function sanitizeHtml(unsafeHtml, allowList, sanitizeFn) {
+    var _ref;
+
+    if (!unsafeHtml.length) {
+      return unsafeHtml;
+    }
+
+    if (sanitizeFn && typeof sanitizeFn === 'function') {
+      return sanitizeFn(unsafeHtml);
+    }
+
+    var domParser = new window.DOMParser();
+    var createdDocument = domParser.parseFromString(unsafeHtml, 'text/html');
+    var allowlistKeys = Object.keys(allowList);
+
+    var elements = (_ref = []).concat.apply(_ref, createdDocument.body.querySelectorAll('*'));
+
+    var _loop = function _loop(i, len) {
+      var _ref2;
+
+      var el = elements[i];
+      var elName = el.nodeName.toLowerCase();
+
+      if (!allowlistKeys.includes(elName)) {
+        el.parentNode.removeChild(el);
+        return "continue";
+      }
+
+      var attributeList = (_ref2 = []).concat.apply(_ref2, el.attributes);
+
+      var allowedAttributes = [].concat(allowList['*'] || [], allowList[elName] || []);
+      attributeList.forEach(function (attr) {
+        if (!allowedAttribute(attr, allowedAttributes)) {
+          el.removeAttribute(attr.nodeName);
+        }
+      });
+    };
+
+    for (var i = 0, len = elements.length; i < len; i++) {
+      var _ret = _loop(i);
+
+      if (_ret === "continue") continue;
+    }
+
+    return createdDocument.body.innerHTML;
+  }
+
+  /**
+   * ------------------------------------------------------------------------
+   * Constants
+   * ------------------------------------------------------------------------
+   */
+
+  var NAME$6 = 'tooltip';
+  var DATA_KEY$6 = 'bs.tooltip';
+  var EVENT_KEY$6 = "." + DATA_KEY$6;
+  var CLASS_PREFIX = 'bs-tooltip';
+  var BSCLS_PREFIX_REGEX = new RegExp("(^|\\s)" + CLASS_PREFIX + "\\S+", 'g');
+  var DISALLOWED_ATTRIBUTES = new Set(['sanitize', 'allowList', 'sanitizeFn']);
+  var DefaultType$4 = {
+    animation: 'boolean',
+    template: 'string',
+    title: '(string|element|function)',
+    trigger: 'string',
+    delay: '(number|object)',
+    html: 'boolean',
+    selector: '(string|boolean)',
+    placement: '(string|function)',
+    container: '(string|element|boolean)',
+    fallbackPlacements: '(null|array)',
+    boundary: '(string|element)',
+    customClass: '(string|function)',
+    sanitize: 'boolean',
+    sanitizeFn: '(null|function)',
+    allowList: 'object',
+    popperConfig: '(null|object)'
+  };
+  var AttachmentMap = {
+    AUTO: 'auto',
+    TOP: 'top',
+    RIGHT: isRTL ? 'left' : 'right',
+    BOTTOM: 'bottom',
+    LEFT: isRTL ? 'right' : 'left'
+  };
+  var Default$4 = {
+    animation: true,
+    template: '<div class="tooltip" role="tooltip">' + '<div class="tooltip-arrow"></div>' + '<div class="tooltip-inner"></div>' + '</div>',
+    trigger: 'hover focus',
+    title: '',
+    delay: 0,
+    html: false,
+    selector: false,
+    placement: 'top',
+    container: false,
+    fallbackPlacements: null,
+    boundary: 'clippingParents',
+    customClass: '',
+    sanitize: true,
+    sanitizeFn: null,
+    allowList: DefaultAllowlist,
+    popperConfig: null
+  };
+  var Event$1 = {
+    HIDE: "hide" + EVENT_KEY$6,
+    HIDDEN: "hidden" + EVENT_KEY$6,
+    SHOW: "show" + EVENT_KEY$6,
+    SHOWN: "shown" + EVENT_KEY$6,
+    INSERTED: "inserted" + EVENT_KEY$6,
+    CLICK: "click" + EVENT_KEY$6,
+    FOCUSIN: "focusin" + EVENT_KEY$6,
+    FOCUSOUT: "focusout" + EVENT_KEY$6,
+    MOUSEENTER: "mouseenter" + EVENT_KEY$6,
+    MOUSELEAVE: "mouseleave" + EVENT_KEY$6
+  };
+  var CLASS_NAME_FADE$1 = 'fade';
+  var CLASS_NAME_MODAL = 'modal';
+  var CLASS_NAME_SHOW$3 = 'show';
+  var HOVER_STATE_SHOW = 'show';
+  var HOVER_STATE_OUT = 'out';
+  var SELECTOR_TOOLTIP_INNER = '.tooltip-inner';
+  var TRIGGER_HOVER = 'hover';
+  var TRIGGER_FOCUS = 'focus';
+  var TRIGGER_CLICK = 'click';
+  var TRIGGER_MANUAL = 'manual';
+  /**
+   * ------------------------------------------------------------------------
+   * Class Definition
+   * ------------------------------------------------------------------------
+   */
+
+  var Tooltip = /*#__PURE__*/function (_BaseComponent) {
+    _inheritsLoose(Tooltip, _BaseComponent);
+
+    function Tooltip(element, config) {
+      var _this;
+
+      if (typeof Popper__namespace === 'undefined') {
+        throw new TypeError('Bootstrap\'s tooltips require Popper (https://popper.js.org)');
+      }
+
+      _this = _BaseComponent.call(this, element) || this; // private
+
+      _this._isEnabled = true;
+      _this._timeout = 0;
+      _this._hoverState = '';
+      _this._activeTrigger = {};
+      _this._popper = null; // Protected
+
+      _this.config = _this._getConfig(config);
+      _this.tip = null;
+
+      _this._setListeners();
+
+      return _this;
+    } // Getters
+
+
+    var _proto = Tooltip.prototype;
+
+    // Public
+    _proto.enable = function enable() {
+      this._isEnabled = true;
+    };
+
+    _proto.disable = function disable() {
+      this._isEnabled = false;
+    };
+
+    _proto.toggleEnabled = function toggleEnabled() {
+      this._isEnabled = !this._isEnabled;
+    };
+
+    _proto.toggle = function toggle(event) {
+      if (!this._isEnabled) {
+        return;
+      }
+
+      if (event) {
+        var dataKey = this.constructor.DATA_KEY;
+        var context = Data.getData(event.delegateTarget, dataKey);
+
+        if (!context) {
+          context = new this.constructor(event.delegateTarget, this._getDelegateConfig());
+          Data.setData(event.delegateTarget, dataKey, context);
+        }
+
+        context._activeTrigger.click = !context._activeTrigger.click;
+
+        if (context._isWithActiveTrigger()) {
+          context._enter(null, context);
+        } else {
+          context._leave(null, context);
+        }
+      } else {
+        if (this.getTipElement().classList.contains(CLASS_NAME_SHOW$3)) {
+          this._leave(null, this);
+
+          return;
+        }
+
+        this._enter(null, this);
+      }
+    };
+
+    _proto.dispose = function dispose() {
+      clearTimeout(this._timeout);
+      EventHandler.off(this._element, this.constructor.EVENT_KEY);
+      EventHandler.off(this._element.closest("." + CLASS_NAME_MODAL), 'hide.bs.modal', this._hideModalHandler);
+
+      if (this.tip) {
+        this.tip.parentNode.removeChild(this.tip);
+      }
+
+      this._isEnabled = null;
+      this._timeout = null;
+      this._hoverState = null;
+      this._activeTrigger = null;
+
+      if (this._popper) {
+        this._popper.destroy();
+      }
+
+      this._popper = null;
+      this.config = null;
+      this.tip = null;
+
+      _BaseComponent.prototype.dispose.call(this);
+    };
+
+    _proto.show = function show() {
+      var _this2 = this;
+
+      if (this._element.style.display === 'none') {
+        throw new Error('Please use show on visible elements');
+      }
+
+      if (this.isWithContent() && this._isEnabled) {
+        var showEvent = EventHandler.trigger(this._element, this.constructor.Event.SHOW);
+        var shadowRoot = findShadowRoot(this._element);
+        var isInTheDom = shadowRoot === null ? this._element.ownerDocument.documentElement.contains(this._element) : shadowRoot.contains(this._element);
+
+        if (showEvent.defaultPrevented || !isInTheDom) {
+          return;
+        }
+
+        var tip = this.getTipElement();
+        var tipId = getUID(this.constructor.NAME);
+        tip.setAttribute('id', tipId);
+
+        this._element.setAttribute('aria-describedby', tipId);
+
+        this.setContent();
+
+        if (this.config.animation) {
+          tip.classList.add(CLASS_NAME_FADE$1);
+        }
+
+        var placement = typeof this.config.placement === 'function' ? this.config.placement.call(this, tip, this._element) : this.config.placement;
+
+        var attachment = this._getAttachment(placement);
+
+        this._addAttachmentClass(attachment);
+
+        var container = this._getContainer();
+
+        Data.setData(tip, this.constructor.DATA_KEY, this);
+
+        if (!this._element.ownerDocument.documentElement.contains(this.tip)) {
+          container.appendChild(tip);
+        }
+
+        EventHandler.trigger(this._element, this.constructor.Event.INSERTED);
+        this._popper = Popper.createPopper(this._element, tip, this._getPopperConfig(attachment));
+        tip.classList.add(CLASS_NAME_SHOW$3);
+        var customClass = typeof this.config.customClass === 'function' ? this.config.customClass() : this.config.customClass;
+
+        if (customClass) {
+          var _tip$classList;
+
+          (_tip$classList = tip.classList).add.apply(_tip$classList, customClass.split(' '));
+        } // If this is a touch-enabled device we add extra
+        // empty mouseover listeners to the body's immediate children;
+        // only needed because of broken event delegation on iOS
+        // https://www.quirksmode.org/blog/archives/2014/02/mouse_event_bub.html
+
+
+        if ('ontouchstart' in document.documentElement) {
+          var _ref;
+
+          (_ref = []).concat.apply(_ref, document.body.children).forEach(function (element) {
+            EventHandler.on(element, 'mouseover', noop());
+          });
+        }
+
+        var complete = function complete() {
+          var prevHoverState = _this2._hoverState;
+          _this2._hoverState = null;
+          EventHandler.trigger(_this2._element, _this2.constructor.Event.SHOWN);
+
+          if (prevHoverState === HOVER_STATE_OUT) {
+            _this2._leave(null, _this2);
+          }
+        };
+
+        if (this.tip.classList.contains(CLASS_NAME_FADE$1)) {
+          var transitionDuration = getTransitionDurationFromElement(this.tip);
+          EventHandler.one(this.tip, TRANSITION_END, complete);
+          emulateTransitionEnd(this.tip, transitionDuration);
+        } else {
+          complete();
+        }
+      }
+    };
+
+    _proto.hide = function hide() {
+      var _this3 = this;
+
+      if (!this._popper) {
+        return;
+      }
+
+      var tip = this.getTipElement();
+
+      var complete = function complete() {
+        if (_this3._hoverState !== HOVER_STATE_SHOW && tip.parentNode) {
+          tip.parentNode.removeChild(tip);
+        }
+
+        _this3._cleanTipClass();
+
+        _this3._element.removeAttribute('aria-describedby');
+
+        EventHandler.trigger(_this3._element, _this3.constructor.Event.HIDDEN);
+
+        if (_this3._popper) {
+          _this3._popper.destroy();
+
+          _this3._popper = null;
+        }
+      };
+
+      var hideEvent = EventHandler.trigger(this._element, this.constructor.Event.HIDE);
+
+      if (hideEvent.defaultPrevented) {
+        return;
+      }
+
+      tip.classList.remove(CLASS_NAME_SHOW$3); // If this is a touch-enabled device we remove the extra
+      // empty mouseover listeners we added for iOS support
+
+      if ('ontouchstart' in document.documentElement) {
+        var _ref2;
+
+        (_ref2 = []).concat.apply(_ref2, document.body.children).forEach(function (element) {
+          return EventHandler.off(element, 'mouseover', noop);
+        });
+      }
+
+      this._activeTrigger[TRIGGER_CLICK] = false;
+      this._activeTrigger[TRIGGER_FOCUS] = false;
+      this._activeTrigger[TRIGGER_HOVER] = false;
+
+      if (this.tip.classList.contains(CLASS_NAME_FADE$1)) {
+        var transitionDuration = getTransitionDurationFromElement(tip);
+        EventHandler.one(tip, TRANSITION_END, complete);
+        emulateTransitionEnd(tip, transitionDuration);
+      } else {
+        complete();
+      }
+
+      this._hoverState = '';
+    };
+
+    _proto.update = function update() {
+      if (this._popper !== null) {
+        this._popper.update();
+      }
+    } // Protected
+    ;
+
+    _proto.isWithContent = function isWithContent() {
+      return Boolean(this.getTitle());
+    };
+
+    _proto.getTipElement = function getTipElement() {
+      if (this.tip) {
+        return this.tip;
+      }
+
+      var element = document.createElement('div');
+      element.innerHTML = this.config.template;
+      this.tip = element.children[0];
+      return this.tip;
+    };
+
+    _proto.setContent = function setContent() {
+      var tip = this.getTipElement();
+      this.setElementContent(SelectorEngine.findOne(SELECTOR_TOOLTIP_INNER, tip), this.getTitle());
+      tip.classList.remove(CLASS_NAME_FADE$1, CLASS_NAME_SHOW$3);
+    };
+
+    _proto.setElementContent = function setElementContent(element, content) {
+      if (element === null) {
+        return;
+      }
+
+      if (typeof content === 'object' && isElement(content)) {
+        if (content.jquery) {
+          content = content[0];
+        } // content is a DOM node or a jQuery
+
+
+        if (this.config.html) {
+          if (content.parentNode !== element) {
+            element.innerHTML = '';
+            element.appendChild(content);
+          }
+        } else {
+          element.textContent = content.textContent;
+        }
+
+        return;
+      }
+
+      if (this.config.html) {
+        if (this.config.sanitize) {
+          content = sanitizeHtml(content, this.config.allowList, this.config.sanitizeFn);
+        }
+
+        element.innerHTML = content;
+      } else {
+        element.textContent = content;
+      }
+    };
+
+    _proto.getTitle = function getTitle() {
+      var title = this._element.getAttribute('data-bs-original-title');
+
+      if (!title) {
+        title = typeof this.config.title === 'function' ? this.config.title.call(this._element) : this.config.title;
+      }
+
+      return title;
+    };
+
+    _proto.updateAttachment = function updateAttachment(attachment) {
+      if (attachment === 'right') {
+        return 'end';
+      }
+
+      if (attachment === 'left') {
+        return 'start';
+      }
+
+      return attachment;
+    } // Private
+    ;
+
+    _proto._getPopperConfig = function _getPopperConfig(attachment) {
+      var _this4 = this;
+
+      var flipModifier = {
+        name: 'flip',
+        options: {
+          altBoundary: true
+        }
+      };
+
+      if (this.config.fallbackPlacements) {
+        flipModifier.options.fallbackPlacements = this.config.fallbackPlacements;
+      }
+
+      var defaultBsConfig = {
+        placement: attachment,
+        modifiers: [flipModifier, {
+          name: 'preventOverflow',
+          options: {
+            rootBoundary: this.config.boundary
+          }
+        }, {
+          name: 'arrow',
+          options: {
+            element: "." + this.constructor.NAME + "-arrow"
+          }
+        }, {
+          name: 'onChange',
+          enabled: true,
+          phase: 'afterWrite',
+          fn: function fn(data) {
+            return _this4._handlePopperPlacementChange(data);
+          }
+        }],
+        onFirstUpdate: function onFirstUpdate(data) {
+          if (data.options.placement !== data.placement) {
+            _this4._handlePopperPlacementChange(data);
+          }
+        }
+      };
+      return _extends({}, defaultBsConfig, this.config.popperConfig);
+    };
+
+    _proto._addAttachmentClass = function _addAttachmentClass(attachment) {
+      this.getTipElement().classList.add(CLASS_PREFIX + "-" + this.updateAttachment(attachment));
+    };
+
+    _proto._getContainer = function _getContainer() {
+      if (this.config.container === false) {
+        return document.body;
+      }
+
+      if (isElement(this.config.container)) {
+        return this.config.container;
+      }
+
+      return SelectorEngine.findOne(this.config.container);
+    };
+
+    _proto._getAttachment = function _getAttachment(placement) {
+      return AttachmentMap[placement.toUpperCase()];
+    };
+
+    _proto._setListeners = function _setListeners() {
+      var _this5 = this;
+
+      var triggers = this.config.trigger.split(' ');
+      triggers.forEach(function (trigger) {
+        if (trigger === 'click') {
+          EventHandler.on(_this5._element, _this5.constructor.Event.CLICK, _this5.config.selector, function (event) {
+            return _this5.toggle(event);
+          });
+        } else if (trigger !== TRIGGER_MANUAL) {
+          var eventIn = trigger === TRIGGER_HOVER ? _this5.constructor.Event.MOUSEENTER : _this5.constructor.Event.FOCUSIN;
+          var eventOut = trigger === TRIGGER_HOVER ? _this5.constructor.Event.MOUSELEAVE : _this5.constructor.Event.FOCUSOUT;
+          EventHandler.on(_this5._element, eventIn, _this5.config.selector, function (event) {
+            return _this5._enter(event);
+          });
+          EventHandler.on(_this5._element, eventOut, _this5.config.selector, function (event) {
+            return _this5._leave(event);
+          });
+        }
+      });
+
+      this._hideModalHandler = function () {
+        if (_this5._element) {
+          _this5.hide();
+        }
+      };
+
+      EventHandler.on(this._element.closest("." + CLASS_NAME_MODAL), 'hide.bs.modal', this._hideModalHandler);
+
+      if (this.config.selector) {
+        this.config = _extends({}, this.config, {
+          trigger: 'manual',
+          selector: ''
+        });
+      } else {
+        this._fixTitle();
+      }
+    };
+
+    _proto._fixTitle = function _fixTitle() {
+      var title = this._element.getAttribute('title');
+
+      var originalTitleType = typeof this._element.getAttribute('data-bs-original-title');
+
+      if (title || originalTitleType !== 'string') {
+        this._element.setAttribute('data-bs-original-title', title || '');
+
+        if (title && !this._element.getAttribute('aria-label') && !this._element.textContent) {
+          this._element.setAttribute('aria-label', title);
+        }
+
+        this._element.setAttribute('title', '');
+      }
+    };
+
+    _proto._enter = function _enter(event, context) {
+      var dataKey = this.constructor.DATA_KEY;
+      context = context || Data.getData(event.delegateTarget, dataKey);
+
+      if (!context) {
+        context = new this.constructor(event.delegateTarget, this._getDelegateConfig());
+        Data.setData(event.delegateTarget, dataKey, context);
+      }
+
+      if (event) {
+        context._activeTrigger[event.type === 'focusin' ? TRIGGER_FOCUS : TRIGGER_HOVER] = true;
+      }
+
+      if (context.getTipElement().classList.contains(CLASS_NAME_SHOW$3) || context._hoverState === HOVER_STATE_SHOW) {
+        context._hoverState = HOVER_STATE_SHOW;
+        return;
+      }
+
+      clearTimeout(context._timeout);
+      context._hoverState = HOVER_STATE_SHOW;
+
+      if (!context.config.delay || !context.config.delay.show) {
+        context.show();
+        return;
+      }
+
+      context._timeout = setTimeout(function () {
+        if (context._hoverState === HOVER_STATE_SHOW) {
+          context.show();
+        }
+      }, context.config.delay.show);
+    };
+
+    _proto._leave = function _leave(event, context) {
+      var dataKey = this.constructor.DATA_KEY;
+      context = context || Data.getData(event.delegateTarget, dataKey);
+
+      if (!context) {
+        context = new this.constructor(event.delegateTarget, this._getDelegateConfig());
+        Data.setData(event.delegateTarget, dataKey, context);
+      }
+
+      if (event) {
+        context._activeTrigger[event.type === 'focusout' ? TRIGGER_FOCUS : TRIGGER_HOVER] = false;
+      }
+
+      if (context._isWithActiveTrigger()) {
+        return;
+      }
+
+      clearTimeout(context._timeout);
+      context._hoverState = HOVER_STATE_OUT;
+
+      if (!context.config.delay || !context.config.delay.hide) {
+        context.hide();
+        return;
+      }
+
+      context._timeout = setTimeout(function () {
+        if (context._hoverState === HOVER_STATE_OUT) {
+          context.hide();
+        }
+      }, context.config.delay.hide);
+    };
+
+    _proto._isWithActiveTrigger = function _isWithActiveTrigger() {
+      for (var trigger in this._activeTrigger) {
+        if (this._activeTrigger[trigger]) {
+          return true;
+        }
+      }
+
+      return false;
+    };
+
+    _proto._getConfig = function _getConfig(config) {
+      var dataAttributes = Manipulator.getDataAttributes(this._element);
+      Object.keys(dataAttributes).forEach(function (dataAttr) {
+        if (DISALLOWED_ATTRIBUTES.has(dataAttr)) {
+          delete dataAttributes[dataAttr];
+        }
+      });
+
+      if (config && typeof config.container === 'object' && config.container.jquery) {
+        config.container = config.container[0];
+      }
+
+      config = _extends({}, this.constructor.Default, dataAttributes, typeof config === 'object' && config ? config : {});
+
+      if (typeof config.delay === 'number') {
+        config.delay = {
+          show: config.delay,
+          hide: config.delay
+        };
+      }
+
+      if (typeof config.title === 'number') {
+        config.title = config.title.toString();
+      }
+
+      if (typeof config.content === 'number') {
+        config.content = config.content.toString();
+      }
+
+      typeCheckConfig(NAME$6, config, this.constructor.DefaultType);
+
+      if (config.sanitize) {
+        config.template = sanitizeHtml(config.template, config.allowList, config.sanitizeFn);
+      }
+
+      return config;
+    };
+
+    _proto._getDelegateConfig = function _getDelegateConfig() {
+      var config = {};
+
+      if (this.config) {
+        for (var key in this.config) {
+          if (this.constructor.Default[key] !== this.config[key]) {
+            config[key] = this.config[key];
+          }
+        }
+      }
+
+      return config;
+    };
+
+    _proto._cleanTipClass = function _cleanTipClass() {
+      var tip = this.getTipElement();
+      var tabClass = tip.getAttribute('class').match(BSCLS_PREFIX_REGEX);
+
+      if (tabClass !== null && tabClass.length > 0) {
+        tabClass.map(function (token) {
+          return token.trim();
+        }).forEach(function (tClass) {
+          return tip.classList.remove(tClass);
+        });
+      }
+    };
+
+    _proto._handlePopperPlacementChange = function _handlePopperPlacementChange(popperData) {
+      var state = popperData.state;
+
+      if (!state) {
+        return;
+      }
+
+      this.tip = state.elements.popper;
+
+      this._cleanTipClass();
+
+      this._addAttachmentClass(this._getAttachment(state.placement));
+    } // Static
+    ;
+
+    Tooltip.jQueryInterface = function jQueryInterface(config) {
+      return this.each(function () {
+        var data = Data.getData(this, DATA_KEY$6);
+
+        var _config = typeof config === 'object' && config;
+
+        if (!data && /dispose|hide/.test(config)) {
+          return;
+        }
+
+        if (!data) {
+          data = new Tooltip(this, _config);
+        }
+
+        if (typeof config === 'string') {
+          if (typeof data[config] === 'undefined') {
+            throw new TypeError("No method named \"" + config + "\"");
+          }
+
+          data[config]();
+        }
+      });
+    };
+
+    _createClass(Tooltip, null, [{
+      key: "Default",
+      get: function get() {
+        return Default$4;
+      }
+    }, {
+      key: "NAME",
+      get: function get() {
+        return NAME$6;
+      }
+    }, {
+      key: "DATA_KEY",
+      get: function get() {
+        return DATA_KEY$6;
+      }
+    }, {
+      key: "Event",
+      get: function get() {
+        return Event$1;
+      }
+    }, {
+      key: "EVENT_KEY",
+      get: function get() {
+        return EVENT_KEY$6;
+      }
+    }, {
+      key: "DefaultType",
+      get: function get() {
+        return DefaultType$4;
+      }
+    }]);
+
+    return Tooltip;
+  }(BaseComponent);
+  /**
+   * ------------------------------------------------------------------------
+   * jQuery
+   * ------------------------------------------------------------------------
+   * add .Tooltip to jQuery only if jQuery is present
+   */
+
+
+  onDOMContentLoaded(function () {
+    var $ = getjQuery();
+    /* istanbul ignore if */
+
+    if ($) {
+      var JQUERY_NO_CONFLICT = $.fn[NAME$6];
+      $.fn[NAME$6] = Tooltip.jQueryInterface;
+      $.fn[NAME$6].Constructor = Tooltip;
+
+      $.fn[NAME$6].noConflict = function () {
+        $.fn[NAME$6] = JQUERY_NO_CONFLICT;
+        return Tooltip.jQueryInterface;
+      };
+    }
+  });
+
+  /**
+   * ------------------------------------------------------------------------
+   * Constants
+   * ------------------------------------------------------------------------
+   */
+
+  var NAME$7 = 'popover';
+  var DATA_KEY$7 = 'bs.popover';
+  var EVENT_KEY$7 = "." + DATA_KEY$7;
+  var CLASS_PREFIX$1 = 'bs-popover';
+  var BSCLS_PREFIX_REGEX$1 = new RegExp("(^|\\s)" + CLASS_PREFIX$1 + "\\S+", 'g');
+
+  var Default$5 = _extends({}, Tooltip.Default, {
+    placement: 'right',
+    trigger: 'click',
+    content: '',
+    template: '<div class="popover" role="tooltip">' + '<div class="popover-arrow"></div>' + '<h3 class="popover-header"></h3>' + '<div class="popover-body"></div>' + '</div>'
+  });
+
+  var DefaultType$5 = _extends({}, Tooltip.DefaultType, {
+    content: '(string|element|function)'
+  });
+
+  var Event$2 = {
+    HIDE: "hide" + EVENT_KEY$7,
+    HIDDEN: "hidden" + EVENT_KEY$7,
+    SHOW: "show" + EVENT_KEY$7,
+    SHOWN: "shown" + EVENT_KEY$7,
+    INSERTED: "inserted" + EVENT_KEY$7,
+    CLICK: "click" + EVENT_KEY$7,
+    FOCUSIN: "focusin" + EVENT_KEY$7,
+    FOCUSOUT: "focusout" + EVENT_KEY$7,
+    MOUSEENTER: "mouseenter" + EVENT_KEY$7,
+    MOUSELEAVE: "mouseleave" + EVENT_KEY$7
+  };
+  var CLASS_NAME_FADE$2 = 'fade';
+  var CLASS_NAME_SHOW$4 = 'show';
+  var SELECTOR_TITLE = '.popover-header';
+  var SELECTOR_CONTENT = '.popover-body';
+  /**
+   * ------------------------------------------------------------------------
+   * Class Definition
+   * ------------------------------------------------------------------------
+   */
+
+  var Popover = /*#__PURE__*/function (_Tooltip) {
+    _inheritsLoose(Popover, _Tooltip);
+
+    function Popover() {
+      return _Tooltip.apply(this, arguments) || this;
+    }
+
+    var _proto = Popover.prototype;
+
+    // Overrides
+    _proto.isWithContent = function isWithContent() {
+      return this.getTitle() || this._getContent();
+    };
+
+    _proto.setContent = function setContent() {
+      var tip = this.getTipElement(); // we use append for html objects to maintain js events
+
+      this.setElementContent(SelectorEngine.findOne(SELECTOR_TITLE, tip), this.getTitle());
+
+      var content = this._getContent();
+
+      if (typeof content === 'function') {
+        content = content.call(this._element);
+      }
+
+      this.setElementContent(SelectorEngine.findOne(SELECTOR_CONTENT, tip), content);
+      tip.classList.remove(CLASS_NAME_FADE$2, CLASS_NAME_SHOW$4);
+    } // Private
+    ;
+
+    _proto._addAttachmentClass = function _addAttachmentClass(attachment) {
+      this.getTipElement().classList.add(CLASS_PREFIX$1 + "-" + this.updateAttachment(attachment));
+    };
+
+    _proto._getContent = function _getContent() {
+      return this._element.getAttribute('data-bs-content') || this.config.content;
+    };
+
+    _proto._cleanTipClass = function _cleanTipClass() {
+      var tip = this.getTipElement();
+      var tabClass = tip.getAttribute('class').match(BSCLS_PREFIX_REGEX$1);
+
+      if (tabClass !== null && tabClass.length > 0) {
+        tabClass.map(function (token) {
+          return token.trim();
+        }).forEach(function (tClass) {
+          return tip.classList.remove(tClass);
+        });
+      }
+    } // Static
+    ;
+
+    Popover.jQueryInterface = function jQueryInterface(config) {
+      return this.each(function () {
+        var data = Data.getData(this, DATA_KEY$7);
+
+        var _config = typeof config === 'object' ? config : null;
+
+        if (!data && /dispose|hide/.test(config)) {
+          return;
+        }
+
+        if (!data) {
+          data = new Popover(this, _config);
+          Data.setData(this, DATA_KEY$7, data);
+        }
+
+        if (typeof config === 'string') {
+          if (typeof data[config] === 'undefined') {
+            throw new TypeError("No method named \"" + config + "\"");
+          }
+
+          data[config]();
+        }
+      });
+    };
+
+    _createClass(Popover, null, [{
+      key: "Default",
+      // Getters
+      get: function get() {
+        return Default$5;
+      }
+    }, {
+      key: "NAME",
+      get: function get() {
+        return NAME$7;
+      }
+    }, {
+      key: "DATA_KEY",
+      get: function get() {
+        return DATA_KEY$7;
+      }
+    }, {
+      key: "Event",
+      get: function get() {
+        return Event$2;
+      }
+    }, {
+      key: "EVENT_KEY",
+      get: function get() {
+        return EVENT_KEY$7;
+      }
+    }, {
+      key: "DefaultType",
+      get: function get() {
+        return DefaultType$5;
+      }
+    }]);
+
+    return Popover;
+  }(Tooltip);
+  /**
+   * ------------------------------------------------------------------------
+   * jQuery
+   * ------------------------------------------------------------------------
+   * add .Popover to jQuery only if jQuery is present
+   */
+
+
+  onDOMContentLoaded(function () {
+    var $ = getjQuery();
+    /* istanbul ignore if */
+
+    if ($) {
+      var JQUERY_NO_CONFLICT = $.fn[NAME$7];
+      $.fn[NAME$7] = Popover.jQueryInterface;
+      $.fn[NAME$7].Constructor = Popover;
+
+      $.fn[NAME$7].noConflict = function () {
+        $.fn[NAME$7] = JQUERY_NO_CONFLICT;
+        return Popover.jQueryInterface;
+      };
+    }
+  });
+
+  /**
+   * ------------------------------------------------------------------------
+   * Constants
+   * ------------------------------------------------------------------------
+   */
+
+  var NAME$8 = 'scrollspy';
+  var DATA_KEY$8 = 'bs.scrollspy';
+  var EVENT_KEY$8 = "." + DATA_KEY$8;
+  var DATA_API_KEY$6 = '.data-api';
+  var Default$6 = {
+    offset: 10,
+    method: 'auto',
+    target: ''
+  };
+  var DefaultType$6 = {
+    offset: 'number',
+    method: 'string',
+    target: '(string|element)'
+  };
+  var EVENT_ACTIVATE = "activate" + EVENT_KEY$8;
+  var EVENT_SCROLL = "scroll" + EVENT_KEY$8;
+  var EVENT_LOAD_DATA_API$1 = "load" + EVENT_KEY$8 + DATA_API_KEY$6;
+  var CLASS_NAME_DROPDOWN_ITEM = 'dropdown-item';
+  var CLASS_NAME_ACTIVE$2 = 'active';
+  var SELECTOR_DATA_SPY = '[data-bs-spy="scroll"]';
+  var SELECTOR_NAV_LIST_GROUP = '.nav, .list-group';
+  var SELECTOR_NAV_LINKS = '.nav-link';
+  var SELECTOR_NAV_ITEMS = '.nav-item';
+  var SELECTOR_LIST_ITEMS = '.list-group-item';
+  var SELECTOR_DROPDOWN = '.dropdown';
+  var SELECTOR_DROPDOWN_TOGGLE = '.dropdown-toggle';
+  var METHOD_OFFSET = 'offset';
+  var METHOD_POSITION = 'position';
+  /**
+   * ------------------------------------------------------------------------
+   * Class Definition
+   * ------------------------------------------------------------------------
+   */
+
+  var ScrollSpy = /*#__PURE__*/function (_BaseComponent) {
+    _inheritsLoose(ScrollSpy, _BaseComponent);
+
+    function ScrollSpy(element, config) {
+      var _this;
+
+      _this = _BaseComponent.call(this, element) || this;
+      _this._scrollElement = element.tagName === 'BODY' ? window : element;
+      _this._config = _this._getConfig(config);
+      _this._selector = _this._config.target + " " + SELECTOR_NAV_LINKS + ", " + _this._config.target + " " + SELECTOR_LIST_ITEMS + ", " + _this._config.target + " ." + CLASS_NAME_DROPDOWN_ITEM;
+      _this._offsets = [];
+      _this._targets = [];
+      _this._activeTarget = null;
+      _this._scrollHeight = 0;
+      EventHandler.on(_this._scrollElement, EVENT_SCROLL, function (event) {
+        return _this._process(event);
+      });
+
+      _this.refresh();
+
+      _this._process();
+
+      return _this;
+    } // Getters
+
+
+    var _proto = ScrollSpy.prototype;
+
+    // Public
+    _proto.refresh = function refresh() {
+      var _this2 = this;
+
+      var autoMethod = this._scrollElement === this._scrollElement.window ? METHOD_OFFSET : METHOD_POSITION;
+      var offsetMethod = this._config.method === 'auto' ? autoMethod : this._config.method;
+      var offsetBase = offsetMethod === METHOD_POSITION ? this._getScrollTop() : 0;
+      this._offsets = [];
+      this._targets = [];
+      this._scrollHeight = this._getScrollHeight();
+      var targets = SelectorEngine.find(this._selector);
+      targets.map(function (element) {
+        var targetSelector = getSelectorFromElement(element);
+        var target = targetSelector ? SelectorEngine.findOne(targetSelector) : null;
+
+        if (target) {
+          var targetBCR = target.getBoundingClientRect();
+
+          if (targetBCR.width || targetBCR.height) {
+            return [Manipulator[offsetMethod](target).top + offsetBase, targetSelector];
+          }
+        }
+
+        return null;
+      }).filter(function (item) {
+        return item;
+      }).sort(function (a, b) {
+        return a[0] - b[0];
+      }).forEach(function (item) {
+        _this2._offsets.push(item[0]);
+
+        _this2._targets.push(item[1]);
+      });
+    };
+
+    _proto.dispose = function dispose() {
+      _BaseComponent.prototype.dispose.call(this);
+
+      EventHandler.off(this._scrollElement, EVENT_KEY$8);
+      this._scrollElement = null;
+      this._config = null;
+      this._selector = null;
+      this._offsets = null;
+      this._targets = null;
+      this._activeTarget = null;
+      this._scrollHeight = null;
+    } // Private
+    ;
+
+    _proto._getConfig = function _getConfig(config) {
+      config = _extends({}, Default$6, typeof config === 'object' && config ? config : {});
+
+      if (typeof config.target !== 'string' && isElement(config.target)) {
+        var id = config.target.id;
+
+        if (!id) {
+          id = getUID(NAME$8);
+          config.target.id = id;
+        }
+
+        config.target = "#" + id;
+      }
+
+      typeCheckConfig(NAME$8, config, DefaultType$6);
+      return config;
+    };
+
+    _proto._getScrollTop = function _getScrollTop() {
+      return this._scrollElement === window ? this._scrollElement.pageYOffset : this._scrollElement.scrollTop;
+    };
+
+    _proto._getScrollHeight = function _getScrollHeight() {
+      return this._scrollElement.scrollHeight || Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
+    };
+
+    _proto._getOffsetHeight = function _getOffsetHeight() {
+      return this._scrollElement === window ? window.innerHeight : this._scrollElement.getBoundingClientRect().height;
+    };
+
+    _proto._process = function _process() {
+      var scrollTop = this._getScrollTop() + this._config.offset;
+
+      var scrollHeight = this._getScrollHeight();
+
+      var maxScroll = this._config.offset + scrollHeight - this._getOffsetHeight();
+
+      if (this._scrollHeight !== scrollHeight) {
+        this.refresh();
+      }
+
+      if (scrollTop >= maxScroll) {
+        var target = this._targets[this._targets.length - 1];
+
+        if (this._activeTarget !== target) {
+          this._activate(target);
+        }
+
+        return;
+      }
+
+      if (this._activeTarget && scrollTop < this._offsets[0] && this._offsets[0] > 0) {
+        this._activeTarget = null;
+
+        this._clear();
+
+        return;
+      }
+
+      for (var i = this._offsets.length; i--;) {
+        var isActiveTarget = this._activeTarget !== this._targets[i] && scrollTop >= this._offsets[i] && (typeof this._offsets[i + 1] === 'undefined' || scrollTop < this._offsets[i + 1]);
+
+        if (isActiveTarget) {
+          this._activate(this._targets[i]);
+        }
+      }
+    };
+
+    _proto._activate = function _activate(target) {
+      this._activeTarget = target;
+
+      this._clear();
+
+      var queries = this._selector.split(',').map(function (selector) {
+        return selector + "[data-bs-target=\"" + target + "\"]," + selector + "[href=\"" + target + "\"]";
+      });
+
+      var link = SelectorEngine.findOne(queries.join(','));
+
+      if (link.classList.contains(CLASS_NAME_DROPDOWN_ITEM)) {
+        SelectorEngine.findOne(SELECTOR_DROPDOWN_TOGGLE, link.closest(SELECTOR_DROPDOWN)).classList.add(CLASS_NAME_ACTIVE$2);
+        link.classList.add(CLASS_NAME_ACTIVE$2);
+      } else {
+        // Set triggered link as active
+        link.classList.add(CLASS_NAME_ACTIVE$2);
+        SelectorEngine.parents(link, SELECTOR_NAV_LIST_GROUP).forEach(function (listGroup) {
+          // Set triggered links parents as active
+          // With both <ul> and <nav> markup a parent is the previous sibling of any nav ancestor
+          SelectorEngine.prev(listGroup, SELECTOR_NAV_LINKS + ", " + SELECTOR_LIST_ITEMS).forEach(function (item) {
+            return item.classList.add(CLASS_NAME_ACTIVE$2);
+          }); // Handle special case when .nav-link is inside .nav-item
+
+          SelectorEngine.prev(listGroup, SELECTOR_NAV_ITEMS).forEach(function (navItem) {
+            SelectorEngine.children(navItem, SELECTOR_NAV_LINKS).forEach(function (item) {
+              return item.classList.add(CLASS_NAME_ACTIVE$2);
+            });
+          });
+        });
+      }
+
+      EventHandler.trigger(this._scrollElement, EVENT_ACTIVATE, {
+        relatedTarget: target
+      });
+    };
+
+    _proto._clear = function _clear() {
+      SelectorEngine.find(this._selector).filter(function (node) {
+        return node.classList.contains(CLASS_NAME_ACTIVE$2);
+      }).forEach(function (node) {
+        return node.classList.remove(CLASS_NAME_ACTIVE$2);
+      });
+    } // Static
+    ;
+
+    ScrollSpy.jQueryInterface = function jQueryInterface(config) {
+      return this.each(function () {
+        var data = Data.getData(this, DATA_KEY$8);
+
+        var _config = typeof config === 'object' && config;
+
+        if (!data) {
+          data = new ScrollSpy(this, _config);
+        }
+
+        if (typeof config === 'string') {
+          if (typeof data[config] === 'undefined') {
+            throw new TypeError("No method named \"" + config + "\"");
+          }
+
+          data[config]();
+        }
+      });
+    };
+
+    _createClass(ScrollSpy, null, [{
+      key: "Default",
+      get: function get() {
+        return Default$6;
+      }
+    }, {
+      key: "DATA_KEY",
+      get: function get() {
+        return DATA_KEY$8;
+      }
+    }]);
+
+    return ScrollSpy;
+  }(BaseComponent);
+  /**
+   * ------------------------------------------------------------------------
+   * Data Api implementation
+   * ------------------------------------------------------------------------
+   */
+
+
+  EventHandler.on(window, EVENT_LOAD_DATA_API$1, function () {
+    SelectorEngine.find(SELECTOR_DATA_SPY).forEach(function (spy) {
+      return new ScrollSpy(spy, Manipulator.getDataAttributes(spy));
+    });
+  });
+  /**
+   * ------------------------------------------------------------------------
+   * jQuery
+   * ------------------------------------------------------------------------
+   * add .ScrollSpy to jQuery only if jQuery is present
+   */
+
+  onDOMContentLoaded(function () {
+    var $ = getjQuery();
+    /* istanbul ignore if */
+
+    if ($) {
+      var JQUERY_NO_CONFLICT = $.fn[NAME$8];
+      $.fn[NAME$8] = ScrollSpy.jQueryInterface;
+      $.fn[NAME$8].Constructor = ScrollSpy;
+
+      $.fn[NAME$8].noConflict = function () {
+        $.fn[NAME$8] = JQUERY_NO_CONFLICT;
+        return ScrollSpy.jQueryInterface;
+      };
+    }
+  });
+
+  /**
+   * ------------------------------------------------------------------------
+   * Constants
+   * ------------------------------------------------------------------------
+   */
+
+  var NAME$9 = 'tab';
+  var DATA_KEY$9 = 'bs.tab';
+  var EVENT_KEY$9 = "." + DATA_KEY$9;
+  var DATA_API_KEY$7 = '.data-api';
+  var EVENT_HIDE$3 = "hide" + EVENT_KEY$9;
+  var EVENT_HIDDEN$3 = "hidden" + EVENT_KEY$9;
+  var EVENT_SHOW$3 = "show" + EVENT_KEY$9;
+  var EVENT_SHOWN$3 = "shown" + EVENT_KEY$9;
+  var EVENT_CLICK_DATA_API$6 = "click" + EVENT_KEY$9 + DATA_API_KEY$7;
+  var CLASS_NAME_DROPDOWN_MENU = 'dropdown-menu';
+  var CLASS_NAME_ACTIVE$3 = 'active';
+  var CLASS_NAME_DISABLED$1 = 'disabled';
+  var CLASS_NAME_FADE$3 = 'fade';
+  var CLASS_NAME_SHOW$5 = 'show';
+  var SELECTOR_DROPDOWN$1 = '.dropdown';
+  var SELECTOR_NAV_LIST_GROUP$1 = '.nav, .list-group';
+  var SELECTOR_ACTIVE$1 = '.active';
+  var SELECTOR_ACTIVE_UL = ':scope > li > .active';
+  var SELECTOR_DATA_TOGGLE$4 = '[data-bs-toggle="tab"], [data-bs-toggle="pill"], [data-bs-toggle="list"]';
+  var SELECTOR_DROPDOWN_TOGGLE$1 = '.dropdown-toggle';
+  var SELECTOR_DROPDOWN_ACTIVE_CHILD = ':scope > .dropdown-menu .active';
+  /**
+   * ------------------------------------------------------------------------
+   * Class Definition
+   * ------------------------------------------------------------------------
+   */
+
+  var Tab = /*#__PURE__*/function (_BaseComponent) {
+    _inheritsLoose(Tab, _BaseComponent);
+
+    function Tab() {
+      return _BaseComponent.apply(this, arguments) || this;
+    }
+
+    var _proto = Tab.prototype;
+
+    // Public
+    _proto.show = function show() {
+      var _this = this;
+
+      if (this._element.parentNode && this._element.parentNode.nodeType === Node.ELEMENT_NODE && this._element.classList.contains(CLASS_NAME_ACTIVE$3) || this._element.classList.contains(CLASS_NAME_DISABLED$1)) {
+        return;
+      }
+
+      var previous;
+      var target = getElementFromSelector(this._element);
+
+      var listElement = this._element.closest(SELECTOR_NAV_LIST_GROUP$1);
+
+      if (listElement) {
+        var itemSelector = listElement.nodeName === 'UL' || listElement.nodeName === 'OL' ? SELECTOR_ACTIVE_UL : SELECTOR_ACTIVE$1;
+        previous = SelectorEngine.find(itemSelector, listElement);
+        previous = previous[previous.length - 1];
+      }
+
+      var hideEvent = null;
+
+      if (previous) {
+        hideEvent = EventHandler.trigger(previous, EVENT_HIDE$3, {
+          relatedTarget: this._element
+        });
+      }
+
+      var showEvent = EventHandler.trigger(this._element, EVENT_SHOW$3, {
+        relatedTarget: previous
+      });
+
+      if (showEvent.defaultPrevented || hideEvent !== null && hideEvent.defaultPrevented) {
+        return;
+      }
+
+      this._activate(this._element, listElement);
+
+      var complete = function complete() {
+        EventHandler.trigger(previous, EVENT_HIDDEN$3, {
+          relatedTarget: _this._element
+        });
+        EventHandler.trigger(_this._element, EVENT_SHOWN$3, {
+          relatedTarget: previous
+        });
+      };
+
+      if (target) {
+        this._activate(target, target.parentNode, complete);
+      } else {
+        complete();
+      }
+    } // Private
+    ;
+
+    _proto._activate = function _activate(element, container, callback) {
+      var _this2 = this;
+
+      var activeElements = container && (container.nodeName === 'UL' || container.nodeName === 'OL') ? SelectorEngine.find(SELECTOR_ACTIVE_UL, container) : SelectorEngine.children(container, SELECTOR_ACTIVE$1);
+      var active = activeElements[0];
+      var isTransitioning = callback && active && active.classList.contains(CLASS_NAME_FADE$3);
+
+      var complete = function complete() {
+        return _this2._transitionComplete(element, active, callback);
+      };
+
+      if (active && isTransitioning) {
+        var transitionDuration = getTransitionDurationFromElement(active);
+        active.classList.remove(CLASS_NAME_SHOW$5);
+        EventHandler.one(active, TRANSITION_END, complete);
+        emulateTransitionEnd(active, transitionDuration);
+      } else {
+        complete();
+      }
+    };
+
+    _proto._transitionComplete = function _transitionComplete(element, active, callback) {
+      if (active) {
+        active.classList.remove(CLASS_NAME_ACTIVE$3);
+        var dropdownChild = SelectorEngine.findOne(SELECTOR_DROPDOWN_ACTIVE_CHILD, active.parentNode);
+
+        if (dropdownChild) {
+          dropdownChild.classList.remove(CLASS_NAME_ACTIVE$3);
+        }
+
+        if (active.getAttribute('role') === 'tab') {
+          active.setAttribute('aria-selected', false);
+        }
+      }
+
+      element.classList.add(CLASS_NAME_ACTIVE$3);
+
+      if (element.getAttribute('role') === 'tab') {
+        element.setAttribute('aria-selected', true);
+      }
+
+      reflow(element);
+
+      if (element.classList.contains(CLASS_NAME_FADE$3)) {
+        element.classList.add(CLASS_NAME_SHOW$5);
+      }
+
+      if (element.parentNode && element.parentNode.classList.contains(CLASS_NAME_DROPDOWN_MENU)) {
+        var dropdownElement = element.closest(SELECTOR_DROPDOWN$1);
+
+        if (dropdownElement) {
+          SelectorEngine.find(SELECTOR_DROPDOWN_TOGGLE$1).forEach(function (dropdown) {
+            return dropdown.classList.add(CLASS_NAME_ACTIVE$3);
+          });
+        }
+
+        element.setAttribute('aria-expanded', true);
+      }
+
+      if (callback) {
+        callback();
+      }
+    } // Static
+    ;
+
+    Tab.jQueryInterface = function jQueryInterface(config) {
+      return this.each(function () {
+        var data = Data.getData(this, DATA_KEY$9) || new Tab(this);
+
+        if (typeof config === 'string') {
+          if (typeof data[config] === 'undefined') {
+            throw new TypeError("No method named \"" + config + "\"");
+          }
+
+          data[config]();
+        }
+      });
+    };
+
+    _createClass(Tab, null, [{
+      key: "DATA_KEY",
+      // Getters
+      get: function get() {
+        return DATA_KEY$9;
+      }
+    }]);
+
+    return Tab;
+  }(BaseComponent);
+  /**
+   * ------------------------------------------------------------------------
+   * Data Api implementation
+   * ------------------------------------------------------------------------
+   */
+
+
+  EventHandler.on(document, EVENT_CLICK_DATA_API$6, SELECTOR_DATA_TOGGLE$4, function (event) {
+    event.preventDefault();
+    var data = Data.getData(this, DATA_KEY$9) || new Tab(this);
+    data.show();
+  });
+  /**
+   * ------------------------------------------------------------------------
+   * jQuery
+   * ------------------------------------------------------------------------
+   * add .Tab to jQuery only if jQuery is present
+   */
+
+  onDOMContentLoaded(function () {
+    var $ = getjQuery();
+    /* istanbul ignore if */
+
+    if ($) {
+      var JQUERY_NO_CONFLICT = $.fn[NAME$9];
+      $.fn[NAME$9] = Tab.jQueryInterface;
+      $.fn[NAME$9].Constructor = Tab;
+
+      $.fn[NAME$9].noConflict = function () {
+        $.fn[NAME$9] = JQUERY_NO_CONFLICT;
+        return Tab.jQueryInterface;
+      };
+    }
+  });
+
+  /**
+   * ------------------------------------------------------------------------
+   * Constants
+   * ------------------------------------------------------------------------
+   */
+
+  var NAME$a = 'toast';
+  var DATA_KEY$a = 'bs.toast';
+  var EVENT_KEY$a = "." + DATA_KEY$a;
+  var EVENT_CLICK_DISMISS$1 = "click.dismiss" + EVENT_KEY$a;
+  var EVENT_HIDE$4 = "hide" + EVENT_KEY$a;
+  var EVENT_HIDDEN$4 = "hidden" + EVENT_KEY$a;
+  var EVENT_SHOW$4 = "show" + EVENT_KEY$a;
+  var EVENT_SHOWN$4 = "shown" + EVENT_KEY$a;
+  var CLASS_NAME_FADE$4 = 'fade';
+  var CLASS_NAME_HIDE = 'hide';
+  var CLASS_NAME_SHOW$6 = 'show';
+  var CLASS_NAME_SHOWING = 'showing';
+  var DefaultType$7 = {
+    animation: 'boolean',
+    autohide: 'boolean',
+    delay: 'number'
+  };
+  var Default$7 = {
+    animation: true,
+    autohide: true,
+    delay: 5000
+  };
+  var SELECTOR_DATA_DISMISS$1 = '[data-bs-dismiss="toast"]';
+  /**
+   * ------------------------------------------------------------------------
+   * Class Definition
+   * ------------------------------------------------------------------------
+   */
+
+  var Toast = /*#__PURE__*/function (_BaseComponent) {
+    _inheritsLoose(Toast, _BaseComponent);
+
+    function Toast(element, config) {
+      var _this;
+
+      _this = _BaseComponent.call(this, element) || this;
+      _this._config = _this._getConfig(config);
+      _this._timeout = null;
+
+      _this._setListeners();
+
+      return _this;
+    } // Getters
+
+
+    var _proto = Toast.prototype;
+
+    // Public
+    _proto.show = function show() {
+      var _this2 = this;
+
+      var showEvent = EventHandler.trigger(this._element, EVENT_SHOW$4);
+
+      if (showEvent.defaultPrevented) {
+        return;
+      }
+
+      this._clearTimeout();
+
+      if (this._config.animation) {
+        this._element.classList.add(CLASS_NAME_FADE$4);
+      }
+
+      var complete = function complete() {
+        _this2._element.classList.remove(CLASS_NAME_SHOWING);
+
+        _this2._element.classList.add(CLASS_NAME_SHOW$6);
+
+        EventHandler.trigger(_this2._element, EVENT_SHOWN$4);
+
+        if (_this2._config.autohide) {
+          _this2._timeout = setTimeout(function () {
+            _this2.hide();
+          }, _this2._config.delay);
+        }
+      };
+
+      this._element.classList.remove(CLASS_NAME_HIDE);
+
+      reflow(this._element);
+
+      this._element.classList.add(CLASS_NAME_SHOWING);
+
+      if (this._config.animation) {
+        var transitionDuration = getTransitionDurationFromElement(this._element);
+        EventHandler.one(this._element, TRANSITION_END, complete);
+        emulateTransitionEnd(this._element, transitionDuration);
+      } else {
+        complete();
+      }
+    };
+
+    _proto.hide = function hide() {
+      var _this3 = this;
+
+      if (!this._element.classList.contains(CLASS_NAME_SHOW$6)) {
+        return;
+      }
+
+      var hideEvent = EventHandler.trigger(this._element, EVENT_HIDE$4);
+
+      if (hideEvent.defaultPrevented) {
+        return;
+      }
+
+      var complete = function complete() {
+        _this3._element.classList.add(CLASS_NAME_HIDE);
+
+        EventHandler.trigger(_this3._element, EVENT_HIDDEN$4);
+      };
+
+      this._element.classList.remove(CLASS_NAME_SHOW$6);
+
+      if (this._config.animation) {
+        var transitionDuration = getTransitionDurationFromElement(this._element);
+        EventHandler.one(this._element, TRANSITION_END, complete);
+        emulateTransitionEnd(this._element, transitionDuration);
+      } else {
+        complete();
+      }
+    };
+
+    _proto.dispose = function dispose() {
+      this._clearTimeout();
+
+      if (this._element.classList.contains(CLASS_NAME_SHOW$6)) {
+        this._element.classList.remove(CLASS_NAME_SHOW$6);
+      }
+
+      EventHandler.off(this._element, EVENT_CLICK_DISMISS$1);
+
+      _BaseComponent.prototype.dispose.call(this);
+
+      this._config = null;
+    } // Private
+    ;
+
+    _proto._getConfig = function _getConfig(config) {
+      config = _extends({}, Default$7, Manipulator.getDataAttributes(this._element), typeof config === 'object' && config ? config : {});
+      typeCheckConfig(NAME$a, config, this.constructor.DefaultType);
+      return config;
+    };
+
+    _proto._setListeners = function _setListeners() {
+      var _this4 = this;
+
+      EventHandler.on(this._element, EVENT_CLICK_DISMISS$1, SELECTOR_DATA_DISMISS$1, function () {
+        return _this4.hide();
+      });
+    };
+
+    _proto._clearTimeout = function _clearTimeout() {
+      clearTimeout(this._timeout);
+      this._timeout = null;
+    } // Static
+    ;
+
+    Toast.jQueryInterface = function jQueryInterface(config) {
+      return this.each(function () {
+        var data = Data.getData(this, DATA_KEY$a);
+
+        var _config = typeof config === 'object' && config;
+
+        if (!data) {
+          data = new Toast(this, _config);
+        }
+
+        if (typeof config === 'string') {
+          if (typeof data[config] === 'undefined') {
+            throw new TypeError("No method named \"" + config + "\"");
+          }
+
+          data[config](this);
+        }
+      });
+    };
+
+    _createClass(Toast, null, [{
+      key: "DefaultType",
+      get: function get() {
+        return DefaultType$7;
+      }
+    }, {
+      key: "Default",
+      get: function get() {
+        return Default$7;
+      }
+    }, {
+      key: "DATA_KEY",
+      get: function get() {
+        return DATA_KEY$a;
+      }
+    }]);
+
+    return Toast;
+  }(BaseComponent);
+  /**
+   * ------------------------------------------------------------------------
+   * jQuery
+   * ------------------------------------------------------------------------
+   * add .Toast to jQuery only if jQuery is present
+   */
+
+
+  onDOMContentLoaded(function () {
+    var $ = getjQuery();
+    /* istanbul ignore if */
+
+    if ($) {
+      var JQUERY_NO_CONFLICT = $.fn[NAME$a];
+      $.fn[NAME$a] = Toast.jQueryInterface;
+      $.fn[NAME$a].Constructor = Toast;
+
+      $.fn[NAME$a].noConflict = function () {
+        $.fn[NAME$a] = JQUERY_NO_CONFLICT;
+        return Toast.jQueryInterface;
+      };
+    }
+  });
+
+  /**
+   * --------------------------------------------------------------------------
+   * Bootstrap (v5.0.0-beta1): index.umd.js
+   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+   * --------------------------------------------------------------------------
+   */
+  var index_umd = {
+    Alert: Alert,
+    Button: Button,
+    Carousel: Carousel,
+    Collapse: Collapse,
+    Dropdown: Dropdown,
+    Modal: Modal,
+    Popover: Popover,
+    ScrollSpy: ScrollSpy,
+    Tab: Tab,
+    Toast: Toast,
+    Tooltip: Tooltip
+  };
+
+  return index_umd;
+
+})));
+
+
+},{"@popperjs/core":"../../../../node_modules/@popperjs/core/lib/index.js"}],"../../../../node_modules/marked/lib/marked.js":[function(require,module,exports) {
 var define;
 var global = arguments[3];
-var t,e=arguments[3];!function(e,n){"object"==typeof exports&&"undefined"!=typeof module?module.exports=n(require("@popperjs/core")):"function"==typeof t&&t.amd?t(["@popperjs/core"],n):(e="undefined"!=typeof globalThis?globalThis:e||self).bootstrap=n(e.Popper)}(this,function(t){"use strict";function e(t){if(t&&t.__esModule)return t;var e=Object.create(null);return t&&Object.keys(t).forEach(function(n){if("default"!==n){var i=Object.getOwnPropertyDescriptor(t,n);Object.defineProperty(e,n,i.get?i:{enumerable:!0,get:function(){return t[n]}})}}),e.default=t,Object.freeze(e)}var n=e(t);function i(t,e){for(var n=0;n<e.length;n++){var i=e[n];i.enumerable=i.enumerable||!1,i.configurable=!0,"value"in i&&(i.writable=!0),Object.defineProperty(t,i.key,i)}}function o(t,e,n){return e&&i(t.prototype,e),n&&i(t,n),t}function s(){return(s=Object.assign||function(t){for(var e=1;e<arguments.length;e++){var n=arguments[e];for(var i in n)Object.prototype.hasOwnProperty.call(n,i)&&(t[i]=n[i])}return t}).apply(this,arguments)}function r(t,e){t.prototype=Object.create(e.prototype),t.prototype.constructor=t,t.__proto__=e}var a,l,c="transitionend",u=function(t){do{t+=Math.floor(1e6*Math.random())}while(document.getElementById(t));return t},d=function(t){var e=t.getAttribute("data-bs-target");if(!e||"#"===e){var n=t.getAttribute("href");e=n&&"#"!==n?n.trim():null}return e},f=function(t){var e=d(t);return e&&document.querySelector(e)?e:null},h=function(t){var e=d(t);return e?document.querySelector(e):null},p=function(t){if(!t)return 0;var e=window.getComputedStyle(t),n=e.transitionDuration,i=e.transitionDelay,o=Number.parseFloat(n),s=Number.parseFloat(i);return o||s?(n=n.split(",")[0],i=i.split(",")[0],1e3*(Number.parseFloat(n)+Number.parseFloat(i))):0},g=function(t){t.dispatchEvent(new Event(c))},m=function(t){return(t[0]||t).nodeType},_=function(t,e){var n=!1,i=e+5;t.addEventListener(c,function e(){n=!0,t.removeEventListener(c,e)}),setTimeout(function(){n||g(t)},i)},v=function(t,e,n){Object.keys(n).forEach(function(i){var o,s=n[i],r=e[i],a=r&&m(r)?"element":null==(o=r)?""+o:{}.toString.call(o).match(/\s([a-z]+)/i)[1].toLowerCase();if(!new RegExp(s).test(a))throw new Error(t.toUpperCase()+': Option "'+i+'" provided type "'+a+'" but expected type "'+s+'".')})},b=function(t){if(!t)return!1;if(t.style&&t.parentNode&&t.parentNode.style){var e=getComputedStyle(t),n=getComputedStyle(t.parentNode);return"none"!==e.display&&"none"!==n.display&&"hidden"!==e.visibility}return!1},y=function(){return function(){}},w=function(t){return t.offsetHeight},E=function(){var t=window.jQuery;return t&&!document.body.hasAttribute("data-bs-no-jquery")?t:null},T=function(t){"loading"===document.readyState?document.addEventListener("DOMContentLoaded",t):t()},k="rtl"===document.documentElement.dir,D=(a={},l=1,{set:function(t,e,n){void 0===t.bsKey&&(t.bsKey={key:e,id:l},l++),a[t.bsKey.id]=n},get:function(t,e){if(!t||void 0===t.bsKey)return null;var n=t.bsKey;return n.key===e?a[n.id]:null},delete:function(t,e){if(void 0!==t.bsKey){var n=t.bsKey;n.key===e&&(delete a[n.id],delete t.bsKey)}}}),A={setData:function(t,e,n){D.set(t,e,n)},getData:function(t,e){return D.get(t,e)},removeData:function(t,e){D.delete(t,e)}},L=/[^.]*(?=\..*)\.|.*/,C=/\..*/,S=/::\d+$/,N={},O=1,I={mouseenter:"mouseover",mouseleave:"mouseout"},j=new Set(["click","dblclick","mouseup","mousedown","contextmenu","mousewheel","DOMMouseScroll","mouseover","mouseout","mousemove","selectstart","selectend","keydown","keypress","keyup","orientationchange","touchstart","touchmove","touchend","touchcancel","pointerdown","pointermove","pointerup","pointerleave","pointercancel","gesturestart","gesturechange","gestureend","focus","blur","change","reset","select","submit","focusin","focusout","load","unload","beforeunload","resize","move","DOMContentLoaded","readystatechange","error","abort","scroll"]);function P(t,e){return e&&e+"::"+O++||t.uidEvent||O++}function x(t){var e=P(t);return t.uidEvent=e,N[e]=N[e]||{},N[e]}function H(t,e,n){void 0===n&&(n=null);for(var i=Object.keys(t),o=0,s=i.length;o<s;o++){var r=t[i[o]];if(r.originalHandler===e&&r.delegationSelector===n)return r}return null}function B(t,e,n){var i="string"==typeof e,o=i?n:e,s=t.replace(C,""),r=I[s];return r&&(s=r),j.has(s)||(s=t),[i,o,s]}function M(t,e,n,i,o){if("string"==typeof e&&t){n||(n=i,i=null);var s=B(e,n,i),r=s[0],a=s[1],l=s[2],c=x(t),u=c[l]||(c[l]={}),d=H(u,a,r?n:null);if(d)d.oneOff=d.oneOff&&o;else{var f=P(a,e.replace(L,"")),h=r?function(t,e,n){return function i(o){for(var s=t.querySelectorAll(e),r=o.target;r&&r!==this;r=r.parentNode)for(var a=s.length;a--;)if(s[a]===r)return o.delegateTarget=r,i.oneOff&&K.off(t,o.type,n),n.apply(r,[o]);return null}}(t,n,i):function(t,e){return function n(i){return i.delegateTarget=t,n.oneOff&&K.off(t,i.type,e),e.apply(t,[i])}}(t,n);h.delegationSelector=r?n:null,h.originalHandler=a,h.oneOff=o,h.uidEvent=f,u[f]=h,t.addEventListener(l,h,r)}}}function R(t,e,n,i,o){var s=H(e[n],i,o);s&&(t.removeEventListener(n,s,Boolean(o)),delete e[n][s.uidEvent])}var K={on:function(t,e,n,i){M(t,e,n,i,!1)},one:function(t,e,n,i){M(t,e,n,i,!0)},off:function(t,e,n,i){if("string"==typeof e&&t){var o=B(e,n,i),s=o[0],r=o[1],a=o[2],l=a!==e,c=x(t),u=e.startsWith(".");if(void 0===r){u&&Object.keys(c).forEach(function(n){!function(t,e,n,i){var o=e[n]||{};Object.keys(o).forEach(function(s){if(s.includes(i)){var r=o[s];R(t,e,n,r.originalHandler,r.delegationSelector)}})}(t,c,n,e.slice(1))});var d=c[a]||{};Object.keys(d).forEach(function(n){var i=n.replace(S,"");if(!l||e.includes(i)){var o=d[n];R(t,c,a,o.originalHandler,o.delegationSelector)}})}else{if(!c||!c[a])return;R(t,c,a,r,s?n:null)}}},trigger:function(t,e,n){if("string"!=typeof e||!t)return null;var i,o=E(),s=e.replace(C,""),r=e!==s,a=j.has(s),l=!0,c=!0,u=!1,d=null;return r&&o&&(i=o.Event(e,n),o(t).trigger(i),l=!i.isPropagationStopped(),c=!i.isImmediatePropagationStopped(),u=i.isDefaultPrevented()),a?(d=document.createEvent("HTMLEvents")).initEvent(s,l,!0):d=new CustomEvent(e,{bubbles:l,cancelable:!0}),void 0!==n&&Object.keys(n).forEach(function(t){Object.defineProperty(d,t,{get:function(){return n[t]}})}),u&&d.preventDefault(),c&&t.dispatchEvent(d),d.defaultPrevented&&void 0!==i&&i.preventDefault(),d}},Q=function(){function t(t){t&&(this._element=t,A.setData(t,this.constructor.DATA_KEY,this))}return t.prototype.dispose=function(){A.removeData(this._element,this.constructor.DATA_KEY),this._element=null},t.getInstance=function(t){return A.getData(t,this.DATA_KEY)},o(t,null,[{key:"VERSION",get:function(){return"5.0.0-beta1"}}]),t}(),U=function(t){function e(){return t.apply(this,arguments)||this}r(e,t);var n=e.prototype;return n.close=function(t){var e=t?this._getRootElement(t):this._element,n=this._triggerCloseEvent(e);null===n||n.defaultPrevented||this._removeElement(e)},n._getRootElement=function(t){return h(t)||t.closest(".alert")},n._triggerCloseEvent=function(t){return K.trigger(t,"close.bs.alert")},n._removeElement=function(t){var e=this;if(t.classList.remove("show"),t.classList.contains("fade")){var n=p(t);K.one(t,c,function(){return e._destroyElement(t)}),_(t,n)}else this._destroyElement(t)},n._destroyElement=function(t){t.parentNode&&t.parentNode.removeChild(t),K.trigger(t,"closed.bs.alert")},e.jQueryInterface=function(t){return this.each(function(){var n=A.getData(this,"bs.alert");n||(n=new e(this)),"close"===t&&n[t](this)})},e.handleDismiss=function(t){return function(e){e&&e.preventDefault(),t.close(this)}},o(e,null,[{key:"DATA_KEY",get:function(){return"bs.alert"}}]),e}(Q);K.on(document,"click.bs.alert.data-api",'[data-bs-dismiss="alert"]',U.handleDismiss(new U)),T(function(){var t=E();if(t){var e=t.fn.alert;t.fn.alert=U.jQueryInterface,t.fn.alert.Constructor=U,t.fn.alert.noConflict=function(){return t.fn.alert=e,U.jQueryInterface}}});var W=function(t){function e(){return t.apply(this,arguments)||this}return r(e,t),e.prototype.toggle=function(){this._element.setAttribute("aria-pressed",this._element.classList.toggle("active"))},e.jQueryInterface=function(t){return this.each(function(){var n=A.getData(this,"bs.button");n||(n=new e(this)),"toggle"===t&&n[t]()})},o(e,null,[{key:"DATA_KEY",get:function(){return"bs.button"}}]),e}(Q);function F(t){return"true"===t||"false"!==t&&(t===Number(t).toString()?Number(t):""===t||"null"===t?null:t)}function Y(t){return t.replace(/[A-Z]/g,function(t){return"-"+t.toLowerCase()})}K.on(document,"click.bs.button.data-api",'[data-bs-toggle="button"]',function(t){t.preventDefault();var e=t.target.closest('[data-bs-toggle="button"]'),n=A.getData(e,"bs.button");n||(n=new W(e)),n.toggle()}),T(function(){var t=E();if(t){var e=t.fn.button;t.fn.button=W.jQueryInterface,t.fn.button.Constructor=W,t.fn.button.noConflict=function(){return t.fn.button=e,W.jQueryInterface}}});var z={setDataAttribute:function(t,e,n){t.setAttribute("data-bs-"+Y(e),n)},removeDataAttribute:function(t,e){t.removeAttribute("data-bs-"+Y(e))},getDataAttributes:function(t){if(!t)return{};var e={};return Object.keys(t.dataset).filter(function(t){return t.startsWith("bs")}).forEach(function(n){var i=n.replace(/^bs/,"");i=i.charAt(0).toLowerCase()+i.slice(1,i.length),e[i]=F(t.dataset[n])}),e},getDataAttribute:function(t,e){return F(t.getAttribute("data-bs-"+Y(e)))},offset:function(t){var e=t.getBoundingClientRect();return{top:e.top+document.body.scrollTop,left:e.left+document.body.scrollLeft}},position:function(t){return{top:t.offsetTop,left:t.offsetLeft}}},X={matches:function(t,e){return t.matches(e)},find:function(t,e){var n;return void 0===e&&(e=document.documentElement),(n=[]).concat.apply(n,Element.prototype.querySelectorAll.call(e,t))},findOne:function(t,e){return void 0===e&&(e=document.documentElement),Element.prototype.querySelector.call(e,t)},children:function(t,e){var n,i=(n=[]).concat.apply(n,t.children);return i.filter(function(t){return t.matches(e)})},parents:function(t,e){for(var n=[],i=t.parentNode;i&&i.nodeType===Node.ELEMENT_NODE&&3!==i.nodeType;)this.matches(i,e)&&n.push(i),i=i.parentNode;return n},prev:function(t,e){for(var n=t.previousElementSibling;n;){if(n.matches(e))return[n];n=n.previousElementSibling}return[]},next:function(t,e){for(var n=t.nextElementSibling;n;){if(this.matches(n,e))return[n];n=n.nextElementSibling}return[]}},q="carousel",V=".bs.carousel",$={interval:5e3,keyboard:!0,slide:!1,pause:"hover",wrap:!0,touch:!0},G={interval:"(number|boolean)",keyboard:"boolean",slide:"(boolean|string)",pause:"(string|boolean)",wrap:"boolean",touch:"boolean"},Z=".carousel-indicators",J={TOUCH:"touch",PEN:"pen"},tt=function(t){function e(e,n){var i;return(i=t.call(this,e)||this)._items=null,i._interval=null,i._activeElement=null,i._isPaused=!1,i._isSliding=!1,i.touchTimeout=null,i.touchStartX=0,i.touchDeltaX=0,i._config=i._getConfig(n),i._indicatorsElement=X.findOne(Z,i._element),i._touchSupported="ontouchstart"in document.documentElement||navigator.maxTouchPoints>0,i._pointerEvent=Boolean(window.PointerEvent),i._addEventListeners(),i}r(e,t);var n=e.prototype;return n.next=function(){this._isSliding||this._slide("next")},n.nextWhenVisible=function(){!document.hidden&&b(this._element)&&this.next()},n.prev=function(){this._isSliding||this._slide("prev")},n.pause=function(t){t||(this._isPaused=!0),X.findOne(".carousel-item-next, .carousel-item-prev",this._element)&&(g(this._element),this.cycle(!0)),clearInterval(this._interval),this._interval=null},n.cycle=function(t){t||(this._isPaused=!1),this._interval&&(clearInterval(this._interval),this._interval=null),this._config&&this._config.interval&&!this._isPaused&&(this._updateInterval(),this._interval=setInterval((document.visibilityState?this.nextWhenVisible:this.next).bind(this),this._config.interval))},n.to=function(t){var e=this;this._activeElement=X.findOne(".active.carousel-item",this._element);var n=this._getItemIndex(this._activeElement);if(!(t>this._items.length-1||t<0))if(this._isSliding)K.one(this._element,"slid.bs.carousel",function(){return e.to(t)});else{if(n===t)return this.pause(),void this.cycle();var i=t>n?"next":"prev";this._slide(i,this._items[t])}},n.dispose=function(){t.prototype.dispose.call(this),K.off(this._element,V),this._items=null,this._config=null,this._interval=null,this._isPaused=null,this._isSliding=null,this._activeElement=null,this._indicatorsElement=null},n._getConfig=function(t){return t=s({},$,t),v(q,t,G),t},n._handleSwipe=function(){var t=Math.abs(this.touchDeltaX);if(!(t<=40)){var e=t/this.touchDeltaX;this.touchDeltaX=0,e>0&&this.prev(),e<0&&this.next()}},n._addEventListeners=function(){var t=this;this._config.keyboard&&K.on(this._element,"keydown.bs.carousel",function(e){return t._keydown(e)}),"hover"===this._config.pause&&(K.on(this._element,"mouseenter.bs.carousel",function(e){return t.pause(e)}),K.on(this._element,"mouseleave.bs.carousel",function(e){return t.cycle(e)})),this._config.touch&&this._touchSupported&&this._addTouchEventListeners()},n._addTouchEventListeners=function(){var t=this,e=function(e){t._pointerEvent&&J[e.pointerType.toUpperCase()]?t.touchStartX=e.clientX:t._pointerEvent||(t.touchStartX=e.touches[0].clientX)},n=function(e){t._pointerEvent&&J[e.pointerType.toUpperCase()]&&(t.touchDeltaX=e.clientX-t.touchStartX),t._handleSwipe(),"hover"===t._config.pause&&(t.pause(),t.touchTimeout&&clearTimeout(t.touchTimeout),t.touchTimeout=setTimeout(function(e){return t.cycle(e)},500+t._config.interval))};X.find(".carousel-item img",this._element).forEach(function(t){K.on(t,"dragstart.bs.carousel",function(t){return t.preventDefault()})}),this._pointerEvent?(K.on(this._element,"pointerdown.bs.carousel",function(t){return e(t)}),K.on(this._element,"pointerup.bs.carousel",function(t){return n(t)}),this._element.classList.add("pointer-event")):(K.on(this._element,"touchstart.bs.carousel",function(t){return e(t)}),K.on(this._element,"touchmove.bs.carousel",function(e){return function(e){e.touches&&e.touches.length>1?t.touchDeltaX=0:t.touchDeltaX=e.touches[0].clientX-t.touchStartX}(e)}),K.on(this._element,"touchend.bs.carousel",function(t){return n(t)}))},n._keydown=function(t){if(!/input|textarea/i.test(t.target.tagName))switch(t.key){case"ArrowLeft":t.preventDefault(),this.prev();break;case"ArrowRight":t.preventDefault(),this.next()}},n._getItemIndex=function(t){return this._items=t&&t.parentNode?X.find(".carousel-item",t.parentNode):[],this._items.indexOf(t)},n._getItemByDirection=function(t,e){var n="next"===t,i="prev"===t,o=this._getItemIndex(e),s=this._items.length-1;if((i&&0===o||n&&o===s)&&!this._config.wrap)return e;var r=(o+("prev"===t?-1:1))%this._items.length;return-1===r?this._items[this._items.length-1]:this._items[r]},n._triggerSlideEvent=function(t,e){var n=this._getItemIndex(t),i=this._getItemIndex(X.findOne(".active.carousel-item",this._element));return K.trigger(this._element,"slide.bs.carousel",{relatedTarget:t,direction:e,from:i,to:n})},n._setActiveIndicatorElement=function(t){if(this._indicatorsElement){for(var e=X.find(".active",this._indicatorsElement),n=0;n<e.length;n++)e[n].classList.remove("active");var i=this._indicatorsElement.children[this._getItemIndex(t)];i&&i.classList.add("active")}},n._updateInterval=function(){var t=this._activeElement||X.findOne(".active.carousel-item",this._element);if(t){var e=Number.parseInt(t.getAttribute("data-bs-interval"),10);e?(this._config.defaultInterval=this._config.defaultInterval||this._config.interval,this._config.interval=e):this._config.interval=this._config.defaultInterval||this._config.interval}},n._slide=function(t,e){var n,i,o,s=this,r=X.findOne(".active.carousel-item",this._element),a=this._getItemIndex(r),l=e||r&&this._getItemByDirection(t,r),u=this._getItemIndex(l),d=Boolean(this._interval);if("next"===t?(n="carousel-item-start",i="carousel-item-next",o="left"):(n="carousel-item-end",i="carousel-item-prev",o="right"),l&&l.classList.contains("active"))this._isSliding=!1;else if(!this._triggerSlideEvent(l,o).defaultPrevented&&r&&l){if(this._isSliding=!0,d&&this.pause(),this._setActiveIndicatorElement(l),this._activeElement=l,this._element.classList.contains("slide")){l.classList.add(i),w(l),r.classList.add(n),l.classList.add(n);var f=p(r);K.one(r,c,function(){l.classList.remove(n,i),l.classList.add("active"),r.classList.remove("active",i,n),s._isSliding=!1,setTimeout(function(){K.trigger(s._element,"slid.bs.carousel",{relatedTarget:l,direction:o,from:a,to:u})},0)}),_(r,f)}else r.classList.remove("active"),l.classList.add("active"),this._isSliding=!1,K.trigger(this._element,"slid.bs.carousel",{relatedTarget:l,direction:o,from:a,to:u});d&&this.cycle()}},e.carouselInterface=function(t,n){var i=A.getData(t,"bs.carousel"),o=s({},$,z.getDataAttributes(t));"object"==typeof n&&(o=s({},o,n));var r="string"==typeof n?n:o.slide;if(i||(i=new e(t,o)),"number"==typeof n)i.to(n);else if("string"==typeof r){if(void 0===i[r])throw new TypeError('No method named "'+r+'"');i[r]()}else o.interval&&o.ride&&(i.pause(),i.cycle())},e.jQueryInterface=function(t){return this.each(function(){e.carouselInterface(this,t)})},e.dataApiClickHandler=function(t){var n=h(this);if(n&&n.classList.contains("carousel")){var i=s({},z.getDataAttributes(n),z.getDataAttributes(this)),o=this.getAttribute("data-bs-slide-to");o&&(i.interval=!1),e.carouselInterface(n,i),o&&A.getData(n,"bs.carousel").to(o),t.preventDefault()}},o(e,null,[{key:"Default",get:function(){return $}},{key:"DATA_KEY",get:function(){return"bs.carousel"}}]),e}(Q);K.on(document,"click.bs.carousel.data-api","[data-bs-slide], [data-bs-slide-to]",tt.dataApiClickHandler),K.on(window,"load.bs.carousel.data-api",function(){for(var t=X.find('[data-bs-ride="carousel"]'),e=0,n=t.length;e<n;e++)tt.carouselInterface(t[e],A.getData(t[e],"bs.carousel"))}),T(function(){var t=E();if(t){var e=t.fn[q];t.fn[q]=tt.jQueryInterface,t.fn[q].Constructor=tt,t.fn[q].noConflict=function(){return t.fn[q]=e,tt.jQueryInterface}}});var et="collapse",nt={toggle:!0,parent:""},it={toggle:"boolean",parent:"(string|element)"},ot='[data-bs-toggle="collapse"]',st=function(t){function e(e,n){var i;(i=t.call(this,e)||this)._isTransitioning=!1,i._config=i._getConfig(n),i._triggerArray=X.find(ot+'[href="#'+e.id+'"],'+ot+'[data-bs-target="#'+e.id+'"]');for(var o=X.find(ot),s=0,r=o.length;s<r;s++){var a=o[s],l=f(a),c=X.find(l).filter(function(t){return t===e});null!==l&&c.length&&(i._selector=l,i._triggerArray.push(a))}return i._parent=i._config.parent?i._getParent():null,i._config.parent||i._addAriaAndCollapsedClass(i._element,i._triggerArray),i._config.toggle&&i.toggle(),i}r(e,t);var n=e.prototype;return n.toggle=function(){this._element.classList.contains("show")?this.hide():this.show()},n.show=function(){var t=this;if(!this._isTransitioning&&!this._element.classList.contains("show")){var n,i;this._parent&&0===(n=X.find(".show, .collapsing",this._parent).filter(function(e){return"string"==typeof t._config.parent?e.getAttribute("data-bs-parent")===t._config.parent:e.classList.contains("collapse")})).length&&(n=null);var o=X.findOne(this._selector);if(n){var s=n.find(function(t){return o!==t});if((i=s?A.getData(s,"bs.collapse"):null)&&i._isTransitioning)return}if(!K.trigger(this._element,"show.bs.collapse").defaultPrevented){n&&n.forEach(function(t){o!==t&&e.collapseInterface(t,"hide"),i||A.setData(t,"bs.collapse",null)});var r=this._getDimension();this._element.classList.remove("collapse"),this._element.classList.add("collapsing"),this._element.style[r]=0,this._triggerArray.length&&this._triggerArray.forEach(function(t){t.classList.remove("collapsed"),t.setAttribute("aria-expanded",!0)}),this.setTransitioning(!0);var a="scroll"+(r[0].toUpperCase()+r.slice(1)),l=p(this._element);K.one(this._element,c,function(){t._element.classList.remove("collapsing"),t._element.classList.add("collapse","show"),t._element.style[r]="",t.setTransitioning(!1),K.trigger(t._element,"shown.bs.collapse")}),_(this._element,l),this._element.style[r]=this._element[a]+"px"}}},n.hide=function(){var t=this;if(!this._isTransitioning&&this._element.classList.contains("show")&&!K.trigger(this._element,"hide.bs.collapse").defaultPrevented){var e=this._getDimension();this._element.style[e]=this._element.getBoundingClientRect()[e]+"px",w(this._element),this._element.classList.add("collapsing"),this._element.classList.remove("collapse","show");var n=this._triggerArray.length;if(n>0)for(var i=0;i<n;i++){var o=this._triggerArray[i],s=h(o);s&&!s.classList.contains("show")&&(o.classList.add("collapsed"),o.setAttribute("aria-expanded",!1))}this.setTransitioning(!0);this._element.style[e]="";var r=p(this._element);K.one(this._element,c,function(){t.setTransitioning(!1),t._element.classList.remove("collapsing"),t._element.classList.add("collapse"),K.trigger(t._element,"hidden.bs.collapse")}),_(this._element,r)}},n.setTransitioning=function(t){this._isTransitioning=t},n.dispose=function(){t.prototype.dispose.call(this),this._config=null,this._parent=null,this._triggerArray=null,this._isTransitioning=null},n._getConfig=function(t){return(t=s({},nt,t)).toggle=Boolean(t.toggle),v(et,t,it),t},n._getDimension=function(){return this._element.classList.contains("width")?"width":"height"},n._getParent=function(){var t=this,e=this._config.parent;m(e)?void 0===e.jquery&&void 0===e[0]||(e=e[0]):e=X.findOne(e);var n=ot+'[data-bs-parent="'+e+'"]';return X.find(n,e).forEach(function(e){var n=h(e);t._addAriaAndCollapsedClass(n,[e])}),e},n._addAriaAndCollapsedClass=function(t,e){if(t&&e.length){var n=t.classList.contains("show");e.forEach(function(t){n?t.classList.remove("collapsed"):t.classList.add("collapsed"),t.setAttribute("aria-expanded",n)})}},e.collapseInterface=function(t,n){var i=A.getData(t,"bs.collapse"),o=s({},nt,z.getDataAttributes(t),"object"==typeof n&&n?n:{});if(!i&&o.toggle&&"string"==typeof n&&/show|hide/.test(n)&&(o.toggle=!1),i||(i=new e(t,o)),"string"==typeof n){if(void 0===i[n])throw new TypeError('No method named "'+n+'"');i[n]()}},e.jQueryInterface=function(t){return this.each(function(){e.collapseInterface(this,t)})},o(e,null,[{key:"Default",get:function(){return nt}},{key:"DATA_KEY",get:function(){return"bs.collapse"}}]),e}(Q);K.on(document,"click.bs.collapse.data-api",ot,function(t){"A"===t.target.tagName&&t.preventDefault();var e=z.getDataAttributes(this),n=f(this);X.find(n).forEach(function(t){var n,i=A.getData(t,"bs.collapse");i?(null===i._parent&&"string"==typeof e.parent&&(i._config.parent=e.parent,i._parent=i._getParent()),n="toggle"):n=e,st.collapseInterface(t,n)})}),T(function(){var t=E();if(t){var e=t.fn[et];t.fn[et]=st.jQueryInterface,t.fn[et].Constructor=st,t.fn[et].noConflict=function(){return t.fn[et]=e,st.jQueryInterface}}});var rt="dropdown",at=new RegExp("ArrowUp|ArrowDown|Escape"),lt=k?"top-end":"top-start",ct=k?"top-start":"top-end",ut=k?"bottom-end":"bottom-start",dt=k?"bottom-start":"bottom-end",ft=k?"left-start":"right-start",ht=k?"right-start":"left-start",pt={offset:0,flip:!0,boundary:"clippingParents",reference:"toggle",display:"dynamic",popperConfig:null},gt={offset:"(number|string|function)",flip:"boolean",boundary:"(string|element)",reference:"(string|element)",display:"string",popperConfig:"(null|object)"},mt=function(e){function i(t,n){var i;return(i=e.call(this,t)||this)._popper=null,i._config=i._getConfig(n),i._menu=i._getMenuElement(),i._inNavbar=i._detectNavbar(),i._addEventListeners(),i}r(i,e);var a=i.prototype;return a.toggle=function(){if(!this._element.disabled&&!this._element.classList.contains("disabled")){var t=this._element.classList.contains("show");i.clearMenus(),t||this.show()}},a.show=function(){if(!(this._element.disabled||this._element.classList.contains("disabled")||this._menu.classList.contains("show"))){var e=i.getParentFromElement(this._element),o={relatedTarget:this._element};if(!K.trigger(this._element,"show.bs.dropdown",o).defaultPrevented){if(!this._inNavbar){if(void 0===n)throw new TypeError("Bootstrap's dropdowns require Popper (https://popper.js.org)");var s=this._element;"parent"===this._config.reference?s=e:m(this._config.reference)&&(s=this._config.reference,void 0!==this._config.reference.jquery&&(s=this._config.reference[0])),this._popper=t.createPopper(s,this._menu,this._getPopperConfig())}var r;if("ontouchstart"in document.documentElement&&!e.closest(".navbar-nav"))(r=[]).concat.apply(r,document.body.children).forEach(function(t){return K.on(t,"mouseover",null,function(){})});this._element.focus(),this._element.setAttribute("aria-expanded",!0),this._menu.classList.toggle("show"),this._element.classList.toggle("show"),K.trigger(e,"shown.bs.dropdown",o)}}},a.hide=function(){if(!this._element.disabled&&!this._element.classList.contains("disabled")&&this._menu.classList.contains("show")){var t=i.getParentFromElement(this._element),e={relatedTarget:this._element};K.trigger(t,"hide.bs.dropdown",e).defaultPrevented||(this._popper&&this._popper.destroy(),this._menu.classList.toggle("show"),this._element.classList.toggle("show"),K.trigger(t,"hidden.bs.dropdown",e))}},a.dispose=function(){e.prototype.dispose.call(this),K.off(this._element,".bs.dropdown"),this._menu=null,this._popper&&(this._popper.destroy(),this._popper=null)},a.update=function(){this._inNavbar=this._detectNavbar(),this._popper&&this._popper.update()},a._addEventListeners=function(){var t=this;K.on(this._element,"click.bs.dropdown",function(e){e.preventDefault(),e.stopPropagation(),t.toggle()})},a._getConfig=function(t){return t=s({},this.constructor.Default,z.getDataAttributes(this._element),t),v(rt,t,this.constructor.DefaultType),t},a._getMenuElement=function(){return X.next(this._element,".dropdown-menu")[0]},a._getPlacement=function(){var t=this._element.parentNode;if(t.classList.contains("dropend"))return ft;if(t.classList.contains("dropstart"))return ht;var e="end"===getComputedStyle(this._menu).getPropertyValue("--bs-position").trim();return t.classList.contains("dropup")?e?ct:lt:e?dt:ut},a._detectNavbar=function(){return null!==this._element.closest(".navbar")},a._getPopperConfig=function(){var t={placement:this._getPlacement(),modifiers:[{name:"preventOverflow",options:{altBoundary:this._config.flip,rootBoundary:this._config.boundary}}]};return"static"===this._config.display&&(t.modifiers=[{name:"applyStyles",enabled:!1}]),s({},t,this._config.popperConfig)},i.dropdownInterface=function(t,e){var n=A.getData(t,"bs.dropdown");if(n||(n=new i(t,"object"==typeof e?e:null)),"string"==typeof e){if(void 0===n[e])throw new TypeError('No method named "'+e+'"');n[e]()}},i.jQueryInterface=function(t){return this.each(function(){i.dropdownInterface(this,t)})},i.clearMenus=function(t){if(!t||2!==t.button&&("keyup"!==t.type||"Tab"===t.key))for(var e=X.find('[data-bs-toggle="dropdown"]'),n=0,o=e.length;n<o;n++){var s=i.getParentFromElement(e[n]),r=A.getData(e[n],"bs.dropdown"),a={relatedTarget:e[n]};if(t&&"click"===t.type&&(a.clickEvent=t),r){var l=r._menu;if(e[n].classList.contains("show"))if(!(t&&("click"===t.type&&/input|textarea/i.test(t.target.tagName)||"keyup"===t.type&&"Tab"===t.key)&&l.contains(t.target)))if(!K.trigger(s,"hide.bs.dropdown",a).defaultPrevented){var c;if("ontouchstart"in document.documentElement)(c=[]).concat.apply(c,document.body.children).forEach(function(t){return K.off(t,"mouseover",null,function(){})});e[n].setAttribute("aria-expanded","false"),r._popper&&r._popper.destroy(),l.classList.remove("show"),e[n].classList.remove("show"),K.trigger(s,"hidden.bs.dropdown",a)}}}},i.getParentFromElement=function(t){return h(t)||t.parentNode},i.dataApiKeydownHandler=function(t){if((/input|textarea/i.test(t.target.tagName)?!("Space"===t.key||"Escape"!==t.key&&("ArrowDown"!==t.key&&"ArrowUp"!==t.key||t.target.closest(".dropdown-menu"))):at.test(t.key))&&(t.preventDefault(),t.stopPropagation(),!this.disabled&&!this.classList.contains("disabled"))){var e=i.getParentFromElement(this),n=this.classList.contains("show");if("Escape"===t.key)return(this.matches('[data-bs-toggle="dropdown"]')?this:X.prev(this,'[data-bs-toggle="dropdown"]')[0]).focus(),void i.clearMenus();if(n&&"Space"!==t.key){var o=X.find(".dropdown-menu .dropdown-item:not(.disabled):not(:disabled)",e).filter(b);if(o.length){var s=o.indexOf(t.target);"ArrowUp"===t.key&&s>0&&s--,"ArrowDown"===t.key&&s<o.length-1&&s++,o[s=-1===s?0:s].focus()}}else i.clearMenus()}},o(i,null,[{key:"Default",get:function(){return pt}},{key:"DefaultType",get:function(){return gt}},{key:"DATA_KEY",get:function(){return"bs.dropdown"}}]),i}(Q);K.on(document,"keydown.bs.dropdown.data-api",'[data-bs-toggle="dropdown"]',mt.dataApiKeydownHandler),K.on(document,"keydown.bs.dropdown.data-api",".dropdown-menu",mt.dataApiKeydownHandler),K.on(document,"click.bs.dropdown.data-api",mt.clearMenus),K.on(document,"keyup.bs.dropdown.data-api",mt.clearMenus),K.on(document,"click.bs.dropdown.data-api",'[data-bs-toggle="dropdown"]',function(t){t.preventDefault(),t.stopPropagation(),mt.dropdownInterface(this,"toggle")}),K.on(document,"click.bs.dropdown.data-api",".dropdown form",function(t){return t.stopPropagation()}),T(function(){var t=E();if(t){var e=t.fn[rt];t.fn[rt]=mt.jQueryInterface,t.fn[rt].Constructor=mt,t.fn[rt].noConflict=function(){return t.fn[rt]=e,mt.jQueryInterface}}});var _t={backdrop:!0,keyboard:!0,focus:!0},vt={backdrop:"(boolean|string)",keyboard:"boolean",focus:"boolean"},bt=".modal-dialog",yt=function(t){function e(e,n){var i;return(i=t.call(this,e)||this)._config=i._getConfig(n),i._dialog=X.findOne(bt,e),i._backdrop=null,i._isShown=!1,i._isBodyOverflowing=!1,i._ignoreBackdropClick=!1,i._isTransitioning=!1,i._scrollbarWidth=0,i}r(e,t);var n=e.prototype;return n.toggle=function(t){return this._isShown?this.hide():this.show(t)},n.show=function(t){var e=this;if(!this._isShown&&!this._isTransitioning){this._element.classList.contains("fade")&&(this._isTransitioning=!0);var n=K.trigger(this._element,"show.bs.modal",{relatedTarget:t});this._isShown||n.defaultPrevented||(this._isShown=!0,this._checkScrollbar(),this._setScrollbar(),this._adjustDialog(),this._setEscapeEvent(),this._setResizeEvent(),K.on(this._element,"click.dismiss.bs.modal",'[data-bs-dismiss="modal"]',function(t){return e.hide(t)}),K.on(this._dialog,"mousedown.dismiss.bs.modal",function(){K.one(e._element,"mouseup.dismiss.bs.modal",function(t){t.target===e._element&&(e._ignoreBackdropClick=!0)})}),this._showBackdrop(function(){return e._showElement(t)}))}},n.hide=function(t){var e=this;if((t&&t.preventDefault(),this._isShown&&!this._isTransitioning)&&!K.trigger(this._element,"hide.bs.modal").defaultPrevented){this._isShown=!1;var n=this._element.classList.contains("fade");if(n&&(this._isTransitioning=!0),this._setEscapeEvent(),this._setResizeEvent(),K.off(document,"focusin.bs.modal"),this._element.classList.remove("show"),K.off(this._element,"click.dismiss.bs.modal"),K.off(this._dialog,"mousedown.dismiss.bs.modal"),n){var i=p(this._element);K.one(this._element,c,function(t){return e._hideModal(t)}),_(this._element,i)}else this._hideModal()}},n.dispose=function(){[window,this._element,this._dialog].forEach(function(t){return K.off(t,".bs.modal")}),t.prototype.dispose.call(this),K.off(document,"focusin.bs.modal"),this._config=null,this._dialog=null,this._backdrop=null,this._isShown=null,this._isBodyOverflowing=null,this._ignoreBackdropClick=null,this._isTransitioning=null,this._scrollbarWidth=null},n.handleUpdate=function(){this._adjustDialog()},n._getConfig=function(t){return t=s({},_t,t),v("modal",t,vt),t},n._showElement=function(t){var e=this,n=this._element.classList.contains("fade"),i=X.findOne(".modal-body",this._dialog);this._element.parentNode&&this._element.parentNode.nodeType===Node.ELEMENT_NODE||document.body.appendChild(this._element),this._element.style.display="block",this._element.removeAttribute("aria-hidden"),this._element.setAttribute("aria-modal",!0),this._element.setAttribute("role","dialog"),this._element.scrollTop=0,i&&(i.scrollTop=0),n&&w(this._element),this._element.classList.add("show"),this._config.focus&&this._enforceFocus();var o=function(){e._config.focus&&e._element.focus(),e._isTransitioning=!1,K.trigger(e._element,"shown.bs.modal",{relatedTarget:t})};if(n){var s=p(this._dialog);K.one(this._dialog,c,o),_(this._dialog,s)}else o()},n._enforceFocus=function(){var t=this;K.off(document,"focusin.bs.modal"),K.on(document,"focusin.bs.modal",function(e){document===e.target||t._element===e.target||t._element.contains(e.target)||t._element.focus()})},n._setEscapeEvent=function(){var t=this;this._isShown?K.on(this._element,"keydown.dismiss.bs.modal",function(e){t._config.keyboard&&"Escape"===e.key?(e.preventDefault(),t.hide()):t._config.keyboard||"Escape"!==e.key||t._triggerBackdropTransition()}):K.off(this._element,"keydown.dismiss.bs.modal")},n._setResizeEvent=function(){var t=this;this._isShown?K.on(window,"resize.bs.modal",function(){return t._adjustDialog()}):K.off(window,"resize.bs.modal")},n._hideModal=function(){var t=this;this._element.style.display="none",this._element.setAttribute("aria-hidden",!0),this._element.removeAttribute("aria-modal"),this._element.removeAttribute("role"),this._isTransitioning=!1,this._showBackdrop(function(){document.body.classList.remove("modal-open"),t._resetAdjustments(),t._resetScrollbar(),K.trigger(t._element,"hidden.bs.modal")})},n._removeBackdrop=function(){this._backdrop.parentNode.removeChild(this._backdrop),this._backdrop=null},n._showBackdrop=function(t){var e=this,n=this._element.classList.contains("fade")?"fade":"";if(this._isShown&&this._config.backdrop){if(this._backdrop=document.createElement("div"),this._backdrop.className="modal-backdrop",n&&this._backdrop.classList.add(n),document.body.appendChild(this._backdrop),K.on(this._element,"click.dismiss.bs.modal",function(t){e._ignoreBackdropClick?e._ignoreBackdropClick=!1:t.target===t.currentTarget&&("static"===e._config.backdrop?e._triggerBackdropTransition():e.hide())}),n&&w(this._backdrop),this._backdrop.classList.add("show"),!n)return void t();var i=p(this._backdrop);K.one(this._backdrop,c,t),_(this._backdrop,i)}else if(!this._isShown&&this._backdrop){this._backdrop.classList.remove("show");var o=function(){e._removeBackdrop(),t()};if(this._element.classList.contains("fade")){var s=p(this._backdrop);K.one(this._backdrop,c,o),_(this._backdrop,s)}else o()}else t()},n._triggerBackdropTransition=function(){var t=this;if(!K.trigger(this._element,"hidePrevented.bs.modal").defaultPrevented){var e=this._element.scrollHeight>document.documentElement.clientHeight;e||(this._element.style.overflowY="hidden"),this._element.classList.add("modal-static");var n=p(this._dialog);K.off(this._element,c),K.one(this._element,c,function(){t._element.classList.remove("modal-static"),e||(K.one(t._element,c,function(){t._element.style.overflowY=""}),_(t._element,n))}),_(this._element,n),this._element.focus()}},n._adjustDialog=function(){var t=this._element.scrollHeight>document.documentElement.clientHeight;(!this._isBodyOverflowing&&t&&!k||this._isBodyOverflowing&&!t&&k)&&(this._element.style.paddingLeft=this._scrollbarWidth+"px"),(this._isBodyOverflowing&&!t&&!k||!this._isBodyOverflowing&&t&&k)&&(this._element.style.paddingRight=this._scrollbarWidth+"px")},n._resetAdjustments=function(){this._element.style.paddingLeft="",this._element.style.paddingRight=""},n._checkScrollbar=function(){var t=document.body.getBoundingClientRect();this._isBodyOverflowing=Math.round(t.left+t.right)<window.innerWidth,this._scrollbarWidth=this._getScrollbarWidth()},n._setScrollbar=function(){var t=this;if(this._isBodyOverflowing){X.find(".fixed-top, .fixed-bottom, .is-fixed, .sticky-top").forEach(function(e){var n=e.style.paddingRight,i=window.getComputedStyle(e)["padding-right"];z.setDataAttribute(e,"padding-right",n),e.style.paddingRight=Number.parseFloat(i)+t._scrollbarWidth+"px"}),X.find(".sticky-top").forEach(function(e){var n=e.style.marginRight,i=window.getComputedStyle(e)["margin-right"];z.setDataAttribute(e,"margin-right",n),e.style.marginRight=Number.parseFloat(i)-t._scrollbarWidth+"px"});var e=document.body.style.paddingRight,n=window.getComputedStyle(document.body)["padding-right"];z.setDataAttribute(document.body,"padding-right",e),document.body.style.paddingRight=Number.parseFloat(n)+this._scrollbarWidth+"px"}document.body.classList.add("modal-open")},n._resetScrollbar=function(){X.find(".fixed-top, .fixed-bottom, .is-fixed, .sticky-top").forEach(function(t){var e=z.getDataAttribute(t,"padding-right");void 0!==e&&(z.removeDataAttribute(t,"padding-right"),t.style.paddingRight=e)}),X.find(".sticky-top").forEach(function(t){var e=z.getDataAttribute(t,"margin-right");void 0!==e&&(z.removeDataAttribute(t,"margin-right"),t.style.marginRight=e)});var t=z.getDataAttribute(document.body,"padding-right");void 0===t?document.body.style.paddingRight="":(z.removeDataAttribute(document.body,"padding-right"),document.body.style.paddingRight=t)},n._getScrollbarWidth=function(){var t=document.createElement("div");t.className="modal-scrollbar-measure",document.body.appendChild(t);var e=t.getBoundingClientRect().width-t.clientWidth;return document.body.removeChild(t),e},e.jQueryInterface=function(t,n){return this.each(function(){var i=A.getData(this,"bs.modal"),o=s({},_t,z.getDataAttributes(this),"object"==typeof t&&t?t:{});if(i||(i=new e(this,o)),"string"==typeof t){if(void 0===i[t])throw new TypeError('No method named "'+t+'"');i[t](n)}})},o(e,null,[{key:"Default",get:function(){return _t}},{key:"DATA_KEY",get:function(){return"bs.modal"}}]),e}(Q);K.on(document,"click.bs.modal.data-api",'[data-bs-toggle="modal"]',function(t){var e=this,n=h(this);"A"!==this.tagName&&"AREA"!==this.tagName||t.preventDefault(),K.one(n,"show.bs.modal",function(t){t.defaultPrevented||K.one(n,"hidden.bs.modal",function(){b(e)&&e.focus()})});var i=A.getData(n,"bs.modal");if(!i){var o=s({},z.getDataAttributes(n),z.getDataAttributes(this));i=new yt(n,o)}i.show(this)}),T(function(){var t=E();if(t){var e=t.fn.modal;t.fn.modal=yt.jQueryInterface,t.fn.modal.Constructor=yt,t.fn.modal.noConflict=function(){return t.fn.modal=e,yt.jQueryInterface}}});var wt=new Set(["background","cite","href","itemtype","longdesc","poster","src","xlink:href"]),Et=/^(?:(?:https?|mailto|ftp|tel|file):|[^#&/:?]*(?:[#/?]|$))/gi,Tt=/^data:(?:image\/(?:bmp|gif|jpeg|jpg|png|tiff|webp)|video\/(?:mpeg|mp4|ogg|webm)|audio\/(?:mp3|oga|ogg|opus));base64,[\d+/a-z]+=*$/i,kt=function(t,e){var n=t.nodeName.toLowerCase();if(e.includes(n))return!wt.has(n)||Boolean(t.nodeValue.match(Et)||t.nodeValue.match(Tt));for(var i=e.filter(function(t){return t instanceof RegExp}),o=0,s=i.length;o<s;o++)if(n.match(i[o]))return!0;return!1},Dt={"*":["class","dir","id","lang","role",/^aria-[\w-]*$/i],a:["target","href","title","rel"],area:[],b:[],br:[],col:[],code:[],div:[],em:[],hr:[],h1:[],h2:[],h3:[],h4:[],h5:[],h6:[],i:[],img:["src","srcset","alt","title","width","height"],li:[],ol:[],p:[],pre:[],s:[],small:[],span:[],sub:[],sup:[],strong:[],u:[],ul:[]};function At(t,e,n){var i;if(!t.length)return t;if(n&&"function"==typeof n)return n(t);for(var o=(new window.DOMParser).parseFromString(t,"text/html"),s=Object.keys(e),r=(i=[]).concat.apply(i,o.body.querySelectorAll("*")),a=function(t,n){var i,o=r[t],a=o.nodeName.toLowerCase();if(!s.includes(a))return o.parentNode.removeChild(o),"continue";var l=(i=[]).concat.apply(i,o.attributes),c=[].concat(e["*"]||[],e[a]||[]);l.forEach(function(t){kt(t,c)||o.removeAttribute(t.nodeName)})},l=0,c=r.length;l<c;l++)a(l);return o.body.innerHTML}var Lt="tooltip",Ct=new RegExp("(^|\\s)bs-tooltip\\S+","g"),St=new Set(["sanitize","allowList","sanitizeFn"]),Nt={animation:"boolean",template:"string",title:"(string|element|function)",trigger:"string",delay:"(number|object)",html:"boolean",selector:"(string|boolean)",placement:"(string|function)",container:"(string|element|boolean)",fallbackPlacements:"(null|array)",boundary:"(string|element)",customClass:"(string|function)",sanitize:"boolean",sanitizeFn:"(null|function)",allowList:"object",popperConfig:"(null|object)"},Ot={AUTO:"auto",TOP:"top",RIGHT:k?"left":"right",BOTTOM:"bottom",LEFT:k?"right":"left"},It={animation:!0,template:'<div class="tooltip" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>',trigger:"hover focus",title:"",delay:0,html:!1,selector:!1,placement:"top",container:!1,fallbackPlacements:null,boundary:"clippingParents",customClass:"",sanitize:!0,sanitizeFn:null,allowList:Dt,popperConfig:null},jt={HIDE:"hide.bs.tooltip",HIDDEN:"hidden.bs.tooltip",SHOW:"show.bs.tooltip",SHOWN:"shown.bs.tooltip",INSERTED:"inserted.bs.tooltip",CLICK:"click.bs.tooltip",FOCUSIN:"focusin.bs.tooltip",FOCUSOUT:"focusout.bs.tooltip",MOUSEENTER:"mouseenter.bs.tooltip",MOUSELEAVE:"mouseleave.bs.tooltip"},Pt=function(e){function i(t,i){var o;if(void 0===n)throw new TypeError("Bootstrap's tooltips require Popper (https://popper.js.org)");return(o=e.call(this,t)||this)._isEnabled=!0,o._timeout=0,o._hoverState="",o._activeTrigger={},o._popper=null,o.config=o._getConfig(i),o.tip=null,o._setListeners(),o}r(i,e);var a=i.prototype;return a.enable=function(){this._isEnabled=!0},a.disable=function(){this._isEnabled=!1},a.toggleEnabled=function(){this._isEnabled=!this._isEnabled},a.toggle=function(t){if(this._isEnabled)if(t){var e=this.constructor.DATA_KEY,n=A.getData(t.delegateTarget,e);n||(n=new this.constructor(t.delegateTarget,this._getDelegateConfig()),A.setData(t.delegateTarget,e,n)),n._activeTrigger.click=!n._activeTrigger.click,n._isWithActiveTrigger()?n._enter(null,n):n._leave(null,n)}else{if(this.getTipElement().classList.contains("show"))return void this._leave(null,this);this._enter(null,this)}},a.dispose=function(){clearTimeout(this._timeout),K.off(this._element,this.constructor.EVENT_KEY),K.off(this._element.closest(".modal"),"hide.bs.modal",this._hideModalHandler),this.tip&&this.tip.parentNode.removeChild(this.tip),this._isEnabled=null,this._timeout=null,this._hoverState=null,this._activeTrigger=null,this._popper&&this._popper.destroy(),this._popper=null,this.config=null,this.tip=null,e.prototype.dispose.call(this)},a.show=function(){var e=this;if("none"===this._element.style.display)throw new Error("Please use show on visible elements");if(this.isWithContent()&&this._isEnabled){var n=K.trigger(this._element,this.constructor.Event.SHOW),i=function t(e){if(!document.documentElement.attachShadow)return null;if("function"==typeof e.getRootNode){var n=e.getRootNode();return n instanceof ShadowRoot?n:null}return e instanceof ShadowRoot?e:e.parentNode?t(e.parentNode):null}(this._element),o=null===i?this._element.ownerDocument.documentElement.contains(this._element):i.contains(this._element);if(n.defaultPrevented||!o)return;var s=this.getTipElement(),r=u(this.constructor.NAME);s.setAttribute("id",r),this._element.setAttribute("aria-describedby",r),this.setContent(),this.config.animation&&s.classList.add("fade");var a="function"==typeof this.config.placement?this.config.placement.call(this,s,this._element):this.config.placement,l=this._getAttachment(a);this._addAttachmentClass(l);var d=this._getContainer();A.setData(s,this.constructor.DATA_KEY,this),this._element.ownerDocument.documentElement.contains(this.tip)||d.appendChild(s),K.trigger(this._element,this.constructor.Event.INSERTED),this._popper=t.createPopper(this._element,s,this._getPopperConfig(l)),s.classList.add("show");var f,h,g="function"==typeof this.config.customClass?this.config.customClass():this.config.customClass;if(g)(f=s.classList).add.apply(f,g.split(" "));if("ontouchstart"in document.documentElement)(h=[]).concat.apply(h,document.body.children).forEach(function(t){K.on(t,"mouseover",function(){})});var m=function(){var t=e._hoverState;e._hoverState=null,K.trigger(e._element,e.constructor.Event.SHOWN),"out"===t&&e._leave(null,e)};if(this.tip.classList.contains("fade")){var v=p(this.tip);K.one(this.tip,c,m),_(this.tip,v)}else m()}},a.hide=function(){var t=this;if(this._popper){var e=this.getTipElement(),n=function(){"show"!==t._hoverState&&e.parentNode&&e.parentNode.removeChild(e),t._cleanTipClass(),t._element.removeAttribute("aria-describedby"),K.trigger(t._element,t.constructor.Event.HIDDEN),t._popper&&(t._popper.destroy(),t._popper=null)};if(!K.trigger(this._element,this.constructor.Event.HIDE).defaultPrevented){var i;if(e.classList.remove("show"),"ontouchstart"in document.documentElement)(i=[]).concat.apply(i,document.body.children).forEach(function(t){return K.off(t,"mouseover",y)});if(this._activeTrigger.click=!1,this._activeTrigger.focus=!1,this._activeTrigger.hover=!1,this.tip.classList.contains("fade")){var o=p(e);K.one(e,c,n),_(e,o)}else n();this._hoverState=""}}},a.update=function(){null!==this._popper&&this._popper.update()},a.isWithContent=function(){return Boolean(this.getTitle())},a.getTipElement=function(){if(this.tip)return this.tip;var t=document.createElement("div");return t.innerHTML=this.config.template,this.tip=t.children[0],this.tip},a.setContent=function(){var t=this.getTipElement();this.setElementContent(X.findOne(".tooltip-inner",t),this.getTitle()),t.classList.remove("fade","show")},a.setElementContent=function(t,e){if(null!==t)return"object"==typeof e&&m(e)?(e.jquery&&(e=e[0]),void(this.config.html?e.parentNode!==t&&(t.innerHTML="",t.appendChild(e)):t.textContent=e.textContent)):void(this.config.html?(this.config.sanitize&&(e=At(e,this.config.allowList,this.config.sanitizeFn)),t.innerHTML=e):t.textContent=e)},a.getTitle=function(){var t=this._element.getAttribute("data-bs-original-title");return t||(t="function"==typeof this.config.title?this.config.title.call(this._element):this.config.title),t},a.updateAttachment=function(t){return"right"===t?"end":"left"===t?"start":t},a._getPopperConfig=function(t){var e=this,n={name:"flip",options:{altBoundary:!0}};return this.config.fallbackPlacements&&(n.options.fallbackPlacements=this.config.fallbackPlacements),s({},{placement:t,modifiers:[n,{name:"preventOverflow",options:{rootBoundary:this.config.boundary}},{name:"arrow",options:{element:"."+this.constructor.NAME+"-arrow"}},{name:"onChange",enabled:!0,phase:"afterWrite",fn:function(t){return e._handlePopperPlacementChange(t)}}],onFirstUpdate:function(t){t.options.placement!==t.placement&&e._handlePopperPlacementChange(t)}},this.config.popperConfig)},a._addAttachmentClass=function(t){this.getTipElement().classList.add("bs-tooltip-"+this.updateAttachment(t))},a._getContainer=function(){return!1===this.config.container?document.body:m(this.config.container)?this.config.container:X.findOne(this.config.container)},a._getAttachment=function(t){return Ot[t.toUpperCase()]},a._setListeners=function(){var t=this;this.config.trigger.split(" ").forEach(function(e){if("click"===e)K.on(t._element,t.constructor.Event.CLICK,t.config.selector,function(e){return t.toggle(e)});else if("manual"!==e){var n="hover"===e?t.constructor.Event.MOUSEENTER:t.constructor.Event.FOCUSIN,i="hover"===e?t.constructor.Event.MOUSELEAVE:t.constructor.Event.FOCUSOUT;K.on(t._element,n,t.config.selector,function(e){return t._enter(e)}),K.on(t._element,i,t.config.selector,function(e){return t._leave(e)})}}),this._hideModalHandler=function(){t._element&&t.hide()},K.on(this._element.closest(".modal"),"hide.bs.modal",this._hideModalHandler),this.config.selector?this.config=s({},this.config,{trigger:"manual",selector:""}):this._fixTitle()},a._fixTitle=function(){var t=this._element.getAttribute("title"),e=typeof this._element.getAttribute("data-bs-original-title");(t||"string"!==e)&&(this._element.setAttribute("data-bs-original-title",t||""),!t||this._element.getAttribute("aria-label")||this._element.textContent||this._element.setAttribute("aria-label",t),this._element.setAttribute("title",""))},a._enter=function(t,e){var n=this.constructor.DATA_KEY;(e=e||A.getData(t.delegateTarget,n))||(e=new this.constructor(t.delegateTarget,this._getDelegateConfig()),A.setData(t.delegateTarget,n,e)),t&&(e._activeTrigger["focusin"===t.type?"focus":"hover"]=!0),e.getTipElement().classList.contains("show")||"show"===e._hoverState?e._hoverState="show":(clearTimeout(e._timeout),e._hoverState="show",e.config.delay&&e.config.delay.show?e._timeout=setTimeout(function(){"show"===e._hoverState&&e.show()},e.config.delay.show):e.show())},a._leave=function(t,e){var n=this.constructor.DATA_KEY;(e=e||A.getData(t.delegateTarget,n))||(e=new this.constructor(t.delegateTarget,this._getDelegateConfig()),A.setData(t.delegateTarget,n,e)),t&&(e._activeTrigger["focusout"===t.type?"focus":"hover"]=!1),e._isWithActiveTrigger()||(clearTimeout(e._timeout),e._hoverState="out",e.config.delay&&e.config.delay.hide?e._timeout=setTimeout(function(){"out"===e._hoverState&&e.hide()},e.config.delay.hide):e.hide())},a._isWithActiveTrigger=function(){for(var t in this._activeTrigger)if(this._activeTrigger[t])return!0;return!1},a._getConfig=function(t){var e=z.getDataAttributes(this._element);return Object.keys(e).forEach(function(t){St.has(t)&&delete e[t]}),t&&"object"==typeof t.container&&t.container.jquery&&(t.container=t.container[0]),"number"==typeof(t=s({},this.constructor.Default,e,"object"==typeof t&&t?t:{})).delay&&(t.delay={show:t.delay,hide:t.delay}),"number"==typeof t.title&&(t.title=t.title.toString()),"number"==typeof t.content&&(t.content=t.content.toString()),v(Lt,t,this.constructor.DefaultType),t.sanitize&&(t.template=At(t.template,t.allowList,t.sanitizeFn)),t},a._getDelegateConfig=function(){var t={};if(this.config)for(var e in this.config)this.constructor.Default[e]!==this.config[e]&&(t[e]=this.config[e]);return t},a._cleanTipClass=function(){var t=this.getTipElement(),e=t.getAttribute("class").match(Ct);null!==e&&e.length>0&&e.map(function(t){return t.trim()}).forEach(function(e){return t.classList.remove(e)})},a._handlePopperPlacementChange=function(t){var e=t.state;e&&(this.tip=e.elements.popper,this._cleanTipClass(),this._addAttachmentClass(this._getAttachment(e.placement)))},i.jQueryInterface=function(t){return this.each(function(){var e=A.getData(this,"bs.tooltip"),n="object"==typeof t&&t;if((e||!/dispose|hide/.test(t))&&(e||(e=new i(this,n)),"string"==typeof t)){if(void 0===e[t])throw new TypeError('No method named "'+t+'"');e[t]()}})},o(i,null,[{key:"Default",get:function(){return It}},{key:"NAME",get:function(){return Lt}},{key:"DATA_KEY",get:function(){return"bs.tooltip"}},{key:"Event",get:function(){return jt}},{key:"EVENT_KEY",get:function(){return".bs.tooltip"}},{key:"DefaultType",get:function(){return Nt}}]),i}(Q);T(function(){var t=E();if(t){var e=t.fn.tooltip;t.fn.tooltip=Pt.jQueryInterface,t.fn.tooltip.Constructor=Pt,t.fn.tooltip.noConflict=function(){return t.fn.tooltip=e,Pt.jQueryInterface}}});var xt="popover",Ht=new RegExp("(^|\\s)bs-popover\\S+","g"),Bt=s({},Pt.Default,{placement:"right",trigger:"click",content:"",template:'<div class="popover" role="tooltip"><div class="popover-arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>'}),Mt=s({},Pt.DefaultType,{content:"(string|element|function)"}),Rt={HIDE:"hide.bs.popover",HIDDEN:"hidden.bs.popover",SHOW:"show.bs.popover",SHOWN:"shown.bs.popover",INSERTED:"inserted.bs.popover",CLICK:"click.bs.popover",FOCUSIN:"focusin.bs.popover",FOCUSOUT:"focusout.bs.popover",MOUSEENTER:"mouseenter.bs.popover",MOUSELEAVE:"mouseleave.bs.popover"},Kt=function(t){function e(){return t.apply(this,arguments)||this}r(e,t);var n=e.prototype;return n.isWithContent=function(){return this.getTitle()||this._getContent()},n.setContent=function(){var t=this.getTipElement();this.setElementContent(X.findOne(".popover-header",t),this.getTitle());var e=this._getContent();"function"==typeof e&&(e=e.call(this._element)),this.setElementContent(X.findOne(".popover-body",t),e),t.classList.remove("fade","show")},n._addAttachmentClass=function(t){this.getTipElement().classList.add("bs-popover-"+this.updateAttachment(t))},n._getContent=function(){return this._element.getAttribute("data-bs-content")||this.config.content},n._cleanTipClass=function(){var t=this.getTipElement(),e=t.getAttribute("class").match(Ht);null!==e&&e.length>0&&e.map(function(t){return t.trim()}).forEach(function(e){return t.classList.remove(e)})},e.jQueryInterface=function(t){return this.each(function(){var n=A.getData(this,"bs.popover"),i="object"==typeof t?t:null;if((n||!/dispose|hide/.test(t))&&(n||(n=new e(this,i),A.setData(this,"bs.popover",n)),"string"==typeof t)){if(void 0===n[t])throw new TypeError('No method named "'+t+'"');n[t]()}})},o(e,null,[{key:"Default",get:function(){return Bt}},{key:"NAME",get:function(){return xt}},{key:"DATA_KEY",get:function(){return"bs.popover"}},{key:"Event",get:function(){return Rt}},{key:"EVENT_KEY",get:function(){return".bs.popover"}},{key:"DefaultType",get:function(){return Mt}}]),e}(Pt);T(function(){var t=E();if(t){var e=t.fn.popover;t.fn.popover=Kt.jQueryInterface,t.fn.popover.Constructor=Kt,t.fn.popover.noConflict=function(){return t.fn.popover=e,Kt.jQueryInterface}}});var Qt="scrollspy",Ut={offset:10,method:"auto",target:""},Wt={offset:"number",method:"string",target:"(string|element)"},Ft="scroll.bs.scrollspy",Yt="dropdown-item",zt=".nav-link",Xt=".list-group-item",qt=function(t){function e(e,n){var i;return(i=t.call(this,e)||this)._scrollElement="BODY"===e.tagName?window:e,i._config=i._getConfig(n),i._selector=i._config.target+" "+zt+", "+i._config.target+" "+Xt+", "+i._config.target+" ."+Yt,i._offsets=[],i._targets=[],i._activeTarget=null,i._scrollHeight=0,K.on(i._scrollElement,Ft,function(t){return i._process(t)}),i.refresh(),i._process(),i}r(e,t);var n=e.prototype;return n.refresh=function(){var t=this,e=this._scrollElement===this._scrollElement.window?"offset":"position",n="auto"===this._config.method?e:this._config.method,i="position"===n?this._getScrollTop():0;this._offsets=[],this._targets=[],this._scrollHeight=this._getScrollHeight(),X.find(this._selector).map(function(t){var e=f(t),o=e?X.findOne(e):null;if(o){var s=o.getBoundingClientRect();if(s.width||s.height)return[z[n](o).top+i,e]}return null}).filter(function(t){return t}).sort(function(t,e){return t[0]-e[0]}).forEach(function(e){t._offsets.push(e[0]),t._targets.push(e[1])})},n.dispose=function(){t.prototype.dispose.call(this),K.off(this._scrollElement,".bs.scrollspy"),this._scrollElement=null,this._config=null,this._selector=null,this._offsets=null,this._targets=null,this._activeTarget=null,this._scrollHeight=null},n._getConfig=function(t){if("string"!=typeof(t=s({},Ut,"object"==typeof t&&t?t:{})).target&&m(t.target)){var e=t.target.id;e||(e=u(Qt),t.target.id=e),t.target="#"+e}return v(Qt,t,Wt),t},n._getScrollTop=function(){return this._scrollElement===window?this._scrollElement.pageYOffset:this._scrollElement.scrollTop},n._getScrollHeight=function(){return this._scrollElement.scrollHeight||Math.max(document.body.scrollHeight,document.documentElement.scrollHeight)},n._getOffsetHeight=function(){return this._scrollElement===window?window.innerHeight:this._scrollElement.getBoundingClientRect().height},n._process=function(){var t=this._getScrollTop()+this._config.offset,e=this._getScrollHeight(),n=this._config.offset+e-this._getOffsetHeight();if(this._scrollHeight!==e&&this.refresh(),t>=n){var i=this._targets[this._targets.length-1];this._activeTarget!==i&&this._activate(i)}else{if(this._activeTarget&&t<this._offsets[0]&&this._offsets[0]>0)return this._activeTarget=null,void this._clear();for(var o=this._offsets.length;o--;){this._activeTarget!==this._targets[o]&&t>=this._offsets[o]&&(void 0===this._offsets[o+1]||t<this._offsets[o+1])&&this._activate(this._targets[o])}}},n._activate=function(t){this._activeTarget=t,this._clear();var e=this._selector.split(",").map(function(e){return e+'[data-bs-target="'+t+'"],'+e+'[href="'+t+'"]'}),n=X.findOne(e.join(","));n.classList.contains(Yt)?(X.findOne(".dropdown-toggle",n.closest(".dropdown")).classList.add("active"),n.classList.add("active")):(n.classList.add("active"),X.parents(n,".nav, .list-group").forEach(function(t){X.prev(t,zt+", "+Xt).forEach(function(t){return t.classList.add("active")}),X.prev(t,".nav-item").forEach(function(t){X.children(t,zt).forEach(function(t){return t.classList.add("active")})})})),K.trigger(this._scrollElement,"activate.bs.scrollspy",{relatedTarget:t})},n._clear=function(){X.find(this._selector).filter(function(t){return t.classList.contains("active")}).forEach(function(t){return t.classList.remove("active")})},e.jQueryInterface=function(t){return this.each(function(){var n=A.getData(this,"bs.scrollspy");if(n||(n=new e(this,"object"==typeof t&&t)),"string"==typeof t){if(void 0===n[t])throw new TypeError('No method named "'+t+'"');n[t]()}})},o(e,null,[{key:"Default",get:function(){return Ut}},{key:"DATA_KEY",get:function(){return"bs.scrollspy"}}]),e}(Q);K.on(window,"load.bs.scrollspy.data-api",function(){X.find('[data-bs-spy="scroll"]').forEach(function(t){return new qt(t,z.getDataAttributes(t))})}),T(function(){var t=E();if(t){var e=t.fn[Qt];t.fn[Qt]=qt.jQueryInterface,t.fn[Qt].Constructor=qt,t.fn[Qt].noConflict=function(){return t.fn[Qt]=e,qt.jQueryInterface}}});var Vt=function(t){function e(){return t.apply(this,arguments)||this}r(e,t);var n=e.prototype;return n.show=function(){var t=this;if(!(this._element.parentNode&&this._element.parentNode.nodeType===Node.ELEMENT_NODE&&this._element.classList.contains("active")||this._element.classList.contains("disabled"))){var e,n=h(this._element),i=this._element.closest(".nav, .list-group");if(i){var o="UL"===i.nodeName||"OL"===i.nodeName?":scope > li > .active":".active";e=(e=X.find(o,i))[e.length-1]}var s=null;if(e&&(s=K.trigger(e,"hide.bs.tab",{relatedTarget:this._element})),!(K.trigger(this._element,"show.bs.tab",{relatedTarget:e}).defaultPrevented||null!==s&&s.defaultPrevented)){this._activate(this._element,i);var r=function(){K.trigger(e,"hidden.bs.tab",{relatedTarget:t._element}),K.trigger(t._element,"shown.bs.tab",{relatedTarget:e})};n?this._activate(n,n.parentNode,r):r()}}},n._activate=function(t,e,n){var i=this,o=(!e||"UL"!==e.nodeName&&"OL"!==e.nodeName?X.children(e,".active"):X.find(":scope > li > .active",e))[0],s=n&&o&&o.classList.contains("fade"),r=function(){return i._transitionComplete(t,o,n)};if(o&&s){var a=p(o);o.classList.remove("show"),K.one(o,c,r),_(o,a)}else r()},n._transitionComplete=function(t,e,n){if(e){e.classList.remove("active");var i=X.findOne(":scope > .dropdown-menu .active",e.parentNode);i&&i.classList.remove("active"),"tab"===e.getAttribute("role")&&e.setAttribute("aria-selected",!1)}(t.classList.add("active"),"tab"===t.getAttribute("role")&&t.setAttribute("aria-selected",!0),w(t),t.classList.contains("fade")&&t.classList.add("show"),t.parentNode&&t.parentNode.classList.contains("dropdown-menu"))&&(t.closest(".dropdown")&&X.find(".dropdown-toggle").forEach(function(t){return t.classList.add("active")}),t.setAttribute("aria-expanded",!0));n&&n()},e.jQueryInterface=function(t){return this.each(function(){var n=A.getData(this,"bs.tab")||new e(this);if("string"==typeof t){if(void 0===n[t])throw new TypeError('No method named "'+t+'"');n[t]()}})},o(e,null,[{key:"DATA_KEY",get:function(){return"bs.tab"}}]),e}(Q);K.on(document,"click.bs.tab.data-api",'[data-bs-toggle="tab"], [data-bs-toggle="pill"], [data-bs-toggle="list"]',function(t){t.preventDefault(),(A.getData(this,"bs.tab")||new Vt(this)).show()}),T(function(){var t=E();if(t){var e=t.fn.tab;t.fn.tab=Vt.jQueryInterface,t.fn.tab.Constructor=Vt,t.fn.tab.noConflict=function(){return t.fn.tab=e,Vt.jQueryInterface}}});var $t={animation:"boolean",autohide:"boolean",delay:"number"},Gt={animation:!0,autohide:!0,delay:5e3},Zt=function(t){function e(e,n){var i;return(i=t.call(this,e)||this)._config=i._getConfig(n),i._timeout=null,i._setListeners(),i}r(e,t);var n=e.prototype;return n.show=function(){var t=this;if(!K.trigger(this._element,"show.bs.toast").defaultPrevented){this._clearTimeout(),this._config.animation&&this._element.classList.add("fade");var e=function(){t._element.classList.remove("showing"),t._element.classList.add("show"),K.trigger(t._element,"shown.bs.toast"),t._config.autohide&&(t._timeout=setTimeout(function(){t.hide()},t._config.delay))};if(this._element.classList.remove("hide"),w(this._element),this._element.classList.add("showing"),this._config.animation){var n=p(this._element);K.one(this._element,c,e),_(this._element,n)}else e()}},n.hide=function(){var t=this;if(this._element.classList.contains("show")&&!K.trigger(this._element,"hide.bs.toast").defaultPrevented){var e=function(){t._element.classList.add("hide"),K.trigger(t._element,"hidden.bs.toast")};if(this._element.classList.remove("show"),this._config.animation){var n=p(this._element);K.one(this._element,c,e),_(this._element,n)}else e()}},n.dispose=function(){this._clearTimeout(),this._element.classList.contains("show")&&this._element.classList.remove("show"),K.off(this._element,"click.dismiss.bs.toast"),t.prototype.dispose.call(this),this._config=null},n._getConfig=function(t){return t=s({},Gt,z.getDataAttributes(this._element),"object"==typeof t&&t?t:{}),v("toast",t,this.constructor.DefaultType),t},n._setListeners=function(){var t=this;K.on(this._element,"click.dismiss.bs.toast",'[data-bs-dismiss="toast"]',function(){return t.hide()})},n._clearTimeout=function(){clearTimeout(this._timeout),this._timeout=null},e.jQueryInterface=function(t){return this.each(function(){var n=A.getData(this,"bs.toast");if(n||(n=new e(this,"object"==typeof t&&t)),"string"==typeof t){if(void 0===n[t])throw new TypeError('No method named "'+t+'"');n[t](this)}})},o(e,null,[{key:"DefaultType",get:function(){return $t}},{key:"Default",get:function(){return Gt}},{key:"DATA_KEY",get:function(){return"bs.toast"}}]),e}(Q);return T(function(){var t=E();if(t){var e=t.fn.toast;t.fn.toast=Zt.jQueryInterface,t.fn.toast.Constructor=Zt,t.fn.toast.noConflict=function(){return t.fn.toast=e,Zt.jQueryInterface}}}),{Alert:U,Button:W,Carousel:tt,Collapse:st,Dropdown:mt,Modal:yt,Popover:Kt,ScrollSpy:qt,Tab:Vt,Toast:Zt,Tooltip:Pt}});
-},{"@popperjs/core":"RfHO"}],"XExk":[function(require,module,exports) {
-$(window).on("error",function(){$("#errorsDetected").show(),$("#errorsDetected").click(function(){$("#errorsDetected").hide()})});
-},{}],"Focm":[function(require,module,exports) {
-"use strict";require("bootstrap/dist/css/bootstrap.css");var r=e(require("jQuery/dist/jquery.slim")),t=e(require("bootstrap/dist/js/bootstrap"));function e(r){return r&&r.__esModule?r:{default:r}}require("../js/errorWarning"),window.$=r.default,window.jQuery=r.default,window.bootstrap=t.default;
-},{"bootstrap/dist/css/bootstrap.css":"BtlH","jQuery/dist/jquery.slim":"Pj3y","bootstrap/dist/js/bootstrap":"ulnp","../js/errorWarning":"XExk"}]},{},["Focm"], null)
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+/**
+ * marked - a markdown parser
+ * Copyright (c) 2011-2020, Christopher Jeffrey. (MIT Licensed)
+ * https://github.com/markedjs/marked
+ */
+
+/**
+ * DO NOT EDIT THIS FILE
+ * The code in this file is generated from files in ./src/
+ */
+(function (global, factory) {
+  (typeof exports === "undefined" ? "undefined" : _typeof(exports)) === 'object' && typeof module !== 'undefined' ? module.exports = factory() : typeof define === 'function' && define.amd ? define(factory) : (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.marked = factory());
+})(this, function () {
+  'use strict';
+
+  function _defineProperties(target, props) {
+    for (var i = 0; i < props.length; i++) {
+      var descriptor = props[i];
+      descriptor.enumerable = descriptor.enumerable || false;
+      descriptor.configurable = true;
+      if ("value" in descriptor) descriptor.writable = true;
+      Object.defineProperty(target, descriptor.key, descriptor);
+    }
+  }
+
+  function _createClass(Constructor, protoProps, staticProps) {
+    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+    if (staticProps) _defineProperties(Constructor, staticProps);
+    return Constructor;
+  }
+
+  function _unsupportedIterableToArray(o, minLen) {
+    if (!o) return;
+    if (typeof o === "string") return _arrayLikeToArray(o, minLen);
+    var n = Object.prototype.toString.call(o).slice(8, -1);
+    if (n === "Object" && o.constructor) n = o.constructor.name;
+    if (n === "Map" || n === "Set") return Array.from(o);
+    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
+  }
+
+  function _arrayLikeToArray(arr, len) {
+    if (len == null || len > arr.length) len = arr.length;
+
+    for (var i = 0, arr2 = new Array(len); i < len; i++) {
+      arr2[i] = arr[i];
+    }
+
+    return arr2;
+  }
+
+  function _createForOfIteratorHelperLoose(o, allowArrayLike) {
+    var it;
+
+    if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) {
+      if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") {
+        if (it) o = it;
+        var i = 0;
+        return function () {
+          if (i >= o.length) return {
+            done: true
+          };
+          return {
+            done: false,
+            value: o[i++]
+          };
+        };
+      }
+
+      throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+    }
+
+    it = o[Symbol.iterator]();
+    return it.next.bind(it);
+  }
+
+  function createCommonjsModule(fn, module) {
+    return module = {
+      exports: {}
+    }, fn(module, module.exports), module.exports;
+  }
+
+  var defaults = createCommonjsModule(function (module) {
+    function getDefaults() {
+      return {
+        baseUrl: null,
+        breaks: false,
+        gfm: true,
+        headerIds: true,
+        headerPrefix: '',
+        highlight: null,
+        langPrefix: 'language-',
+        mangle: true,
+        pedantic: false,
+        renderer: null,
+        sanitize: false,
+        sanitizer: null,
+        silent: false,
+        smartLists: false,
+        smartypants: false,
+        tokenizer: null,
+        walkTokens: null,
+        xhtml: false
+      };
+    }
+
+    function changeDefaults(newDefaults) {
+      module.exports.defaults = newDefaults;
+    }
+
+    module.exports = {
+      defaults: getDefaults(),
+      getDefaults: getDefaults,
+      changeDefaults: changeDefaults
+    };
+  });
+  var defaults_1 = defaults.defaults;
+  var defaults_2 = defaults.getDefaults;
+  var defaults_3 = defaults.changeDefaults;
+  /**
+   * Helpers
+   */
+
+  var escapeTest = /[&<>"']/;
+  var escapeReplace = /[&<>"']/g;
+  var escapeTestNoEncode = /[<>"']|&(?!#?\w+;)/;
+  var escapeReplaceNoEncode = /[<>"']|&(?!#?\w+;)/g;
+  var escapeReplacements = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;'
+  };
+
+  var getEscapeReplacement = function getEscapeReplacement(ch) {
+    return escapeReplacements[ch];
+  };
+
+  function escape(html, encode) {
+    if (encode) {
+      if (escapeTest.test(html)) {
+        return html.replace(escapeReplace, getEscapeReplacement);
+      }
+    } else {
+      if (escapeTestNoEncode.test(html)) {
+        return html.replace(escapeReplaceNoEncode, getEscapeReplacement);
+      }
+    }
+
+    return html;
+  }
+
+  var unescapeTest = /&(#(?:\d+)|(?:#x[0-9A-Fa-f]+)|(?:\w+));?/ig;
+
+  function unescape(html) {
+    // explicitly match decimal, hex, and named HTML entities
+    return html.replace(unescapeTest, function (_, n) {
+      n = n.toLowerCase();
+      if (n === 'colon') return ':';
+
+      if (n.charAt(0) === '#') {
+        return n.charAt(1) === 'x' ? String.fromCharCode(parseInt(n.substring(2), 16)) : String.fromCharCode(+n.substring(1));
+      }
+
+      return '';
+    });
+  }
+
+  var caret = /(^|[^\[])\^/g;
+
+  function edit(regex, opt) {
+    regex = regex.source || regex;
+    opt = opt || '';
+    var obj = {
+      replace: function replace(name, val) {
+        val = val.source || val;
+        val = val.replace(caret, '$1');
+        regex = regex.replace(name, val);
+        return obj;
+      },
+      getRegex: function getRegex() {
+        return new RegExp(regex, opt);
+      }
+    };
+    return obj;
+  }
+
+  var nonWordAndColonTest = /[^\w:]/g;
+  var originIndependentUrl = /^$|^[a-z][a-z0-9+.-]*:|^[?#]/i;
+
+  function cleanUrl(sanitize, base, href) {
+    if (sanitize) {
+      var prot;
+
+      try {
+        prot = decodeURIComponent(unescape(href)).replace(nonWordAndColonTest, '').toLowerCase();
+      } catch (e) {
+        return null;
+      }
+
+      if (prot.indexOf('javascript:') === 0 || prot.indexOf('vbscript:') === 0 || prot.indexOf('data:') === 0) {
+        return null;
+      }
+    }
+
+    if (base && !originIndependentUrl.test(href)) {
+      href = resolveUrl(base, href);
+    }
+
+    try {
+      href = encodeURI(href).replace(/%25/g, '%');
+    } catch (e) {
+      return null;
+    }
+
+    return href;
+  }
+
+  var baseUrls = {};
+  var justDomain = /^[^:]+:\/*[^/]*$/;
+  var protocol = /^([^:]+:)[\s\S]*$/;
+  var domain = /^([^:]+:\/*[^/]*)[\s\S]*$/;
+
+  function resolveUrl(base, href) {
+    if (!baseUrls[' ' + base]) {
+      // we can ignore everything in base after the last slash of its path component,
+      // but we might need to add _that_
+      // https://tools.ietf.org/html/rfc3986#section-3
+      if (justDomain.test(base)) {
+        baseUrls[' ' + base] = base + '/';
+      } else {
+        baseUrls[' ' + base] = rtrim(base, '/', true);
+      }
+    }
+
+    base = baseUrls[' ' + base];
+    var relativeBase = base.indexOf(':') === -1;
+
+    if (href.substring(0, 2) === '//') {
+      if (relativeBase) {
+        return href;
+      }
+
+      return base.replace(protocol, '$1') + href;
+    } else if (href.charAt(0) === '/') {
+      if (relativeBase) {
+        return href;
+      }
+
+      return base.replace(domain, '$1') + href;
+    } else {
+      return base + href;
+    }
+  }
+
+  var noopTest = {
+    exec: function noopTest() {}
+  };
+
+  function merge(obj) {
+    var i = 1,
+        target,
+        key;
+
+    for (; i < arguments.length; i++) {
+      target = arguments[i];
+
+      for (key in target) {
+        if (Object.prototype.hasOwnProperty.call(target, key)) {
+          obj[key] = target[key];
+        }
+      }
+    }
+
+    return obj;
+  }
+
+  function splitCells(tableRow, count) {
+    // ensure that every cell-delimiting pipe has a space
+    // before it to distinguish it from an escaped pipe
+    var row = tableRow.replace(/\|/g, function (match, offset, str) {
+      var escaped = false,
+          curr = offset;
+
+      while (--curr >= 0 && str[curr] === '\\') {
+        escaped = !escaped;
+      }
+
+      if (escaped) {
+        // odd number of slashes means | is escaped
+        // so we leave it alone
+        return '|';
+      } else {
+        // add space before unescaped |
+        return ' |';
+      }
+    }),
+        cells = row.split(/ \|/);
+    var i = 0;
+
+    if (cells.length > count) {
+      cells.splice(count);
+    } else {
+      while (cells.length < count) {
+        cells.push('');
+      }
+    }
+
+    for (; i < cells.length; i++) {
+      // leading or trailing whitespace is ignored per the gfm spec
+      cells[i] = cells[i].trim().replace(/\\\|/g, '|');
+    }
+
+    return cells;
+  } // Remove trailing 'c's. Equivalent to str.replace(/c*$/, '').
+  // /c*$/ is vulnerable to REDOS.
+  // invert: Remove suffix of non-c chars instead. Default falsey.
+
+
+  function rtrim(str, c, invert) {
+    var l = str.length;
+
+    if (l === 0) {
+      return '';
+    } // Length of suffix matching the invert condition.
+
+
+    var suffLen = 0; // Step left until we fail to match the invert condition.
+
+    while (suffLen < l) {
+      var currChar = str.charAt(l - suffLen - 1);
+
+      if (currChar === c && !invert) {
+        suffLen++;
+      } else if (currChar !== c && invert) {
+        suffLen++;
+      } else {
+        break;
+      }
+    }
+
+    return str.substr(0, l - suffLen);
+  }
+
+  function findClosingBracket(str, b) {
+    if (str.indexOf(b[1]) === -1) {
+      return -1;
+    }
+
+    var l = str.length;
+    var level = 0,
+        i = 0;
+
+    for (; i < l; i++) {
+      if (str[i] === '\\') {
+        i++;
+      } else if (str[i] === b[0]) {
+        level++;
+      } else if (str[i] === b[1]) {
+        level--;
+
+        if (level < 0) {
+          return i;
+        }
+      }
+    }
+
+    return -1;
+  }
+
+  function checkSanitizeDeprecation(opt) {
+    if (opt && opt.sanitize && !opt.silent) {
+      console.warn('marked(): sanitize and sanitizer parameters are deprecated since version 0.7.0, should not be used and will be removed in the future. Read more here: https://marked.js.org/#/USING_ADVANCED.md#options');
+    }
+  } // copied from https://stackoverflow.com/a/5450113/806777
+
+
+  function repeatString(pattern, count) {
+    if (count < 1) {
+      return '';
+    }
+
+    var result = '';
+
+    while (count > 1) {
+      if (count & 1) {
+        result += pattern;
+      }
+
+      count >>= 1;
+      pattern += pattern;
+    }
+
+    return result + pattern;
+  }
+
+  var helpers = {
+    escape: escape,
+    unescape: unescape,
+    edit: edit,
+    cleanUrl: cleanUrl,
+    resolveUrl: resolveUrl,
+    noopTest: noopTest,
+    merge: merge,
+    splitCells: splitCells,
+    rtrim: rtrim,
+    findClosingBracket: findClosingBracket,
+    checkSanitizeDeprecation: checkSanitizeDeprecation,
+    repeatString: repeatString
+  };
+  var defaults$1 = defaults.defaults;
+  var rtrim$1 = helpers.rtrim,
+      splitCells$1 = helpers.splitCells,
+      _escape = helpers.escape,
+      findClosingBracket$1 = helpers.findClosingBracket;
+
+  function outputLink(cap, link, raw) {
+    var href = link.href;
+    var title = link.title ? _escape(link.title) : null;
+    var text = cap[1].replace(/\\([\[\]])/g, '$1');
+
+    if (cap[0].charAt(0) !== '!') {
+      return {
+        type: 'link',
+        raw: raw,
+        href: href,
+        title: title,
+        text: text
+      };
+    } else {
+      return {
+        type: 'image',
+        raw: raw,
+        href: href,
+        title: title,
+        text: _escape(text)
+      };
+    }
+  }
+
+  function indentCodeCompensation(raw, text) {
+    var matchIndentToCode = raw.match(/^(\s+)(?:```)/);
+
+    if (matchIndentToCode === null) {
+      return text;
+    }
+
+    var indentToCode = matchIndentToCode[1];
+    return text.split('\n').map(function (node) {
+      var matchIndentInNode = node.match(/^\s+/);
+
+      if (matchIndentInNode === null) {
+        return node;
+      }
+
+      var indentInNode = matchIndentInNode[0];
+
+      if (indentInNode.length >= indentToCode.length) {
+        return node.slice(indentToCode.length);
+      }
+
+      return node;
+    }).join('\n');
+  }
+  /**
+   * Tokenizer
+   */
+
+
+  var Tokenizer_1 = /*#__PURE__*/function () {
+    function Tokenizer(options) {
+      this.options = options || defaults$1;
+    }
+
+    var _proto = Tokenizer.prototype;
+
+    _proto.space = function space(src) {
+      var cap = this.rules.block.newline.exec(src);
+
+      if (cap) {
+        if (cap[0].length > 1) {
+          return {
+            type: 'space',
+            raw: cap[0]
+          };
+        }
+
+        return {
+          raw: '\n'
+        };
+      }
+    };
+
+    _proto.code = function code(src, tokens) {
+      var cap = this.rules.block.code.exec(src);
+
+      if (cap) {
+        var lastToken = tokens[tokens.length - 1]; // An indented code block cannot interrupt a paragraph.
+
+        if (lastToken && lastToken.type === 'paragraph') {
+          return {
+            raw: cap[0],
+            text: cap[0].trimRight()
+          };
+        }
+
+        var text = cap[0].replace(/^ {4}/gm, '');
+        return {
+          type: 'code',
+          raw: cap[0],
+          codeBlockStyle: 'indented',
+          text: !this.options.pedantic ? rtrim$1(text, '\n') : text
+        };
+      }
+    };
+
+    _proto.fences = function fences(src) {
+      var cap = this.rules.block.fences.exec(src);
+
+      if (cap) {
+        var raw = cap[0];
+        var text = indentCodeCompensation(raw, cap[3] || '');
+        return {
+          type: 'code',
+          raw: raw,
+          lang: cap[2] ? cap[2].trim() : cap[2],
+          text: text
+        };
+      }
+    };
+
+    _proto.heading = function heading(src) {
+      var cap = this.rules.block.heading.exec(src);
+
+      if (cap) {
+        var text = cap[2].trim(); // remove trailing #s
+
+        if (/#$/.test(text)) {
+          var trimmed = rtrim$1(text, '#');
+
+          if (this.options.pedantic) {
+            text = trimmed.trim();
+          } else if (!trimmed || / $/.test(trimmed)) {
+            // CommonMark requires space before trailing #s
+            text = trimmed.trim();
+          }
+        }
+
+        return {
+          type: 'heading',
+          raw: cap[0],
+          depth: cap[1].length,
+          text: text
+        };
+      }
+    };
+
+    _proto.nptable = function nptable(src) {
+      var cap = this.rules.block.nptable.exec(src);
+
+      if (cap) {
+        var item = {
+          type: 'table',
+          header: splitCells$1(cap[1].replace(/^ *| *\| *$/g, '')),
+          align: cap[2].replace(/^ *|\| *$/g, '').split(/ *\| */),
+          cells: cap[3] ? cap[3].replace(/\n$/, '').split('\n') : [],
+          raw: cap[0]
+        };
+
+        if (item.header.length === item.align.length) {
+          var l = item.align.length;
+          var i;
+
+          for (i = 0; i < l; i++) {
+            if (/^ *-+: *$/.test(item.align[i])) {
+              item.align[i] = 'right';
+            } else if (/^ *:-+: *$/.test(item.align[i])) {
+              item.align[i] = 'center';
+            } else if (/^ *:-+ *$/.test(item.align[i])) {
+              item.align[i] = 'left';
+            } else {
+              item.align[i] = null;
+            }
+          }
+
+          l = item.cells.length;
+
+          for (i = 0; i < l; i++) {
+            item.cells[i] = splitCells$1(item.cells[i], item.header.length);
+          }
+
+          return item;
+        }
+      }
+    };
+
+    _proto.hr = function hr(src) {
+      var cap = this.rules.block.hr.exec(src);
+
+      if (cap) {
+        return {
+          type: 'hr',
+          raw: cap[0]
+        };
+      }
+    };
+
+    _proto.blockquote = function blockquote(src) {
+      var cap = this.rules.block.blockquote.exec(src);
+
+      if (cap) {
+        var text = cap[0].replace(/^ *> ?/gm, '');
+        return {
+          type: 'blockquote',
+          raw: cap[0],
+          text: text
+        };
+      }
+    };
+
+    _proto.list = function list(src) {
+      var cap = this.rules.block.list.exec(src);
+
+      if (cap) {
+        var raw = cap[0];
+        var bull = cap[2];
+        var isordered = bull.length > 1;
+        var list = {
+          type: 'list',
+          raw: raw,
+          ordered: isordered,
+          start: isordered ? +bull.slice(0, -1) : '',
+          loose: false,
+          items: []
+        }; // Get each top-level item.
+
+        var itemMatch = cap[0].match(this.rules.block.item);
+        var next = false,
+            item,
+            space,
+            bcurr,
+            bnext,
+            addBack,
+            loose,
+            istask,
+            ischecked;
+        var l = itemMatch.length;
+        bcurr = this.rules.block.listItemStart.exec(itemMatch[0]);
+
+        for (var i = 0; i < l; i++) {
+          item = itemMatch[i];
+          raw = item; // Determine whether the next list item belongs here.
+          // Backpedal if it does not belong in this list.
+
+          if (i !== l - 1) {
+            bnext = this.rules.block.listItemStart.exec(itemMatch[i + 1]);
+
+            if (bnext[1].length > bcurr[0].length || bnext[1].length > 3) {
+              // nested list
+              itemMatch.splice(i, 2, itemMatch[i] + '\n' + itemMatch[i + 1]);
+              i--;
+              l--;
+              continue;
+            } else {
+              if ( // different bullet style
+              !this.options.pedantic || this.options.smartLists ? bnext[2][bnext[2].length - 1] !== bull[bull.length - 1] : isordered === (bnext[2].length === 1)) {
+                addBack = itemMatch.slice(i + 1).join('\n');
+                list.raw = list.raw.substring(0, list.raw.length - addBack.length);
+                i = l - 1;
+              }
+            }
+
+            bcurr = bnext;
+          } // Remove the list item's bullet
+          // so it is seen as the next token.
+
+
+          space = item.length;
+          item = item.replace(/^ *([*+-]|\d+[.)]) ?/, ''); // Outdent whatever the
+          // list item contains. Hacky.
+
+          if (~item.indexOf('\n ')) {
+            space -= item.length;
+            item = !this.options.pedantic ? item.replace(new RegExp('^ {1,' + space + '}', 'gm'), '') : item.replace(/^ {1,4}/gm, '');
+          } // Determine whether item is loose or not.
+          // Use: /(^|\n)(?! )[^\n]+\n\n(?!\s*$)/
+          // for discount behavior.
+
+
+          loose = next || /\n\n(?!\s*$)/.test(item);
+
+          if (i !== l - 1) {
+            next = item.charAt(item.length - 1) === '\n';
+            if (!loose) loose = next;
+          }
+
+          if (loose) {
+            list.loose = true;
+          } // Check for task list items
+
+
+          if (this.options.gfm) {
+            istask = /^\[[ xX]\] /.test(item);
+            ischecked = undefined;
+
+            if (istask) {
+              ischecked = item[1] !== ' ';
+              item = item.replace(/^\[[ xX]\] +/, '');
+            }
+          }
+
+          list.items.push({
+            type: 'list_item',
+            raw: raw,
+            task: istask,
+            checked: ischecked,
+            loose: loose,
+            text: item
+          });
+        }
+
+        return list;
+      }
+    };
+
+    _proto.html = function html(src) {
+      var cap = this.rules.block.html.exec(src);
+
+      if (cap) {
+        return {
+          type: this.options.sanitize ? 'paragraph' : 'html',
+          raw: cap[0],
+          pre: !this.options.sanitizer && (cap[1] === 'pre' || cap[1] === 'script' || cap[1] === 'style'),
+          text: this.options.sanitize ? this.options.sanitizer ? this.options.sanitizer(cap[0]) : _escape(cap[0]) : cap[0]
+        };
+      }
+    };
+
+    _proto.def = function def(src) {
+      var cap = this.rules.block.def.exec(src);
+
+      if (cap) {
+        if (cap[3]) cap[3] = cap[3].substring(1, cap[3].length - 1);
+        var tag = cap[1].toLowerCase().replace(/\s+/g, ' ');
+        return {
+          tag: tag,
+          raw: cap[0],
+          href: cap[2],
+          title: cap[3]
+        };
+      }
+    };
+
+    _proto.table = function table(src) {
+      var cap = this.rules.block.table.exec(src);
+
+      if (cap) {
+        var item = {
+          type: 'table',
+          header: splitCells$1(cap[1].replace(/^ *| *\| *$/g, '')),
+          align: cap[2].replace(/^ *|\| *$/g, '').split(/ *\| */),
+          cells: cap[3] ? cap[3].replace(/\n$/, '').split('\n') : []
+        };
+
+        if (item.header.length === item.align.length) {
+          item.raw = cap[0];
+          var l = item.align.length;
+          var i;
+
+          for (i = 0; i < l; i++) {
+            if (/^ *-+: *$/.test(item.align[i])) {
+              item.align[i] = 'right';
+            } else if (/^ *:-+: *$/.test(item.align[i])) {
+              item.align[i] = 'center';
+            } else if (/^ *:-+ *$/.test(item.align[i])) {
+              item.align[i] = 'left';
+            } else {
+              item.align[i] = null;
+            }
+          }
+
+          l = item.cells.length;
+
+          for (i = 0; i < l; i++) {
+            item.cells[i] = splitCells$1(item.cells[i].replace(/^ *\| *| *\| *$/g, ''), item.header.length);
+          }
+
+          return item;
+        }
+      }
+    };
+
+    _proto.lheading = function lheading(src) {
+      var cap = this.rules.block.lheading.exec(src);
+
+      if (cap) {
+        return {
+          type: 'heading',
+          raw: cap[0],
+          depth: cap[2].charAt(0) === '=' ? 1 : 2,
+          text: cap[1]
+        };
+      }
+    };
+
+    _proto.paragraph = function paragraph(src) {
+      var cap = this.rules.block.paragraph.exec(src);
+
+      if (cap) {
+        return {
+          type: 'paragraph',
+          raw: cap[0],
+          text: cap[1].charAt(cap[1].length - 1) === '\n' ? cap[1].slice(0, -1) : cap[1]
+        };
+      }
+    };
+
+    _proto.text = function text(src, tokens) {
+      var cap = this.rules.block.text.exec(src);
+
+      if (cap) {
+        var lastToken = tokens[tokens.length - 1];
+
+        if (lastToken && lastToken.type === 'text') {
+          return {
+            raw: cap[0],
+            text: cap[0]
+          };
+        }
+
+        return {
+          type: 'text',
+          raw: cap[0],
+          text: cap[0]
+        };
+      }
+    };
+
+    _proto.escape = function escape(src) {
+      var cap = this.rules.inline.escape.exec(src);
+
+      if (cap) {
+        return {
+          type: 'escape',
+          raw: cap[0],
+          text: _escape(cap[1])
+        };
+      }
+    };
+
+    _proto.tag = function tag(src, inLink, inRawBlock) {
+      var cap = this.rules.inline.tag.exec(src);
+
+      if (cap) {
+        if (!inLink && /^<a /i.test(cap[0])) {
+          inLink = true;
+        } else if (inLink && /^<\/a>/i.test(cap[0])) {
+          inLink = false;
+        }
+
+        if (!inRawBlock && /^<(pre|code|kbd|script)(\s|>)/i.test(cap[0])) {
+          inRawBlock = true;
+        } else if (inRawBlock && /^<\/(pre|code|kbd|script)(\s|>)/i.test(cap[0])) {
+          inRawBlock = false;
+        }
+
+        return {
+          type: this.options.sanitize ? 'text' : 'html',
+          raw: cap[0],
+          inLink: inLink,
+          inRawBlock: inRawBlock,
+          text: this.options.sanitize ? this.options.sanitizer ? this.options.sanitizer(cap[0]) : _escape(cap[0]) : cap[0]
+        };
+      }
+    };
+
+    _proto.link = function link(src) {
+      var cap = this.rules.inline.link.exec(src);
+
+      if (cap) {
+        var trimmedUrl = cap[2].trim();
+
+        if (!this.options.pedantic && /^</.test(trimmedUrl)) {
+          // commonmark requires matching angle brackets
+          if (!/>$/.test(trimmedUrl)) {
+            return;
+          } // ending angle bracket cannot be escaped
+
+
+          var rtrimSlash = rtrim$1(trimmedUrl.slice(0, -1), '\\');
+
+          if ((trimmedUrl.length - rtrimSlash.length) % 2 === 0) {
+            return;
+          }
+        } else {
+          // find closing parenthesis
+          var lastParenIndex = findClosingBracket$1(cap[2], '()');
+
+          if (lastParenIndex > -1) {
+            var start = cap[0].indexOf('!') === 0 ? 5 : 4;
+            var linkLen = start + cap[1].length + lastParenIndex;
+            cap[2] = cap[2].substring(0, lastParenIndex);
+            cap[0] = cap[0].substring(0, linkLen).trim();
+            cap[3] = '';
+          }
+        }
+
+        var href = cap[2];
+        var title = '';
+
+        if (this.options.pedantic) {
+          // split pedantic href and title
+          var link = /^([^'"]*[^\s])\s+(['"])(.*)\2/.exec(href);
+
+          if (link) {
+            href = link[1];
+            title = link[3];
+          }
+        } else {
+          title = cap[3] ? cap[3].slice(1, -1) : '';
+        }
+
+        href = href.trim();
+
+        if (/^</.test(href)) {
+          if (this.options.pedantic && !/>$/.test(trimmedUrl)) {
+            // pedantic allows starting angle bracket without ending angle bracket
+            href = href.slice(1);
+          } else {
+            href = href.slice(1, -1);
+          }
+        }
+
+        return outputLink(cap, {
+          href: href ? href.replace(this.rules.inline._escapes, '$1') : href,
+          title: title ? title.replace(this.rules.inline._escapes, '$1') : title
+        }, cap[0]);
+      }
+    };
+
+    _proto.reflink = function reflink(src, links) {
+      var cap;
+
+      if ((cap = this.rules.inline.reflink.exec(src)) || (cap = this.rules.inline.nolink.exec(src))) {
+        var link = (cap[2] || cap[1]).replace(/\s+/g, ' ');
+        link = links[link.toLowerCase()];
+
+        if (!link || !link.href) {
+          var text = cap[0].charAt(0);
+          return {
+            type: 'text',
+            raw: text,
+            text: text
+          };
+        }
+
+        return outputLink(cap, link, cap[0]);
+      }
+    };
+
+    _proto.strong = function strong(src, maskedSrc, prevChar) {
+      if (prevChar === void 0) {
+        prevChar = '';
+      }
+
+      var match = this.rules.inline.strong.start.exec(src);
+
+      if (match && (!match[1] || match[1] && (prevChar === '' || this.rules.inline.punctuation.exec(prevChar)))) {
+        maskedSrc = maskedSrc.slice(-1 * src.length);
+        var endReg = match[0] === '**' ? this.rules.inline.strong.endAst : this.rules.inline.strong.endUnd;
+        endReg.lastIndex = 0;
+        var cap;
+
+        while ((match = endReg.exec(maskedSrc)) != null) {
+          cap = this.rules.inline.strong.middle.exec(maskedSrc.slice(0, match.index + 3));
+
+          if (cap) {
+            return {
+              type: 'strong',
+              raw: src.slice(0, cap[0].length),
+              text: src.slice(2, cap[0].length - 2)
+            };
+          }
+        }
+      }
+    };
+
+    _proto.em = function em(src, maskedSrc, prevChar) {
+      if (prevChar === void 0) {
+        prevChar = '';
+      }
+
+      var match = this.rules.inline.em.start.exec(src);
+
+      if (match && (!match[1] || match[1] && (prevChar === '' || this.rules.inline.punctuation.exec(prevChar)))) {
+        maskedSrc = maskedSrc.slice(-1 * src.length);
+        var endReg = match[0] === '*' ? this.rules.inline.em.endAst : this.rules.inline.em.endUnd;
+        endReg.lastIndex = 0;
+        var cap;
+
+        while ((match = endReg.exec(maskedSrc)) != null) {
+          cap = this.rules.inline.em.middle.exec(maskedSrc.slice(0, match.index + 2));
+
+          if (cap) {
+            return {
+              type: 'em',
+              raw: src.slice(0, cap[0].length),
+              text: src.slice(1, cap[0].length - 1)
+            };
+          }
+        }
+      }
+    };
+
+    _proto.codespan = function codespan(src) {
+      var cap = this.rules.inline.code.exec(src);
+
+      if (cap) {
+        var text = cap[2].replace(/\n/g, ' ');
+        var hasNonSpaceChars = /[^ ]/.test(text);
+        var hasSpaceCharsOnBothEnds = /^ /.test(text) && / $/.test(text);
+
+        if (hasNonSpaceChars && hasSpaceCharsOnBothEnds) {
+          text = text.substring(1, text.length - 1);
+        }
+
+        text = _escape(text, true);
+        return {
+          type: 'codespan',
+          raw: cap[0],
+          text: text
+        };
+      }
+    };
+
+    _proto.br = function br(src) {
+      var cap = this.rules.inline.br.exec(src);
+
+      if (cap) {
+        return {
+          type: 'br',
+          raw: cap[0]
+        };
+      }
+    };
+
+    _proto.del = function del(src) {
+      var cap = this.rules.inline.del.exec(src);
+
+      if (cap) {
+        return {
+          type: 'del',
+          raw: cap[0],
+          text: cap[2]
+        };
+      }
+    };
+
+    _proto.autolink = function autolink(src, mangle) {
+      var cap = this.rules.inline.autolink.exec(src);
+
+      if (cap) {
+        var text, href;
+
+        if (cap[2] === '@') {
+          text = _escape(this.options.mangle ? mangle(cap[1]) : cap[1]);
+          href = 'mailto:' + text;
+        } else {
+          text = _escape(cap[1]);
+          href = text;
+        }
+
+        return {
+          type: 'link',
+          raw: cap[0],
+          text: text,
+          href: href,
+          tokens: [{
+            type: 'text',
+            raw: text,
+            text: text
+          }]
+        };
+      }
+    };
+
+    _proto.url = function url(src, mangle) {
+      var cap;
+
+      if (cap = this.rules.inline.url.exec(src)) {
+        var text, href;
+
+        if (cap[2] === '@') {
+          text = _escape(this.options.mangle ? mangle(cap[0]) : cap[0]);
+          href = 'mailto:' + text;
+        } else {
+          // do extended autolink path validation
+          var prevCapZero;
+
+          do {
+            prevCapZero = cap[0];
+            cap[0] = this.rules.inline._backpedal.exec(cap[0])[0];
+          } while (prevCapZero !== cap[0]);
+
+          text = _escape(cap[0]);
+
+          if (cap[1] === 'www.') {
+            href = 'http://' + text;
+          } else {
+            href = text;
+          }
+        }
+
+        return {
+          type: 'link',
+          raw: cap[0],
+          text: text,
+          href: href,
+          tokens: [{
+            type: 'text',
+            raw: text,
+            text: text
+          }]
+        };
+      }
+    };
+
+    _proto.inlineText = function inlineText(src, inRawBlock, smartypants) {
+      var cap = this.rules.inline.text.exec(src);
+
+      if (cap) {
+        var text;
+
+        if (inRawBlock) {
+          text = this.options.sanitize ? this.options.sanitizer ? this.options.sanitizer(cap[0]) : _escape(cap[0]) : cap[0];
+        } else {
+          text = _escape(this.options.smartypants ? smartypants(cap[0]) : cap[0]);
+        }
+
+        return {
+          type: 'text',
+          raw: cap[0],
+          text: text
+        };
+      }
+    };
+
+    return Tokenizer;
+  }();
+
+  var noopTest$1 = helpers.noopTest,
+      edit$1 = helpers.edit,
+      merge$1 = helpers.merge;
+  /**
+   * Block-Level Grammar
+   */
+
+  var block = {
+    newline: /^\n+/,
+    code: /^( {4}[^\n]+\n*)+/,
+    fences: /^ {0,3}(`{3,}(?=[^`\n]*\n)|~{3,})([^\n]*)\n(?:|([\s\S]*?)\n)(?: {0,3}\1[~`]* *(?:\n+|$)|$)/,
+    hr: /^ {0,3}((?:- *){3,}|(?:_ *){3,}|(?:\* *){3,})(?:\n+|$)/,
+    heading: /^ {0,3}(#{1,6})(?=\s|$)(.*)(?:\n+|$)/,
+    blockquote: /^( {0,3}> ?(paragraph|[^\n]*)(?:\n|$))+/,
+    list: /^( {0,3})(bull) [\s\S]+?(?:hr|def|\n{2,}(?! )(?! {0,3}bull )\n*|\s*$)/,
+    html: '^ {0,3}(?:' // optional indentation
+    + '<(script|pre|style)[\\s>][\\s\\S]*?(?:</\\1>[^\\n]*\\n+|$)' // (1)
+    + '|comment[^\\n]*(\\n+|$)' // (2)
+    + '|<\\?[\\s\\S]*?(?:\\?>\\n*|$)' // (3)
+    + '|<![A-Z][\\s\\S]*?(?:>\\n*|$)' // (4)
+    + '|<!\\[CDATA\\[[\\s\\S]*?(?:\\]\\]>\\n*|$)' // (5)
+    + '|</?(tag)(?: +|\\n|/?>)[\\s\\S]*?(?:\\n{2,}|$)' // (6)
+    + '|<(?!script|pre|style)([a-z][\\w-]*)(?:attribute)*? */?>(?=[ \\t]*(?:\\n|$))[\\s\\S]*?(?:\\n{2,}|$)' // (7) open tag
+    + '|</(?!script|pre|style)[a-z][\\w-]*\\s*>(?=[ \\t]*(?:\\n|$))[\\s\\S]*?(?:\\n{2,}|$)' // (7) closing tag
+    + ')',
+    def: /^ {0,3}\[(label)\]: *\n? *<?([^\s>]+)>?(?:(?: +\n? *| *\n *)(title))? *(?:\n+|$)/,
+    nptable: noopTest$1,
+    table: noopTest$1,
+    lheading: /^([^\n]+)\n {0,3}(=+|-+) *(?:\n+|$)/,
+    // regex template, placeholders will be replaced according to different paragraph
+    // interruption rules of commonmark and the original markdown spec:
+    _paragraph: /^([^\n]+(?:\n(?!hr|heading|lheading|blockquote|fences|list|html)[^\n]+)*)/,
+    text: /^[^\n]+/
+  };
+  block._label = /(?!\s*\])(?:\\[\[\]]|[^\[\]])+/;
+  block._title = /(?:"(?:\\"?|[^"\\])*"|'[^'\n]*(?:\n[^'\n]+)*\n?'|\([^()]*\))/;
+  block.def = edit$1(block.def).replace('label', block._label).replace('title', block._title).getRegex();
+  block.bullet = /(?:[*+-]|\d{1,9}[.)])/;
+  block.item = /^( *)(bull) ?[^\n]*(?:\n(?! *bull ?)[^\n]*)*/;
+  block.item = edit$1(block.item, 'gm').replace(/bull/g, block.bullet).getRegex();
+  block.listItemStart = edit$1(/^( *)(bull)/).replace('bull', block.bullet).getRegex();
+  block.list = edit$1(block.list).replace(/bull/g, block.bullet).replace('hr', '\\n+(?=\\1?(?:(?:- *){3,}|(?:_ *){3,}|(?:\\* *){3,})(?:\\n+|$))').replace('def', '\\n+(?=' + block.def.source + ')').getRegex();
+  block._tag = 'address|article|aside|base|basefont|blockquote|body|caption' + '|center|col|colgroup|dd|details|dialog|dir|div|dl|dt|fieldset|figcaption' + '|figure|footer|form|frame|frameset|h[1-6]|head|header|hr|html|iframe' + '|legend|li|link|main|menu|menuitem|meta|nav|noframes|ol|optgroup|option' + '|p|param|section|source|summary|table|tbody|td|tfoot|th|thead|title|tr' + '|track|ul';
+  block._comment = /<!--(?!-?>)[\s\S]*?(?:-->|$)/;
+  block.html = edit$1(block.html, 'i').replace('comment', block._comment).replace('tag', block._tag).replace('attribute', / +[a-zA-Z:_][\w.:-]*(?: *= *"[^"\n]*"| *= *'[^'\n]*'| *= *[^\s"'=<>`]+)?/).getRegex();
+  block.paragraph = edit$1(block._paragraph).replace('hr', block.hr).replace('heading', ' {0,3}#{1,6} ').replace('|lheading', '') // setex headings don't interrupt commonmark paragraphs
+  .replace('blockquote', ' {0,3}>').replace('fences', ' {0,3}(?:`{3,}(?=[^`\\n]*\\n)|~{3,})[^\\n]*\\n').replace('list', ' {0,3}(?:[*+-]|1[.)]) ') // only lists starting from 1 can interrupt
+  .replace('html', '</?(?:tag)(?: +|\\n|/?>)|<(?:script|pre|style|!--)').replace('tag', block._tag) // pars can be interrupted by type (6) html blocks
+  .getRegex();
+  block.blockquote = edit$1(block.blockquote).replace('paragraph', block.paragraph).getRegex();
+  /**
+   * Normal Block Grammar
+   */
+
+  block.normal = merge$1({}, block);
+  /**
+   * GFM Block Grammar
+   */
+
+  block.gfm = merge$1({}, block.normal, {
+    nptable: '^ *([^|\\n ].*\\|.*)\\n' // Header
+    + ' {0,3}([-:]+ *\\|[-| :]*)' // Align
+    + '(?:\\n((?:(?!\\n|hr|heading|blockquote|code|fences|list|html).*(?:\\n|$))*)\\n*|$)',
+    // Cells
+    table: '^ *\\|(.+)\\n' // Header
+    + ' {0,3}\\|?( *[-:]+[-| :]*)' // Align
+    + '(?:\\n *((?:(?!\\n|hr|heading|blockquote|code|fences|list|html).*(?:\\n|$))*)\\n*|$)' // Cells
+
+  });
+  block.gfm.nptable = edit$1(block.gfm.nptable).replace('hr', block.hr).replace('heading', ' {0,3}#{1,6} ').replace('blockquote', ' {0,3}>').replace('code', ' {4}[^\\n]').replace('fences', ' {0,3}(?:`{3,}(?=[^`\\n]*\\n)|~{3,})[^\\n]*\\n').replace('list', ' {0,3}(?:[*+-]|1[.)]) ') // only lists starting from 1 can interrupt
+  .replace('html', '</?(?:tag)(?: +|\\n|/?>)|<(?:script|pre|style|!--)').replace('tag', block._tag) // tables can be interrupted by type (6) html blocks
+  .getRegex();
+  block.gfm.table = edit$1(block.gfm.table).replace('hr', block.hr).replace('heading', ' {0,3}#{1,6} ').replace('blockquote', ' {0,3}>').replace('code', ' {4}[^\\n]').replace('fences', ' {0,3}(?:`{3,}(?=[^`\\n]*\\n)|~{3,})[^\\n]*\\n').replace('list', ' {0,3}(?:[*+-]|1[.)]) ') // only lists starting from 1 can interrupt
+  .replace('html', '</?(?:tag)(?: +|\\n|/?>)|<(?:script|pre|style|!--)').replace('tag', block._tag) // tables can be interrupted by type (6) html blocks
+  .getRegex();
+  /**
+   * Pedantic grammar (original John Gruber's loose markdown specification)
+   */
+
+  block.pedantic = merge$1({}, block.normal, {
+    html: edit$1('^ *(?:comment *(?:\\n|\\s*$)' + '|<(tag)[\\s\\S]+?</\\1> *(?:\\n{2,}|\\s*$)' // closed tag
+    + '|<tag(?:"[^"]*"|\'[^\']*\'|\\s[^\'"/>\\s]*)*?/?> *(?:\\n{2,}|\\s*$))').replace('comment', block._comment).replace(/tag/g, '(?!(?:' + 'a|em|strong|small|s|cite|q|dfn|abbr|data|time|code|var|samp|kbd|sub' + '|sup|i|b|u|mark|ruby|rt|rp|bdi|bdo|span|br|wbr|ins|del|img)' + '\\b)\\w+(?!:|[^\\w\\s@]*@)\\b').getRegex(),
+    def: /^ *\[([^\]]+)\]: *<?([^\s>]+)>?(?: +(["(][^\n]+[")]))? *(?:\n+|$)/,
+    heading: /^(#{1,6})(.*)(?:\n+|$)/,
+    fences: noopTest$1,
+    // fences not supported
+    paragraph: edit$1(block.normal._paragraph).replace('hr', block.hr).replace('heading', ' *#{1,6} *[^\n]').replace('lheading', block.lheading).replace('blockquote', ' {0,3}>').replace('|fences', '').replace('|list', '').replace('|html', '').getRegex()
+  });
+  /**
+   * Inline-Level Grammar
+   */
+
+  var inline = {
+    escape: /^\\([!"#$%&'()*+,\-./:;<=>?@\[\]\\^_`{|}~])/,
+    autolink: /^<(scheme:[^\s\x00-\x1f<>]*|email)>/,
+    url: noopTest$1,
+    tag: '^comment' + '|^</[a-zA-Z][\\w:-]*\\s*>' // self-closing tag
+    + '|^<[a-zA-Z][\\w-]*(?:attribute)*?\\s*/?>' // open tag
+    + '|^<\\?[\\s\\S]*?\\?>' // processing instruction, e.g. <?php ?>
+    + '|^<![a-zA-Z]+\\s[\\s\\S]*?>' // declaration, e.g. <!DOCTYPE html>
+    + '|^<!\\[CDATA\\[[\\s\\S]*?\\]\\]>',
+    // CDATA section
+    link: /^!?\[(label)\]\(\s*(href)(?:\s+(title))?\s*\)/,
+    reflink: /^!?\[(label)\]\[(?!\s*\])((?:\\[\[\]]?|[^\[\]\\])+)\]/,
+    nolink: /^!?\[(?!\s*\])((?:\[[^\[\]]*\]|\\[\[\]]|[^\[\]])*)\](?:\[\])?/,
+    reflinkSearch: 'reflink|nolink(?!\\()',
+    strong: {
+      start: /^(?:(\*\*(?=[*punctuation]))|\*\*)(?![\s])|__/,
+      // (1) returns if starts w/ punctuation
+      middle: /^\*\*(?:(?:(?!overlapSkip)(?:[^*]|\\\*)|overlapSkip)|\*(?:(?!overlapSkip)(?:[^*]|\\\*)|overlapSkip)*?\*)+?\*\*$|^__(?![\s])((?:(?:(?!overlapSkip)(?:[^_]|\\_)|overlapSkip)|_(?:(?!overlapSkip)(?:[^_]|\\_)|overlapSkip)*?_)+?)__$/,
+      endAst: /[^punctuation\s]\*\*(?!\*)|[punctuation]\*\*(?!\*)(?:(?=[punctuation_\s]|$))/,
+      // last char can't be punct, or final * must also be followed by punct (or endline)
+      endUnd: /[^\s]__(?!_)(?:(?=[punctuation*\s])|$)/ // last char can't be a space, and final _ must preceed punct or \s (or endline)
+
+    },
+    em: {
+      start: /^(?:(\*(?=[punctuation]))|\*)(?![*\s])|_/,
+      // (1) returns if starts w/ punctuation
+      middle: /^\*(?:(?:(?!overlapSkip)(?:[^*]|\\\*)|overlapSkip)|\*(?:(?!overlapSkip)(?:[^*]|\\\*)|overlapSkip)*?\*)+?\*$|^_(?![_\s])(?:(?:(?!overlapSkip)(?:[^_]|\\_)|overlapSkip)|_(?:(?!overlapSkip)(?:[^_]|\\_)|overlapSkip)*?_)+?_$/,
+      endAst: /[^punctuation\s]\*(?!\*)|[punctuation]\*(?!\*)(?:(?=[punctuation_\s]|$))/,
+      // last char can't be punct, or final * must also be followed by punct (or endline)
+      endUnd: /[^\s]_(?!_)(?:(?=[punctuation*\s])|$)/ // last char can't be a space, and final _ must preceed punct or \s (or endline)
+
+    },
+    code: /^(`+)([^`]|[^`][\s\S]*?[^`])\1(?!`)/,
+    br: /^( {2,}|\\)\n(?!\s*$)/,
+    del: noopTest$1,
+    text: /^(`+|[^`])(?:(?= {2,}\n)|[\s\S]*?(?:(?=[\\<!\[`*]|\b_|$)|[^ ](?= {2,}\n)))/,
+    punctuation: /^([\s*punctuation])/
+  }; // list of punctuation marks from common mark spec
+  // without * and _ to workaround cases with double emphasis
+
+  inline._punctuation = '!"#$%&\'()+\\-.,/:;<=>?@\\[\\]`^{|}~';
+  inline.punctuation = edit$1(inline.punctuation).replace(/punctuation/g, inline._punctuation).getRegex(); // sequences em should skip over [title](link), `code`, <html>
+
+  inline._blockSkip = '\\[[^\\]]*?\\]\\([^\\)]*?\\)|`[^`]*?`|<[^>]*?>';
+  inline._overlapSkip = '__[^_]*?__|\\*\\*\\[^\\*\\]*?\\*\\*';
+  inline._comment = edit$1(block._comment).replace('(?:-->|$)', '-->').getRegex();
+  inline.em.start = edit$1(inline.em.start).replace(/punctuation/g, inline._punctuation).getRegex();
+  inline.em.middle = edit$1(inline.em.middle).replace(/punctuation/g, inline._punctuation).replace(/overlapSkip/g, inline._overlapSkip).getRegex();
+  inline.em.endAst = edit$1(inline.em.endAst, 'g').replace(/punctuation/g, inline._punctuation).getRegex();
+  inline.em.endUnd = edit$1(inline.em.endUnd, 'g').replace(/punctuation/g, inline._punctuation).getRegex();
+  inline.strong.start = edit$1(inline.strong.start).replace(/punctuation/g, inline._punctuation).getRegex();
+  inline.strong.middle = edit$1(inline.strong.middle).replace(/punctuation/g, inline._punctuation).replace(/overlapSkip/g, inline._overlapSkip).getRegex();
+  inline.strong.endAst = edit$1(inline.strong.endAst, 'g').replace(/punctuation/g, inline._punctuation).getRegex();
+  inline.strong.endUnd = edit$1(inline.strong.endUnd, 'g').replace(/punctuation/g, inline._punctuation).getRegex();
+  inline.blockSkip = edit$1(inline._blockSkip, 'g').getRegex();
+  inline.overlapSkip = edit$1(inline._overlapSkip, 'g').getRegex();
+  inline._escapes = /\\([!"#$%&'()*+,\-./:;<=>?@\[\]\\^_`{|}~])/g;
+  inline._scheme = /[a-zA-Z][a-zA-Z0-9+.-]{1,31}/;
+  inline._email = /[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+(@)[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+(?![-_])/;
+  inline.autolink = edit$1(inline.autolink).replace('scheme', inline._scheme).replace('email', inline._email).getRegex();
+  inline._attribute = /\s+[a-zA-Z:_][\w.:-]*(?:\s*=\s*"[^"]*"|\s*=\s*'[^']*'|\s*=\s*[^\s"'=<>`]+)?/;
+  inline.tag = edit$1(inline.tag).replace('comment', inline._comment).replace('attribute', inline._attribute).getRegex();
+  inline._label = /(?:\[(?:\\.|[^\[\]\\])*\]|\\.|`[^`]*`|[^\[\]\\`])*?/;
+  inline._href = /<(?:\\.|[^\n<>\\])+>|[^\s\x00-\x1f]*/;
+  inline._title = /"(?:\\"?|[^"\\])*"|'(?:\\'?|[^'\\])*'|\((?:\\\)?|[^)\\])*\)/;
+  inline.link = edit$1(inline.link).replace('label', inline._label).replace('href', inline._href).replace('title', inline._title).getRegex();
+  inline.reflink = edit$1(inline.reflink).replace('label', inline._label).getRegex();
+  inline.reflinkSearch = edit$1(inline.reflinkSearch, 'g').replace('reflink', inline.reflink).replace('nolink', inline.nolink).getRegex();
+  /**
+   * Normal Inline Grammar
+   */
+
+  inline.normal = merge$1({}, inline);
+  /**
+   * Pedantic Inline Grammar
+   */
+
+  inline.pedantic = merge$1({}, inline.normal, {
+    strong: {
+      start: /^__|\*\*/,
+      middle: /^__(?=\S)([\s\S]*?\S)__(?!_)|^\*\*(?=\S)([\s\S]*?\S)\*\*(?!\*)/,
+      endAst: /\*\*(?!\*)/g,
+      endUnd: /__(?!_)/g
+    },
+    em: {
+      start: /^_|\*/,
+      middle: /^()\*(?=\S)([\s\S]*?\S)\*(?!\*)|^_(?=\S)([\s\S]*?\S)_(?!_)/,
+      endAst: /\*(?!\*)/g,
+      endUnd: /_(?!_)/g
+    },
+    link: edit$1(/^!?\[(label)\]\((.*?)\)/).replace('label', inline._label).getRegex(),
+    reflink: edit$1(/^!?\[(label)\]\s*\[([^\]]*)\]/).replace('label', inline._label).getRegex()
+  });
+  /**
+   * GFM Inline Grammar
+   */
+
+  inline.gfm = merge$1({}, inline.normal, {
+    escape: edit$1(inline.escape).replace('])', '~|])').getRegex(),
+    _extended_email: /[A-Za-z0-9._+-]+(@)[a-zA-Z0-9-_]+(?:\.[a-zA-Z0-9-_]*[a-zA-Z0-9])+(?![-_])/,
+    url: /^((?:ftp|https?):\/\/|www\.)(?:[a-zA-Z0-9\-]+\.?)+[^\s<]*|^email/,
+    _backpedal: /(?:[^?!.,:;*_~()&]+|\([^)]*\)|&(?![a-zA-Z0-9]+;$)|[?!.,:;*_~)]+(?!$))+/,
+    del: /^(~~?)(?=[^\s~])([\s\S]*?[^\s~])\1(?=[^~]|$)/,
+    text: /^([`~]+|[^`~])(?:(?= {2,}\n)|[\s\S]*?(?:(?=[\\<!\[`*~]|\b_|https?:\/\/|ftp:\/\/|www\.|$)|[^ ](?= {2,}\n)|[^a-zA-Z0-9.!#$%&'*+\/=?_`{\|}~-](?=[a-zA-Z0-9.!#$%&'*+\/=?_`{\|}~-]+@))|(?=[a-zA-Z0-9.!#$%&'*+\/=?_`{\|}~-]+@))/
+  });
+  inline.gfm.url = edit$1(inline.gfm.url, 'i').replace('email', inline.gfm._extended_email).getRegex();
+  /**
+   * GFM + Line Breaks Inline Grammar
+   */
+
+  inline.breaks = merge$1({}, inline.gfm, {
+    br: edit$1(inline.br).replace('{2,}', '*').getRegex(),
+    text: edit$1(inline.gfm.text).replace('\\b_', '\\b_| {2,}\\n').replace(/\{2,\}/g, '*').getRegex()
+  });
+  var rules = {
+    block: block,
+    inline: inline
+  };
+  var defaults$2 = defaults.defaults;
+  var block$1 = rules.block,
+      inline$1 = rules.inline;
+  var repeatString$1 = helpers.repeatString;
+  /**
+   * smartypants text replacement
+   */
+
+  function smartypants(text) {
+    return text // em-dashes
+    .replace(/---/g, "\u2014") // en-dashes
+    .replace(/--/g, "\u2013") // opening singles
+    .replace(/(^|[-\u2014/(\[{"\s])'/g, "$1\u2018") // closing singles & apostrophes
+    .replace(/'/g, "\u2019") // opening doubles
+    .replace(/(^|[-\u2014/(\[{\u2018\s])"/g, "$1\u201C") // closing doubles
+    .replace(/"/g, "\u201D") // ellipses
+    .replace(/\.{3}/g, "\u2026");
+  }
+  /**
+   * mangle email addresses
+   */
+
+
+  function mangle(text) {
+    var out = '',
+        i,
+        ch;
+    var l = text.length;
+
+    for (i = 0; i < l; i++) {
+      ch = text.charCodeAt(i);
+
+      if (Math.random() > 0.5) {
+        ch = 'x' + ch.toString(16);
+      }
+
+      out += '&#' + ch + ';';
+    }
+
+    return out;
+  }
+  /**
+   * Block Lexer
+   */
+
+
+  var Lexer_1 = /*#__PURE__*/function () {
+    function Lexer(options) {
+      this.tokens = [];
+      this.tokens.links = Object.create(null);
+      this.options = options || defaults$2;
+      this.options.tokenizer = this.options.tokenizer || new Tokenizer_1();
+      this.tokenizer = this.options.tokenizer;
+      this.tokenizer.options = this.options;
+      var rules = {
+        block: block$1.normal,
+        inline: inline$1.normal
+      };
+
+      if (this.options.pedantic) {
+        rules.block = block$1.pedantic;
+        rules.inline = inline$1.pedantic;
+      } else if (this.options.gfm) {
+        rules.block = block$1.gfm;
+
+        if (this.options.breaks) {
+          rules.inline = inline$1.breaks;
+        } else {
+          rules.inline = inline$1.gfm;
+        }
+      }
+
+      this.tokenizer.rules = rules;
+    }
+    /**
+     * Expose Rules
+     */
+
+    /**
+     * Static Lex Method
+     */
+
+
+    Lexer.lex = function lex(src, options) {
+      var lexer = new Lexer(options);
+      return lexer.lex(src);
+    }
+    /**
+     * Static Lex Inline Method
+     */
+    ;
+
+    Lexer.lexInline = function lexInline(src, options) {
+      var lexer = new Lexer(options);
+      return lexer.inlineTokens(src);
+    }
+    /**
+     * Preprocessing
+     */
+    ;
+
+    var _proto = Lexer.prototype;
+
+    _proto.lex = function lex(src) {
+      src = src.replace(/\r\n|\r/g, '\n').replace(/\t/g, '    ');
+      this.blockTokens(src, this.tokens, true);
+      this.inline(this.tokens);
+      return this.tokens;
+    }
+    /**
+     * Lexing
+     */
+    ;
+
+    _proto.blockTokens = function blockTokens(src, tokens, top) {
+      if (tokens === void 0) {
+        tokens = [];
+      }
+
+      if (top === void 0) {
+        top = true;
+      }
+
+      src = src.replace(/^ +$/gm, '');
+      var token, i, l, lastToken;
+
+      while (src) {
+        // newline
+        if (token = this.tokenizer.space(src)) {
+          src = src.substring(token.raw.length);
+
+          if (token.type) {
+            tokens.push(token);
+          }
+
+          continue;
+        } // code
+
+
+        if (token = this.tokenizer.code(src, tokens)) {
+          src = src.substring(token.raw.length);
+
+          if (token.type) {
+            tokens.push(token);
+          } else {
+            lastToken = tokens[tokens.length - 1];
+            lastToken.raw += '\n' + token.raw;
+            lastToken.text += '\n' + token.text;
+          }
+
+          continue;
+        } // fences
+
+
+        if (token = this.tokenizer.fences(src)) {
+          src = src.substring(token.raw.length);
+          tokens.push(token);
+          continue;
+        } // heading
+
+
+        if (token = this.tokenizer.heading(src)) {
+          src = src.substring(token.raw.length);
+          tokens.push(token);
+          continue;
+        } // table no leading pipe (gfm)
+
+
+        if (token = this.tokenizer.nptable(src)) {
+          src = src.substring(token.raw.length);
+          tokens.push(token);
+          continue;
+        } // hr
+
+
+        if (token = this.tokenizer.hr(src)) {
+          src = src.substring(token.raw.length);
+          tokens.push(token);
+          continue;
+        } // blockquote
+
+
+        if (token = this.tokenizer.blockquote(src)) {
+          src = src.substring(token.raw.length);
+          token.tokens = this.blockTokens(token.text, [], top);
+          tokens.push(token);
+          continue;
+        } // list
+
+
+        if (token = this.tokenizer.list(src)) {
+          src = src.substring(token.raw.length);
+          l = token.items.length;
+
+          for (i = 0; i < l; i++) {
+            token.items[i].tokens = this.blockTokens(token.items[i].text, [], false);
+          }
+
+          tokens.push(token);
+          continue;
+        } // html
+
+
+        if (token = this.tokenizer.html(src)) {
+          src = src.substring(token.raw.length);
+          tokens.push(token);
+          continue;
+        } // def
+
+
+        if (top && (token = this.tokenizer.def(src))) {
+          src = src.substring(token.raw.length);
+
+          if (!this.tokens.links[token.tag]) {
+            this.tokens.links[token.tag] = {
+              href: token.href,
+              title: token.title
+            };
+          }
+
+          continue;
+        } // table (gfm)
+
+
+        if (token = this.tokenizer.table(src)) {
+          src = src.substring(token.raw.length);
+          tokens.push(token);
+          continue;
+        } // lheading
+
+
+        if (token = this.tokenizer.lheading(src)) {
+          src = src.substring(token.raw.length);
+          tokens.push(token);
+          continue;
+        } // top-level paragraph
+
+
+        if (top && (token = this.tokenizer.paragraph(src))) {
+          src = src.substring(token.raw.length);
+          tokens.push(token);
+          continue;
+        } // text
+
+
+        if (token = this.tokenizer.text(src, tokens)) {
+          src = src.substring(token.raw.length);
+
+          if (token.type) {
+            tokens.push(token);
+          } else {
+            lastToken = tokens[tokens.length - 1];
+            lastToken.raw += '\n' + token.raw;
+            lastToken.text += '\n' + token.text;
+          }
+
+          continue;
+        }
+
+        if (src) {
+          var errMsg = 'Infinite loop on byte: ' + src.charCodeAt(0);
+
+          if (this.options.silent) {
+            console.error(errMsg);
+            break;
+          } else {
+            throw new Error(errMsg);
+          }
+        }
+      }
+
+      return tokens;
+    };
+
+    _proto.inline = function inline(tokens) {
+      var i, j, k, l2, row, token;
+      var l = tokens.length;
+
+      for (i = 0; i < l; i++) {
+        token = tokens[i];
+
+        switch (token.type) {
+          case 'paragraph':
+          case 'text':
+          case 'heading':
+            {
+              token.tokens = [];
+              this.inlineTokens(token.text, token.tokens);
+              break;
+            }
+
+          case 'table':
+            {
+              token.tokens = {
+                header: [],
+                cells: []
+              }; // header
+
+              l2 = token.header.length;
+
+              for (j = 0; j < l2; j++) {
+                token.tokens.header[j] = [];
+                this.inlineTokens(token.header[j], token.tokens.header[j]);
+              } // cells
+
+
+              l2 = token.cells.length;
+
+              for (j = 0; j < l2; j++) {
+                row = token.cells[j];
+                token.tokens.cells[j] = [];
+
+                for (k = 0; k < row.length; k++) {
+                  token.tokens.cells[j][k] = [];
+                  this.inlineTokens(row[k], token.tokens.cells[j][k]);
+                }
+              }
+
+              break;
+            }
+
+          case 'blockquote':
+            {
+              this.inline(token.tokens);
+              break;
+            }
+
+          case 'list':
+            {
+              l2 = token.items.length;
+
+              for (j = 0; j < l2; j++) {
+                this.inline(token.items[j].tokens);
+              }
+
+              break;
+            }
+        }
+      }
+
+      return tokens;
+    }
+    /**
+     * Lexing/Compiling
+     */
+    ;
+
+    _proto.inlineTokens = function inlineTokens(src, tokens, inLink, inRawBlock) {
+      if (tokens === void 0) {
+        tokens = [];
+      }
+
+      if (inLink === void 0) {
+        inLink = false;
+      }
+
+      if (inRawBlock === void 0) {
+        inRawBlock = false;
+      }
+
+      var token; // String with links masked to avoid interference with em and strong
+
+      var maskedSrc = src;
+      var match;
+      var keepPrevChar, prevChar; // Mask out reflinks
+
+      if (this.tokens.links) {
+        var links = Object.keys(this.tokens.links);
+
+        if (links.length > 0) {
+          while ((match = this.tokenizer.rules.inline.reflinkSearch.exec(maskedSrc)) != null) {
+            if (links.includes(match[0].slice(match[0].lastIndexOf('[') + 1, -1))) {
+              maskedSrc = maskedSrc.slice(0, match.index) + '[' + repeatString$1('a', match[0].length - 2) + ']' + maskedSrc.slice(this.tokenizer.rules.inline.reflinkSearch.lastIndex);
+            }
+          }
+        }
+      } // Mask out other blocks
+
+
+      while ((match = this.tokenizer.rules.inline.blockSkip.exec(maskedSrc)) != null) {
+        maskedSrc = maskedSrc.slice(0, match.index) + '[' + repeatString$1('a', match[0].length - 2) + ']' + maskedSrc.slice(this.tokenizer.rules.inline.blockSkip.lastIndex);
+      }
+
+      while (src) {
+        if (!keepPrevChar) {
+          prevChar = '';
+        }
+
+        keepPrevChar = false; // escape
+
+        if (token = this.tokenizer.escape(src)) {
+          src = src.substring(token.raw.length);
+          tokens.push(token);
+          continue;
+        } // tag
+
+
+        if (token = this.tokenizer.tag(src, inLink, inRawBlock)) {
+          src = src.substring(token.raw.length);
+          inLink = token.inLink;
+          inRawBlock = token.inRawBlock;
+          tokens.push(token);
+          continue;
+        } // link
+
+
+        if (token = this.tokenizer.link(src)) {
+          src = src.substring(token.raw.length);
+
+          if (token.type === 'link') {
+            token.tokens = this.inlineTokens(token.text, [], true, inRawBlock);
+          }
+
+          tokens.push(token);
+          continue;
+        } // reflink, nolink
+
+
+        if (token = this.tokenizer.reflink(src, this.tokens.links)) {
+          src = src.substring(token.raw.length);
+
+          if (token.type === 'link') {
+            token.tokens = this.inlineTokens(token.text, [], true, inRawBlock);
+          }
+
+          tokens.push(token);
+          continue;
+        } // strong
+
+
+        if (token = this.tokenizer.strong(src, maskedSrc, prevChar)) {
+          src = src.substring(token.raw.length);
+          token.tokens = this.inlineTokens(token.text, [], inLink, inRawBlock);
+          tokens.push(token);
+          continue;
+        } // em
+
+
+        if (token = this.tokenizer.em(src, maskedSrc, prevChar)) {
+          src = src.substring(token.raw.length);
+          token.tokens = this.inlineTokens(token.text, [], inLink, inRawBlock);
+          tokens.push(token);
+          continue;
+        } // code
+
+
+        if (token = this.tokenizer.codespan(src)) {
+          src = src.substring(token.raw.length);
+          tokens.push(token);
+          continue;
+        } // br
+
+
+        if (token = this.tokenizer.br(src)) {
+          src = src.substring(token.raw.length);
+          tokens.push(token);
+          continue;
+        } // del (gfm)
+
+
+        if (token = this.tokenizer.del(src)) {
+          src = src.substring(token.raw.length);
+          token.tokens = this.inlineTokens(token.text, [], inLink, inRawBlock);
+          tokens.push(token);
+          continue;
+        } // autolink
+
+
+        if (token = this.tokenizer.autolink(src, mangle)) {
+          src = src.substring(token.raw.length);
+          tokens.push(token);
+          continue;
+        } // url (gfm)
+
+
+        if (!inLink && (token = this.tokenizer.url(src, mangle))) {
+          src = src.substring(token.raw.length);
+          tokens.push(token);
+          continue;
+        } // text
+
+
+        if (token = this.tokenizer.inlineText(src, inRawBlock, smartypants)) {
+          src = src.substring(token.raw.length);
+          prevChar = token.raw.slice(-1);
+          keepPrevChar = true;
+          tokens.push(token);
+          continue;
+        }
+
+        if (src) {
+          var errMsg = 'Infinite loop on byte: ' + src.charCodeAt(0);
+
+          if (this.options.silent) {
+            console.error(errMsg);
+            break;
+          } else {
+            throw new Error(errMsg);
+          }
+        }
+      }
+
+      return tokens;
+    };
+
+    _createClass(Lexer, null, [{
+      key: "rules",
+      get: function get() {
+        return {
+          block: block$1,
+          inline: inline$1
+        };
+      }
+    }]);
+
+    return Lexer;
+  }();
+
+  var defaults$3 = defaults.defaults;
+  var cleanUrl$1 = helpers.cleanUrl,
+      escape$1 = helpers.escape;
+  /**
+   * Renderer
+   */
+
+  var Renderer_1 = /*#__PURE__*/function () {
+    function Renderer(options) {
+      this.options = options || defaults$3;
+    }
+
+    var _proto = Renderer.prototype;
+
+    _proto.code = function code(_code, infostring, escaped) {
+      var lang = (infostring || '').match(/\S*/)[0];
+
+      if (this.options.highlight) {
+        var out = this.options.highlight(_code, lang);
+
+        if (out != null && out !== _code) {
+          escaped = true;
+          _code = out;
+        }
+      }
+
+      if (!lang) {
+        return '<pre><code>' + (escaped ? _code : escape$1(_code, true)) + '</code></pre>\n';
+      }
+
+      return '<pre><code class="' + this.options.langPrefix + escape$1(lang, true) + '">' + (escaped ? _code : escape$1(_code, true)) + '</code></pre>\n';
+    };
+
+    _proto.blockquote = function blockquote(quote) {
+      return '<blockquote>\n' + quote + '</blockquote>\n';
+    };
+
+    _proto.html = function html(_html) {
+      return _html;
+    };
+
+    _proto.heading = function heading(text, level, raw, slugger) {
+      if (this.options.headerIds) {
+        return '<h' + level + ' id="' + this.options.headerPrefix + slugger.slug(raw) + '">' + text + '</h' + level + '>\n';
+      } // ignore IDs
+
+
+      return '<h' + level + '>' + text + '</h' + level + '>\n';
+    };
+
+    _proto.hr = function hr() {
+      return this.options.xhtml ? '<hr/>\n' : '<hr>\n';
+    };
+
+    _proto.list = function list(body, ordered, start) {
+      var type = ordered ? 'ol' : 'ul',
+          startatt = ordered && start !== 1 ? ' start="' + start + '"' : '';
+      return '<' + type + startatt + '>\n' + body + '</' + type + '>\n';
+    };
+
+    _proto.listitem = function listitem(text) {
+      return '<li>' + text + '</li>\n';
+    };
+
+    _proto.checkbox = function checkbox(checked) {
+      return '<input ' + (checked ? 'checked="" ' : '') + 'disabled="" type="checkbox"' + (this.options.xhtml ? ' /' : '') + '> ';
+    };
+
+    _proto.paragraph = function paragraph(text) {
+      return '<p>' + text + '</p>\n';
+    };
+
+    _proto.table = function table(header, body) {
+      if (body) body = '<tbody>' + body + '</tbody>';
+      return '<table>\n' + '<thead>\n' + header + '</thead>\n' + body + '</table>\n';
+    };
+
+    _proto.tablerow = function tablerow(content) {
+      return '<tr>\n' + content + '</tr>\n';
+    };
+
+    _proto.tablecell = function tablecell(content, flags) {
+      var type = flags.header ? 'th' : 'td';
+      var tag = flags.align ? '<' + type + ' align="' + flags.align + '">' : '<' + type + '>';
+      return tag + content + '</' + type + '>\n';
+    } // span level renderer
+    ;
+
+    _proto.strong = function strong(text) {
+      return '<strong>' + text + '</strong>';
+    };
+
+    _proto.em = function em(text) {
+      return '<em>' + text + '</em>';
+    };
+
+    _proto.codespan = function codespan(text) {
+      return '<code>' + text + '</code>';
+    };
+
+    _proto.br = function br() {
+      return this.options.xhtml ? '<br/>' : '<br>';
+    };
+
+    _proto.del = function del(text) {
+      return '<del>' + text + '</del>';
+    };
+
+    _proto.link = function link(href, title, text) {
+      href = cleanUrl$1(this.options.sanitize, this.options.baseUrl, href);
+
+      if (href === null) {
+        return text;
+      }
+
+      var out = '<a href="' + escape$1(href) + '"';
+
+      if (title) {
+        out += ' title="' + title + '"';
+      }
+
+      out += '>' + text + '</a>';
+      return out;
+    };
+
+    _proto.image = function image(href, title, text) {
+      href = cleanUrl$1(this.options.sanitize, this.options.baseUrl, href);
+
+      if (href === null) {
+        return text;
+      }
+
+      var out = '<img src="' + href + '" alt="' + text + '"';
+
+      if (title) {
+        out += ' title="' + title + '"';
+      }
+
+      out += this.options.xhtml ? '/>' : '>';
+      return out;
+    };
+
+    _proto.text = function text(_text) {
+      return _text;
+    };
+
+    return Renderer;
+  }();
+  /**
+   * TextRenderer
+   * returns only the textual part of the token
+   */
+
+
+  var TextRenderer_1 = /*#__PURE__*/function () {
+    function TextRenderer() {}
+
+    var _proto = TextRenderer.prototype; // no need for block level renderers
+
+    _proto.strong = function strong(text) {
+      return text;
+    };
+
+    _proto.em = function em(text) {
+      return text;
+    };
+
+    _proto.codespan = function codespan(text) {
+      return text;
+    };
+
+    _proto.del = function del(text) {
+      return text;
+    };
+
+    _proto.html = function html(text) {
+      return text;
+    };
+
+    _proto.text = function text(_text) {
+      return _text;
+    };
+
+    _proto.link = function link(href, title, text) {
+      return '' + text;
+    };
+
+    _proto.image = function image(href, title, text) {
+      return '' + text;
+    };
+
+    _proto.br = function br() {
+      return '';
+    };
+
+    return TextRenderer;
+  }();
+  /**
+   * Slugger generates header id
+   */
+
+
+  var Slugger_1 = /*#__PURE__*/function () {
+    function Slugger() {
+      this.seen = {};
+    }
+
+    var _proto = Slugger.prototype;
+
+    _proto.serialize = function serialize(value) {
+      return value.toLowerCase().trim() // remove html tags
+      .replace(/<[!\/a-z].*?>/ig, '') // remove unwanted chars
+      .replace(/[\u2000-\u206F\u2E00-\u2E7F\\'!"#$%&()*+,./:;<=>?@[\]^`{|}~]/g, '').replace(/\s/g, '-');
+    }
+    /**
+     * Finds the next safe (unique) slug to use
+     */
+    ;
+
+    _proto.getNextSafeSlug = function getNextSafeSlug(originalSlug, isDryRun) {
+      var slug = originalSlug;
+      var occurenceAccumulator = 0;
+
+      if (this.seen.hasOwnProperty(slug)) {
+        occurenceAccumulator = this.seen[originalSlug];
+
+        do {
+          occurenceAccumulator++;
+          slug = originalSlug + '-' + occurenceAccumulator;
+        } while (this.seen.hasOwnProperty(slug));
+      }
+
+      if (!isDryRun) {
+        this.seen[originalSlug] = occurenceAccumulator;
+        this.seen[slug] = 0;
+      }
+
+      return slug;
+    }
+    /**
+     * Convert string to unique id
+     * @param {object} options
+     * @param {boolean} options.dryrun Generates the next unique slug without updating the internal accumulator.
+     */
+    ;
+
+    _proto.slug = function slug(value, options) {
+      if (options === void 0) {
+        options = {};
+      }
+
+      var slug = this.serialize(value);
+      return this.getNextSafeSlug(slug, options.dryrun);
+    };
+
+    return Slugger;
+  }();
+
+  var defaults$4 = defaults.defaults;
+  var unescape$1 = helpers.unescape;
+  /**
+   * Parsing & Compiling
+   */
+
+  var Parser_1 = /*#__PURE__*/function () {
+    function Parser(options) {
+      this.options = options || defaults$4;
+      this.options.renderer = this.options.renderer || new Renderer_1();
+      this.renderer = this.options.renderer;
+      this.renderer.options = this.options;
+      this.textRenderer = new TextRenderer_1();
+      this.slugger = new Slugger_1();
+    }
+    /**
+     * Static Parse Method
+     */
+
+
+    Parser.parse = function parse(tokens, options) {
+      var parser = new Parser(options);
+      return parser.parse(tokens);
+    }
+    /**
+     * Static Parse Inline Method
+     */
+    ;
+
+    Parser.parseInline = function parseInline(tokens, options) {
+      var parser = new Parser(options);
+      return parser.parseInline(tokens);
+    }
+    /**
+     * Parse Loop
+     */
+    ;
+
+    var _proto = Parser.prototype;
+
+    _proto.parse = function parse(tokens, top) {
+      if (top === void 0) {
+        top = true;
+      }
+
+      var out = '',
+          i,
+          j,
+          k,
+          l2,
+          l3,
+          row,
+          cell,
+          header,
+          body,
+          token,
+          ordered,
+          start,
+          loose,
+          itemBody,
+          item,
+          checked,
+          task,
+          checkbox;
+      var l = tokens.length;
+
+      for (i = 0; i < l; i++) {
+        token = tokens[i];
+
+        switch (token.type) {
+          case 'space':
+            {
+              continue;
+            }
+
+          case 'hr':
+            {
+              out += this.renderer.hr();
+              continue;
+            }
+
+          case 'heading':
+            {
+              out += this.renderer.heading(this.parseInline(token.tokens), token.depth, unescape$1(this.parseInline(token.tokens, this.textRenderer)), this.slugger);
+              continue;
+            }
+
+          case 'code':
+            {
+              out += this.renderer.code(token.text, token.lang, token.escaped);
+              continue;
+            }
+
+          case 'table':
+            {
+              header = ''; // header
+
+              cell = '';
+              l2 = token.header.length;
+
+              for (j = 0; j < l2; j++) {
+                cell += this.renderer.tablecell(this.parseInline(token.tokens.header[j]), {
+                  header: true,
+                  align: token.align[j]
+                });
+              }
+
+              header += this.renderer.tablerow(cell);
+              body = '';
+              l2 = token.cells.length;
+
+              for (j = 0; j < l2; j++) {
+                row = token.tokens.cells[j];
+                cell = '';
+                l3 = row.length;
+
+                for (k = 0; k < l3; k++) {
+                  cell += this.renderer.tablecell(this.parseInline(row[k]), {
+                    header: false,
+                    align: token.align[k]
+                  });
+                }
+
+                body += this.renderer.tablerow(cell);
+              }
+
+              out += this.renderer.table(header, body);
+              continue;
+            }
+
+          case 'blockquote':
+            {
+              body = this.parse(token.tokens);
+              out += this.renderer.blockquote(body);
+              continue;
+            }
+
+          case 'list':
+            {
+              ordered = token.ordered;
+              start = token.start;
+              loose = token.loose;
+              l2 = token.items.length;
+              body = '';
+
+              for (j = 0; j < l2; j++) {
+                item = token.items[j];
+                checked = item.checked;
+                task = item.task;
+                itemBody = '';
+
+                if (item.task) {
+                  checkbox = this.renderer.checkbox(checked);
+
+                  if (loose) {
+                    if (item.tokens.length > 0 && item.tokens[0].type === 'text') {
+                      item.tokens[0].text = checkbox + ' ' + item.tokens[0].text;
+
+                      if (item.tokens[0].tokens && item.tokens[0].tokens.length > 0 && item.tokens[0].tokens[0].type === 'text') {
+                        item.tokens[0].tokens[0].text = checkbox + ' ' + item.tokens[0].tokens[0].text;
+                      }
+                    } else {
+                      item.tokens.unshift({
+                        type: 'text',
+                        text: checkbox
+                      });
+                    }
+                  } else {
+                    itemBody += checkbox;
+                  }
+                }
+
+                itemBody += this.parse(item.tokens, loose);
+                body += this.renderer.listitem(itemBody, task, checked);
+              }
+
+              out += this.renderer.list(body, ordered, start);
+              continue;
+            }
+
+          case 'html':
+            {
+              // TODO parse inline content if parameter markdown=1
+              out += this.renderer.html(token.text);
+              continue;
+            }
+
+          case 'paragraph':
+            {
+              out += this.renderer.paragraph(this.parseInline(token.tokens));
+              continue;
+            }
+
+          case 'text':
+            {
+              body = token.tokens ? this.parseInline(token.tokens) : token.text;
+
+              while (i + 1 < l && tokens[i + 1].type === 'text') {
+                token = tokens[++i];
+                body += '\n' + (token.tokens ? this.parseInline(token.tokens) : token.text);
+              }
+
+              out += top ? this.renderer.paragraph(body) : body;
+              continue;
+            }
+
+          default:
+            {
+              var errMsg = 'Token with "' + token.type + '" type was not found.';
+
+              if (this.options.silent) {
+                console.error(errMsg);
+                return;
+              } else {
+                throw new Error(errMsg);
+              }
+            }
+        }
+      }
+
+      return out;
+    }
+    /**
+     * Parse Inline Tokens
+     */
+    ;
+
+    _proto.parseInline = function parseInline(tokens, renderer) {
+      renderer = renderer || this.renderer;
+      var out = '',
+          i,
+          token;
+      var l = tokens.length;
+
+      for (i = 0; i < l; i++) {
+        token = tokens[i];
+
+        switch (token.type) {
+          case 'escape':
+            {
+              out += renderer.text(token.text);
+              break;
+            }
+
+          case 'html':
+            {
+              out += renderer.html(token.text);
+              break;
+            }
+
+          case 'link':
+            {
+              out += renderer.link(token.href, token.title, this.parseInline(token.tokens, renderer));
+              break;
+            }
+
+          case 'image':
+            {
+              out += renderer.image(token.href, token.title, token.text);
+              break;
+            }
+
+          case 'strong':
+            {
+              out += renderer.strong(this.parseInline(token.tokens, renderer));
+              break;
+            }
+
+          case 'em':
+            {
+              out += renderer.em(this.parseInline(token.tokens, renderer));
+              break;
+            }
+
+          case 'codespan':
+            {
+              out += renderer.codespan(token.text);
+              break;
+            }
+
+          case 'br':
+            {
+              out += renderer.br();
+              break;
+            }
+
+          case 'del':
+            {
+              out += renderer.del(this.parseInline(token.tokens, renderer));
+              break;
+            }
+
+          case 'text':
+            {
+              out += renderer.text(token.text);
+              break;
+            }
+
+          default:
+            {
+              var errMsg = 'Token with "' + token.type + '" type was not found.';
+
+              if (this.options.silent) {
+                console.error(errMsg);
+                return;
+              } else {
+                throw new Error(errMsg);
+              }
+            }
+        }
+      }
+
+      return out;
+    };
+
+    return Parser;
+  }();
+
+  var merge$2 = helpers.merge,
+      checkSanitizeDeprecation$1 = helpers.checkSanitizeDeprecation,
+      escape$2 = helpers.escape;
+  var getDefaults = defaults.getDefaults,
+      changeDefaults = defaults.changeDefaults,
+      defaults$5 = defaults.defaults;
+  /**
+   * Marked
+   */
+
+  function marked(src, opt, callback) {
+    // throw error in case of non string input
+    if (typeof src === 'undefined' || src === null) {
+      throw new Error('marked(): input parameter is undefined or null');
+    }
+
+    if (typeof src !== 'string') {
+      throw new Error('marked(): input parameter is of type ' + Object.prototype.toString.call(src) + ', string expected');
+    }
+
+    if (typeof opt === 'function') {
+      callback = opt;
+      opt = null;
+    }
+
+    opt = merge$2({}, marked.defaults, opt || {});
+    checkSanitizeDeprecation$1(opt);
+
+    if (callback) {
+      var highlight = opt.highlight;
+      var tokens;
+
+      try {
+        tokens = Lexer_1.lex(src, opt);
+      } catch (e) {
+        return callback(e);
+      }
+
+      var done = function done(err) {
+        var out;
+
+        if (!err) {
+          try {
+            out = Parser_1.parse(tokens, opt);
+          } catch (e) {
+            err = e;
+          }
+        }
+
+        opt.highlight = highlight;
+        return err ? callback(err) : callback(null, out);
+      };
+
+      if (!highlight || highlight.length < 3) {
+        return done();
+      }
+
+      delete opt.highlight;
+      if (!tokens.length) return done();
+      var pending = 0;
+      marked.walkTokens(tokens, function (token) {
+        if (token.type === 'code') {
+          pending++;
+          setTimeout(function () {
+            highlight(token.text, token.lang, function (err, code) {
+              if (err) {
+                return done(err);
+              }
+
+              if (code != null && code !== token.text) {
+                token.text = code;
+                token.escaped = true;
+              }
+
+              pending--;
+
+              if (pending === 0) {
+                done();
+              }
+            });
+          }, 0);
+        }
+      });
+
+      if (pending === 0) {
+        done();
+      }
+
+      return;
+    }
+
+    try {
+      var _tokens = Lexer_1.lex(src, opt);
+
+      if (opt.walkTokens) {
+        marked.walkTokens(_tokens, opt.walkTokens);
+      }
+
+      return Parser_1.parse(_tokens, opt);
+    } catch (e) {
+      e.message += '\nPlease report this to https://github.com/markedjs/marked.';
+
+      if (opt.silent) {
+        return '<p>An error occurred:</p><pre>' + escape$2(e.message + '', true) + '</pre>';
+      }
+
+      throw e;
+    }
+  }
+  /**
+   * Options
+   */
+
+
+  marked.options = marked.setOptions = function (opt) {
+    merge$2(marked.defaults, opt);
+    changeDefaults(marked.defaults);
+    return marked;
+  };
+
+  marked.getDefaults = getDefaults;
+  marked.defaults = defaults$5;
+  /**
+   * Use Extension
+   */
+
+  marked.use = function (extension) {
+    var opts = merge$2({}, extension);
+
+    if (extension.renderer) {
+      (function () {
+        var renderer = marked.defaults.renderer || new Renderer_1();
+
+        var _loop = function _loop(prop) {
+          var prevRenderer = renderer[prop];
+
+          renderer[prop] = function () {
+            for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+              args[_key] = arguments[_key];
+            }
+
+            var ret = extension.renderer[prop].apply(renderer, args);
+
+            if (ret === false) {
+              ret = prevRenderer.apply(renderer, args);
+            }
+
+            return ret;
+          };
+        };
+
+        for (var prop in extension.renderer) {
+          _loop(prop);
+        }
+
+        opts.renderer = renderer;
+      })();
+    }
+
+    if (extension.tokenizer) {
+      (function () {
+        var tokenizer = marked.defaults.tokenizer || new Tokenizer_1();
+
+        var _loop2 = function _loop2(prop) {
+          var prevTokenizer = tokenizer[prop];
+
+          tokenizer[prop] = function () {
+            for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+              args[_key2] = arguments[_key2];
+            }
+
+            var ret = extension.tokenizer[prop].apply(tokenizer, args);
+
+            if (ret === false) {
+              ret = prevTokenizer.apply(tokenizer, args);
+            }
+
+            return ret;
+          };
+        };
+
+        for (var prop in extension.tokenizer) {
+          _loop2(prop);
+        }
+
+        opts.tokenizer = tokenizer;
+      })();
+    }
+
+    if (extension.walkTokens) {
+      var walkTokens = marked.defaults.walkTokens;
+
+      opts.walkTokens = function (token) {
+        extension.walkTokens(token);
+
+        if (walkTokens) {
+          walkTokens(token);
+        }
+      };
+    }
+
+    marked.setOptions(opts);
+  };
+  /**
+   * Run callback for every token
+   */
+
+
+  marked.walkTokens = function (tokens, callback) {
+    for (var _iterator = _createForOfIteratorHelperLoose(tokens), _step; !(_step = _iterator()).done;) {
+      var token = _step.value;
+      callback(token);
+
+      switch (token.type) {
+        case 'table':
+          {
+            for (var _iterator2 = _createForOfIteratorHelperLoose(token.tokens.header), _step2; !(_step2 = _iterator2()).done;) {
+              var cell = _step2.value;
+              marked.walkTokens(cell, callback);
+            }
+
+            for (var _iterator3 = _createForOfIteratorHelperLoose(token.tokens.cells), _step3; !(_step3 = _iterator3()).done;) {
+              var row = _step3.value;
+
+              for (var _iterator4 = _createForOfIteratorHelperLoose(row), _step4; !(_step4 = _iterator4()).done;) {
+                var _cell = _step4.value;
+                marked.walkTokens(_cell, callback);
+              }
+            }
+
+            break;
+          }
+
+        case 'list':
+          {
+            marked.walkTokens(token.items, callback);
+            break;
+          }
+
+        default:
+          {
+            if (token.tokens) {
+              marked.walkTokens(token.tokens, callback);
+            }
+          }
+      }
+    }
+  };
+  /**
+   * Parse Inline
+   */
+
+
+  marked.parseInline = function (src, opt) {
+    // throw error in case of non string input
+    if (typeof src === 'undefined' || src === null) {
+      throw new Error('marked.parseInline(): input parameter is undefined or null');
+    }
+
+    if (typeof src !== 'string') {
+      throw new Error('marked.parseInline(): input parameter is of type ' + Object.prototype.toString.call(src) + ', string expected');
+    }
+
+    opt = merge$2({}, marked.defaults, opt || {});
+    checkSanitizeDeprecation$1(opt);
+
+    try {
+      var tokens = Lexer_1.lexInline(src, opt);
+
+      if (opt.walkTokens) {
+        marked.walkTokens(tokens, opt.walkTokens);
+      }
+
+      return Parser_1.parseInline(tokens, opt);
+    } catch (e) {
+      e.message += '\nPlease report this to https://github.com/markedjs/marked.';
+
+      if (opt.silent) {
+        return '<p>An error occurred:</p><pre>' + escape$2(e.message + '', true) + '</pre>';
+      }
+
+      throw e;
+    }
+  };
+  /**
+   * Expose
+   */
+
+
+  marked.Parser = Parser_1;
+  marked.parser = Parser_1.parse;
+  marked.Renderer = Renderer_1;
+  marked.TextRenderer = TextRenderer_1;
+  marked.Lexer = Lexer_1;
+  marked.lexer = Lexer_1.lex;
+  marked.Tokenizer = Tokenizer_1;
+  marked.Slugger = Slugger_1;
+  marked.parse = marked;
+  var marked_1 = marked;
+  return marked_1;
+});
+},{}],"../js/errorWarning.js":[function(require,module,exports) {
+$(window).on("error", function () {
+  $("#errorsDetected").show();
+  $("#errorsDetected").click(function () {
+    $("#errorsDetected").hide();
+  });
+});
+},{}],"index.js":[function(require,module,exports) {
+"use strict";
+
+require("bootstrap/dist/css/bootstrap.css");
+
+var _bootstrap2 = _interopRequireDefault(require("bootstrap/dist/js/bootstrap"));
+
+var _marked = _interopRequireDefault(require("marked"));
+
+require("../js/errorWarning");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+window.bootstrap = _bootstrap2.default;
+window.marked = _marked.default;
+},{"bootstrap/dist/css/bootstrap.css":"../../../../node_modules/bootstrap/dist/css/bootstrap.css","bootstrap/dist/js/bootstrap":"../../../../node_modules/bootstrap/dist/js/bootstrap.js","marked":"../../../../node_modules/marked/lib/marked.js","../js/errorWarning":"../js/errorWarning.js"}],"../../../../../../../../AppData/Roaming/npm/node_modules/parcel/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+var global = arguments[3];
+var OVERLAY_ID = '__parcel__error__overlay__';
+var OldModule = module.bundle.Module;
+
+function Module(moduleName) {
+  OldModule.call(this, moduleName);
+  this.hot = {
+    data: module.bundle.hotData,
+    _acceptCallbacks: [],
+    _disposeCallbacks: [],
+    accept: function (fn) {
+      this._acceptCallbacks.push(fn || function () {});
+    },
+    dispose: function (fn) {
+      this._disposeCallbacks.push(fn);
+    }
+  };
+  module.bundle.hotData = null;
+}
+
+module.bundle.Module = Module;
+var checkedAssets, assetsToAccept;
+var parent = module.bundle.parent;
+
+if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
+  var hostname = "" || location.hostname;
+  var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57052" + '/');
+
+  ws.onmessage = function (event) {
+    checkedAssets = {};
+    assetsToAccept = [];
+    var data = JSON.parse(event.data);
+
+    if (data.type === 'update') {
+      var handled = false;
+      data.assets.forEach(function (asset) {
+        if (!asset.isNew) {
+          var didAccept = hmrAcceptCheck(global.parcelRequire, asset.id);
+
+          if (didAccept) {
+            handled = true;
+          }
+        }
+      }); // Enable HMR for CSS by default.
+
+      handled = handled || data.assets.every(function (asset) {
+        return asset.type === 'css' && asset.generated.js;
+      });
+
+      if (handled) {
+        console.clear();
+        data.assets.forEach(function (asset) {
+          hmrApply(global.parcelRequire, asset);
+        });
+        assetsToAccept.forEach(function (v) {
+          hmrAcceptRun(v[0], v[1]);
+        });
+      } else if (location.reload) {
+        // `location` global exists in a web worker context but lacks `.reload()` function.
+        location.reload();
+      }
+    }
+
+    if (data.type === 'reload') {
+      ws.close();
+
+      ws.onclose = function () {
+        location.reload();
+      };
+    }
+
+    if (data.type === 'error-resolved') {
+      console.log('[parcel] ✨ Error resolved');
+      removeErrorOverlay();
+    }
+
+    if (data.type === 'error') {
+      console.error('[parcel] 🚨  ' + data.error.message + '\n' + data.error.stack);
+      removeErrorOverlay();
+      var overlay = createErrorOverlay(data);
+      document.body.appendChild(overlay);
+    }
+  };
+}
+
+function removeErrorOverlay() {
+  var overlay = document.getElementById(OVERLAY_ID);
+
+  if (overlay) {
+    overlay.remove();
+  }
+}
+
+function createErrorOverlay(data) {
+  var overlay = document.createElement('div');
+  overlay.id = OVERLAY_ID; // html encode message and stack trace
+
+  var message = document.createElement('div');
+  var stackTrace = document.createElement('pre');
+  message.innerText = data.error.message;
+  stackTrace.innerText = data.error.stack;
+  overlay.innerHTML = '<div style="background: black; font-size: 16px; color: white; position: fixed; height: 100%; width: 100%; top: 0px; left: 0px; padding: 30px; opacity: 0.85; font-family: Menlo, Consolas, monospace; z-index: 9999;">' + '<span style="background: red; padding: 2px 4px; border-radius: 2px;">ERROR</span>' + '<span style="top: 2px; margin-left: 5px; position: relative;">🚨</span>' + '<div style="font-size: 18px; font-weight: bold; margin-top: 20px;">' + message.innerHTML + '</div>' + '<pre>' + stackTrace.innerHTML + '</pre>' + '</div>';
+  return overlay;
+}
+
+function getParents(bundle, id) {
+  var modules = bundle.modules;
+
+  if (!modules) {
+    return [];
+  }
+
+  var parents = [];
+  var k, d, dep;
+
+  for (k in modules) {
+    for (d in modules[k][1]) {
+      dep = modules[k][1][d];
+
+      if (dep === id || Array.isArray(dep) && dep[dep.length - 1] === id) {
+        parents.push(k);
+      }
+    }
+  }
+
+  if (bundle.parent) {
+    parents = parents.concat(getParents(bundle.parent, id));
+  }
+
+  return parents;
+}
+
+function hmrApply(bundle, asset) {
+  var modules = bundle.modules;
+
+  if (!modules) {
+    return;
+  }
+
+  if (modules[asset.id] || !bundle.parent) {
+    var fn = new Function('require', 'module', 'exports', asset.generated.js);
+    asset.isNew = !modules[asset.id];
+    modules[asset.id] = [fn, asset.deps];
+  } else if (bundle.parent) {
+    hmrApply(bundle.parent, asset);
+  }
+}
+
+function hmrAcceptCheck(bundle, id) {
+  var modules = bundle.modules;
+
+  if (!modules) {
+    return;
+  }
+
+  if (!modules[id] && bundle.parent) {
+    return hmrAcceptCheck(bundle.parent, id);
+  }
+
+  if (checkedAssets[id]) {
+    return;
+  }
+
+  checkedAssets[id] = true;
+  var cached = bundle.cache[id];
+  assetsToAccept.push([bundle, id]);
+
+  if (cached && cached.hot && cached.hot._acceptCallbacks.length) {
+    return true;
+  }
+
+  return getParents(global.parcelRequire, id).some(function (id) {
+    return hmrAcceptCheck(global.parcelRequire, id);
+  });
+}
+
+function hmrAcceptRun(bundle, id) {
+  var cached = bundle.cache[id];
+  bundle.hotData = {};
+
+  if (cached) {
+    cached.hot.data = bundle.hotData;
+  }
+
+  if (cached && cached.hot && cached.hot._disposeCallbacks.length) {
+    cached.hot._disposeCallbacks.forEach(function (cb) {
+      cb(bundle.hotData);
+    });
+  }
+
+  delete bundle.cache[id];
+  bundle(id);
+  cached = bundle.cache[id];
+
+  if (cached && cached.hot && cached.hot._acceptCallbacks.length) {
+    cached.hot._acceptCallbacks.forEach(function (cb) {
+      cb();
+    });
+
+    return true;
+  }
+}
+},{}]},{},["../../../../../../../../AppData/Roaming/npm/node_modules/parcel/src/builtins/hmr-runtime.js","index.js"], null)
 //# sourceMappingURL=/index.js.map

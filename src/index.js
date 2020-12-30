@@ -7,6 +7,4 @@ const client = new Client({
     fetchAllMembers: false
 }).login(config.token);
 
-// module.exports = client.then(res => res.);
-
 require("./website/server");
