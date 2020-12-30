@@ -1,6 +1,6 @@
 if session
     script.
-        window._session = !{JSON.stringify(session)};
+        window._session = !{JSON.stringify({...session, Date: Date.now()})};
 else
     script.
         window._session = undefined;
