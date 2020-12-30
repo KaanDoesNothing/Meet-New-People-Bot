@@ -1,5 +1,78 @@
 extends layout.pug
 
 block content
+    div(class="text-center" x-data="profileState()")
+        div(class="card bg-light" id="profileCard")
+            img(class="mx-auto d-block" src=user.displayAvatarURL({size: 4096}) width="250px" id="profileImage")
+            label(class="h1") #{user.tag}
+            label(class="h5") Balance: #{user.settings.economy.balance}
+
+            div(class="card" id="descriptionCard")
+                label(class="card-header") Information about me
+                
+                div(class="card-body")
+                    label(class="card-text" x-text="settings.profile.description" x-show="!editing")
+
+                    textarea(class="form-control text-center" x-show="editing" x-model="settings.profile.description")
+
+            div(class="button-group" x-show="hasPermissions")
+                button(class="btn btn-dark" x-show="!editing" @click="editing = true") Edit
+                button(class="btn btn-danger" x-show="editing" @click="Turbolinks.visit(window.location.href)") Cancel
+                button(class="btn btn-success" x-show="editing" @click="update()") Save
+
+block extraScripts
     script.
         window._profile = !{JSON.stringify(user)};
+
+        function profileState() {
+            return {
+                settings: window._profile.settings,
+                hasPermissions: #{hasPermissions === 1 ? "true" : "false"},
+                editing: false,
+                update() {
+                    const data = this.settings.profile;
+
+                    fetch("/profile/update", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({id: window._profile.id, data})
+                    }).then(res => res.json().then(res => {
+                        if(res.settings) {
+                            Turbolinks.visit(window.location.href);
+                        }
+                    }))
+                }
+            }
+        }
+
+block extraStyles
+    style.
+        #profileCard {
+            margin: 15% 30%;
+            height: 400px;
+        }
+
+        #profileImage {
+            margin-top: -180px;
+        }
+
+        #descriptionCard {
+            height: 100%;
+            margin: 1%;
+        }
+
+        .button-group button {
+            margin: 1%;
+        }
+
+        @media(max-width: 800px) {
+            #profileImage {
+                margin: 1%;
+                border-radius: 50%;
+            }
+
+            #profileCard {
+                margin: 5%;
+                height: 100%;
+            }
+        }

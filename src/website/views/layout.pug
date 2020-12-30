@@ -12,15 +12,10 @@ html(lang="en")
         script(src="https://cdnjs.cloudflare.com/ajax/libs/turbolinks/5.2.0/turbolinks.js")
         script(src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.0/dist/alpine.min.js")
 
-        if session
-            script.
-                window._session = !{JSON.stringify(session)};
-        else
-            script.
-                window._session = undefined;
-
         script(src="/static/js/errorWarning.js")
-        
+
+        include partials/session
+
     body(class="bg-dark")
         div(class="alert alert-danger" id="errorsDetected" style="display: none") Some features might not work, Errors have been detected.(Click to hide me)
 
