@@ -12,17 +12,9 @@ block content
 block extraScripts
     script.
         window._commands = !{JSON.stringify(commands)}
-    
-        window._commandsState = () => {
-            return {
-                commands: !{JSON.stringify(commands)},
-                categories: !{JSON.stringify(categories)},
-                filter: "",
-                isTrue(name, category) {
-                    return name.startsWith(this.filter.toLowerCase()) || category === this.filter;
-                }
-            }
-        }
+        window._categories = !{JSON.stringify(categories)}
+
+    script(src="/static/js/commands.js")
 
 block extraStyles
     style.
