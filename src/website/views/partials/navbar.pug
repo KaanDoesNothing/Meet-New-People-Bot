@@ -1,17 +1,19 @@
 nav(class="navbar navbar-expand-lg navbar-dark bg-dark")
     div(class="container-fluid")
         a(class="navbar-brand" href="/") #{client.user.username}
-
-        button(class="navbar-toggler" type="button")
+        button(class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-expanded='false', aria-label='Toggle navigation')
             span(class="navbar-toggler-icon")
 
-        div(class="d-flex")
-            a(class="btn text-white" href="/commands") Commands
+        div(id="navbarSupportedContent" class="collapse navbar-collapse")
+            div(class="navbar-nav me-auto mb-2 mb-lg-l0")
 
-            if session
-                a(class="btn text-white" href=`/profile/${session.id}`) #{session.username}
-            else
-                a(class="btn text-white" href="/" id="loginButton") Login
+            div(class="d-flex")
+                a(class="btn text-white" href="/commands") Commands
+
+                if session
+                    a(class="btn text-white" href=`/profile/${session.id}`) #{session.username}
+                else
+                    a(class="btn text-white" href="/" id="loginButton") Login
 
 script.
     $(document).on("turbolinks:load", () => {
