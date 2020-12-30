@@ -14,7 +14,34 @@ block extraScripts
         window._commands = !{JSON.stringify(commands)}
         window._categories = !{JSON.stringify(categories)}
 
-    script(src="/static/js/commands.js")
+    script.
+        window._commandsState = function () {
+            return {
+                commands: window._commands,
+                categories: window._categories,
+                filter: "",
+                isTrue(name, category) {
+                    return name.startsWith(this.filter.toLowerCase()) || category === this.filter;
+                }
+            }
+        }
+
+        //- window.addEventListener("turbolinks:load", () => {
+        //-     let input = document.querySelector("#search");
+
+        //-     input.addEventListener("keyup", () => {
+        //-         let commands = document.querySelectorAll(".command");
+
+        //-         commands.forEach(cmd => {
+        //-             if(cmd.getAttribute("command").startsWith(input.value)) {
+        //-                 cmd.style.display = "initial";
+        //-                 console.log(cmd.getAttribute("command"));
+        //-             }else {
+        //-                 cmd.style.display = "none";
+        //-             }
+        //-         });
+        //-     });
+        //- });
 
 block extraStyles
     style.

@@ -1,5 +1,5 @@
 mixin command(command)
-    div(class="card text-center command" x-show=`isTrue('${command.name}', '${command.category}')`)
+    div(class="card text-center command" x-show=`isTrue('${command.name}', '${command.category}')` command=command.name)
         div(class="card-header") #{command.name}
         div(class="card-body")
             h5(class="card-title") Command: #{command.name}

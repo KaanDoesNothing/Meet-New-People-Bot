@@ -1,3 +1,7 @@
+// $(window).on("turbolinks:load", () => {
+//     console.log('true')
+// });
+
 // function search(input) {
 //     input = input.toLowerCase();
     
@@ -20,13 +24,13 @@
 //     console.log(e);
 // });
 
-window._commandsState = () => {
-    return {
-        commands: window._commands,
-        categories: window._categories,
-        filter: "",
-        isTrue(name, category) {
-            return name.startsWith(this.filter.toLowerCase()) || category === this.filter;
-        }
-    }
-}
+// window._commandsState = () => {
+//     return {
+//         commands: window._commands,
+//         categories: window._categories,
+//         filter: "",
+//         isTrue(name, category) {
+//             return name.startsWith(this.filter.toLowerCase()) || category === this.filter;
+//         }
+//     }
+// }
