@@ -1,56 +1,94 @@
 extends layout.pug
 
 block content
-    div(class="text-center" x-data="profileState()")
-        div(class="card bg-light" id="profileCard")
+    div(class="text-center" id="profileApp")
+        div(class="card bg-light" id="profileCard" v-if="user.username")
             img(class="mx-auto d-block" src=user.displayAvatarURL({size: 4096}) width="250px" id="profileImage")
-            label(class="h1") #{user.tag}
-            label(class="h5") Balance: #{user.settings.economy.balance}
+            label(class="h1") {{user.tag}}
+            label(class="h5") Balance: {{user.settings.economy.balance}}
 
             div(class="card" id="descriptionCard")
                 label(class="card-header") Information about me
                 
                 div(class="card-body")
-                    label(class="card-text" x-html="mark(settings.profile.description)" x-show="!editing")
+                    label(class="card-text" v-if="!editing") {{user.settings.profile.description}}
 
-                    textarea(class="form-control text-center" x-show="editing" x-model="settings.profile.description")
+                    textarea(class="form-control text-center" v-if="editing" v-model="user.settings.profile.description")
 
-            div(class="button-group" x-show="hasPermissions")
-                button(class="btn btn-dark" x-show="!editing" @click="editing = true") Edit
-                button(class="btn btn-danger" x-show="editing" @click="reload()") Cancel
-                button(class="btn btn-success" x-show="editing" @click="update()") Save
+            div(class="button-group" v-if="hasPermissions")
+                button(class="btn btn-dark" v-if="!editing" @click="edit()") Edit
+                button(class="btn btn-danger" v-if="editing" @click="cancel()") Cancel
+                button(class="btn btn-success" v-if="editing" @click="save()") Save
 
 block extraScripts
     script.
-        window._profile = !{JSON.stringify(user)};
-
-        function profileState() {
-            return {
-                settings: window._profile.settings,
-                hasPermissions: #{hasPermissions === 1 ? "true" : "false"},
-                editing: false,
-                update() {
-                    const data = this.settings.profile;
-
-                    fetch("/profile/update", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({id: window._profile.id, data})
-                    }).then(res => res.json().then(res => {
-                        if(res.settings) {
-                            window.location.reload();
+        new Vue({
+            el: "#profileApp",
+            data() {
+                return {
+                    user: {},
+                    editing: false,
+                    hasPermissions: #{hasPermissions === 1 ? "true" : "false"}
+                }
+            },
+            created() {
+                this.fetchUser();
+            },
+            methods: {
+                fetchUser() {
+                    Axios.get("/profile/#{user.id}/json").then(res => {
+                        this.user = res.data.user;
+                    });
+                },
+                edit() {
+                    this.editing = true;
+                },
+                cancel() {
+                    this.editing = false;
+                    this.fetchUser();
+                },
+                save() {
+                    Axios.post("/profile/update", {
+                        id: this.user.id,
+                        data: this.user.settings.profile
+                    }).then(res => {
+                        if(res.data.settings) {
+                            this.fetchUser();
+                            this.editing = false;
                         }
-                    }))
-                },
-                reload() {
-                    window.location.reload();
-                },
-                mark() {
-                    return this.settings.profile.description;
-                    //- return window.domPurify(window.marked(this.settings.profile.description));
+                    });
                 }
             }
-        }
+        });
+        //- window._profile = !{JSON.stringify(user)};
+
+        //- function profileState() {
+        //-     return {
+        //-         settings: window._profile.settings,
+        //-         hasPermissions: #{hasPermissions === 1 ? "true" : "false"},
+        //-         editing: false,
+        //-         update() {
+        //-             const data = this.settings.profile;
+
+        //-             fetch("/profile/update", {
+        //-                 method: "POST",
+        //-                 headers: { "Content-Type": "application/json" },
+        //-                 body: JSON.stringify({id: window._profile.id, data})
+        //-             }).then(res => res.json().then(res => {
+        //-                 if(res.settings) {
+        //-                     window.location.reload();
+        //-                 }
+        //-             }))
+        //-         },
+        //-         reload() {
+        //-             window.location.reload();
+        //-         },
+        //-         mark() {
+        //-             return this.settings.profile.description;
+        //-             //- return window.domPurify(window.marked(this.settings.profile.description));
+        //-         }
+        //-     }
+        //- }
 
 block extraStyles
     style.
@@ -83,3 +121,13 @@ block extraStyles
                 height: 100%;
             }
         }
+
+    if user.settings.profile.background.length > 0
+        style.
+            #profileCard {
+                background-image: url('#{user.settings.profile.background}');
+                background-size: 100% 100%;
+            }
+            #descriptionCard {
+                opacity: 0.9;
+            }

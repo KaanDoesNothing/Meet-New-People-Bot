@@ -4,6 +4,7 @@
   "dependencies": {
     "@popperjs/core": "^2.6.0",
     "alpine": "^0.2.1",
+    "axios": "^0.21.1",
     "bootstrap": "^5.0.0-beta1",
     "canvas": "^2.6.1",
     "canvas-constructor": "^4.1.0",
@@ -20,6 +21,7 @@
     "marked": "^1.2.7",
     "nekos.life": "^2.0.7",
     "pug": "^3.0.0",
-    "sanitize-html": "^2.3.0"
+    "sanitize-html": "^2.3.0",
+    "vue": "^2.6.12"
   }
 }

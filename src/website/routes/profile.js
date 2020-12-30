@@ -18,6 +18,16 @@ app.get("/:id", async (req, res) => {
     res.render("profile", {user});
 });
 
+app.get("/:id/json", async (req, res) => {
+    let user = global.discordClient.users.cache.get(req.params.id) || (await global.discordClient.users.fetch(req.params.id));
+
+    if(!user) return res.json({error: "User not found."});
+
+    if(user.id !== res.locals.session.id) return res.render("error", {user: "No permissions."});
+
+    res.json({user});
+});
+
 app.get("/:id/edit", checkIfLoggedIn, async (req, res) => {
     let user = global.discordClient.users.cache.get(req.params.id) || (await global.discordClient.users.fetch(req.params.id));
 
