@@ -23,8 +23,6 @@ app.get("/:id/json", async (req, res) => {
 
     if(!user) return res.json({error: "User not found."});
 
-    if(user.id !== res.locals.session.id) return res.render("error", {user: "No permissions."});
-
     res.json({user});
 });
 
