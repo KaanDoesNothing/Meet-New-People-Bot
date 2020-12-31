@@ -18,7 +18,8 @@ nav(class="navbar navbar-expand-lg navbar-dark bg-dark")
 script.
     (() => {
         let url = `https://discordapp.com/oauth2/authorize?response_type=code&client_id=#{client.user.id}&scope=identify&redirect_uri=${window.location.origin}/auth/callback`;
-
-        document.getElementById("loginButton").setAttribute("href", url);
-        //- $("#loginButton").attr("href", url);
+        let loginButton = document.querySelector("#loginButton");
+        if(loginButton) {
+            loginButton.setAttribute("href", url);
+        }
     })();

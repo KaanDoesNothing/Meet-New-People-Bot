@@ -1,7 +1,11 @@
-$(window).on("error", () => {
-    $("#errorsDetected").show();
+document.addEventListener("DOMContentLoaded", () => {
+    let errorsDetected = document.getElementById("errorsDetected");
 
-    $("#errorsDetected").click(() => {
-        $("#errorsDetected").hide();
+    errorsDetected.onclick = () => {
+        errorsDetected.style.display = "none";
+    }
+
+    window.addEventListener("error", () => {
+        errorsDetected.style.display = "block";
     });
 });
