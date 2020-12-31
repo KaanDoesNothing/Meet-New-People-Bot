@@ -3,7 +3,7 @@ extends layout.pug
 include partials/commands/mixins
 
 block content
-    div(class="text-center" id="commands" x-data="window._commandsState()")
+    div(class="text-center" id="commands")
         include partials/commands/search
 
         each command in commands
@@ -14,17 +14,19 @@ block extraScripts
         window._commands = !{JSON.stringify(commands)}
         window._categories = !{JSON.stringify(categories)}
 
-    script.
-        window._commandsState = function () {
-            return {
-                commands: window._commands,
-                categories: window._categories,
-                filter: "",
+        new Vue({
+            el: "#commands",
+            data() {
+                return {
+                    filter: ""
+                }
+            },
+            methods: {
                 isTrue(name, category) {
                     return name.startsWith(this.filter.toLowerCase()) || category === this.filter;
                 }
             }
-        }
+        });
 
 block extraStyles
     style.
